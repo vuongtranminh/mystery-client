@@ -9,23 +9,30 @@ import { db } from "@/lib/db";
 
 import { NavigationAction } from "./navigation-action";
 import { NavigationItem } from "./navigation-item";
+import client from "@/app/api/client";
 
 export const NavigationSidebar = async () => {
-  const profile = await currentProfile();
+  // const profile = await currentProfile();
 
-  if (!profile) {
-    return redirect("/");
+  // if (!profile) {
+  //   return redirect("/");
+  // }
+  const getServersJoin = async () => {
+    try {
+      const data = await client.post("/servers/getServersJoin", {
+        page: 0,
+        size: 30
+      });
+
+      return data.data?.content;
+    } catch (error) {
+      console.log(error);
+    }
+
+    return [];
   }
 
-  const servers = await db.server.findMany({
-    where: {
-      members: {
-        some: {
-          profileId: profile.id
-        }
-      }
-    }
-  });
+  const servers = await getServersJoin();
 
   return (
     <div
