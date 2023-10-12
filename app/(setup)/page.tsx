@@ -11,7 +11,6 @@ const SetupPage = async () => {
   const getFirstServerJoin = async () => {
     try {
       const data = await client.post("/servers/getFirstServerJoin");
-      
       return data.data;
     } catch (error) {
       console.log(error);
@@ -23,7 +22,7 @@ const SetupPage = async () => {
   const server = await getFirstServerJoin();
 
   if (server) {
-    return redirect(`/servers/${server.id}`);
+    return redirect(`/servers/${server.serverId}`);
   }
 
   return <InitialModal />;

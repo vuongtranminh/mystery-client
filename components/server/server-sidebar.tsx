@@ -12,6 +12,7 @@ import { ServerSearch } from "./server-search";
 import { ServerSection } from "./server-section";
 import { ServerChannel } from "./server-channel";
 import { ServerMember } from "./server-member";
+import client from "@/app/api/client";
 
 interface ServerSidebarProps {
   serverId: string;
@@ -32,43 +33,95 @@ const roleIconMap = {
 export const ServerSidebar = async ({
   serverId
 }: ServerSidebarProps) => {
-  const profile = await currentProfile();
+  // const profile = await currentProfile();
 
-  if (!profile) {
-    return redirect("/");
-  }
+  // if (!profile) {
+  //   return redirect("/");
+  // }
 
-  const server = await db.server.findUnique({
-    where: {
-      id: serverId,
-    },
-    include: {
-      channels: {
-        orderBy: {
-          createdAt: "asc",
-        },
-      },
-      members: {
-        include: {
-          profile: true,
-        },
-        orderBy: {
-          role: "asc",
-        }
-      }
+  // const server = await db.server.findUnique({
+  //   where: {
+  //     id: serverId,
+  //   },
+  //   include: {
+  //     channels: {
+  //       orderBy: {
+  //         createdAt: "asc",
+  //       },
+  //     },
+  //     members: {
+  //       include: {
+  //         profile: true,
+  //       },
+  //       orderBy: {
+  //         role: "asc",
+  //       }
+  //     }
+  //   }
+  // });
+
+  const getServerJoinByServerId = async () => {
+    try {
+      const data = await client.post("/servers/getServerJoinByServerId", {
+        serverId: serverId
+      });
+      
+      return data.data;
+    } catch (error) {
+      // console.log(error);
     }
-  });
 
-  const textChannels = server?.channels.filter((channel) => channel.type === ChannelType.TEXT)
-  const audioChannels = server?.channels.filter((channel) => channel.type === ChannelType.AUDIO)
-  const videoChannels = server?.channels.filter((channel) => channel.type === ChannelType.VIDEO)
-  const members = server?.members.filter((member) => member.profileId !== profile.id)
-
-  if (!server) {
-    return redirect("/");
+    return null;
   }
 
-  const role = server.members.find((member) => member.profileId === profile.id)?.role;
+  const server = await getServerJoinByServerId();
+
+  const getChannelsByServerId = async () => {
+    try {
+      const data = await client.post("/servers/getChannelsByServerId", {
+        serverId: serverId,
+        page: 0,
+        size: 30
+      });
+
+      return data.data?.content;
+    } catch (error) {
+      console.log(error);
+    }
+
+    return [];
+  }
+
+  const channels = await getChannelsByServerId();
+
+  const getMemberProfilesByServerId = async () => {
+    try {
+      const data = await client.post("/servers/getMemberProfilesByServerId", {
+        serverId: serverId,
+        page: 0,
+        size: 30
+      });
+
+      return data.data?.content;
+    } catch (error) {
+      console.log(error);
+    }
+
+    return [];
+  }
+
+  const membersServer = await getMemberProfilesByServerId();
+
+  const textChannels = channels.filter((channel) => channel.type === 1) // ChannelType.TEXT
+  const audioChannels = channels.filter((channel) => channel.type === 2) // ChannelType.AUDIO
+  const videoChannels = channels.filter((channel) => channel.type === 3) // ChannelType.VIDEO
+  const members = membersServer.filter((member) => member.profileId !== "60bb8f79-8331-48d6-84b0-c22bc7def056")
+
+  // if (!server) {
+  //   return redirect("/");
+  // }
+
+  const role = membersServer.find((member) => member.profileId === "60bb8f79-8331-48d6-84b0-c22bc7def056")?.role; // get api /aaaa
 
   return (
     <div className="flex flex-col h-full text-primary w-full dark:bg-[#2B2D31] bg-[#F2F3F5]">

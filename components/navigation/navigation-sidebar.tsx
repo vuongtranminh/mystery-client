@@ -23,10 +23,10 @@ export const NavigationSidebar = async () => {
         page: 0,
         size: 30
       });
-
+      console.log(data.data)
       return data.data?.content;
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
 
     return [];
@@ -44,11 +44,11 @@ export const NavigationSidebar = async () => {
       />
       <ScrollArea className="flex-1 w-full">
         {servers.map((server) => (
-          <div key={server.id} className="mb-4">
+          <div key={server.serverId} className="mb-4">
             <NavigationItem
-              id={server.id}
+              id={server.serverId}
               name={server.name}
-              imageUrl={server.imageUrl}
+              imageUrl={server.imgUrl}
             />
           </div>
         ))}

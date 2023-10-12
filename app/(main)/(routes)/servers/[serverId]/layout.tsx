@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
 import { currentProfile } from "@/lib/current-profile";
 import { ServerSidebar } from "@/components/server/server-sidebar";
+import client from "@/app/api/client";
 
 const ServerIdLayout = async ({
   children,
@@ -12,22 +13,27 @@ const ServerIdLayout = async ({
   children: React.ReactNode;
   params: { serverId: string };
 }) => {
-  const profile = await currentProfile();
+  // const profile = await currentProfile();
 
-  if (!profile) {
-    // return redirectToSignIn();
+  // if (!profile) {
+  //   // return redirectToSignIn();
+  // }
+
+  const getServerJoinByServerId = async () => {
+    try {
+      const data = await client.post("/servers/getServerJoinByServerId", {
+        serverId: params.serverId
+      });
+      
+      return data.data;
+    } catch (error) {
+      // console.log(error);
+    }
+
+    return null;
   }
 
-  const server = await db.server.findUnique({
-    where: {
-      id: params.serverId,
-      members: {
-        some: {
-          profileId: profile.id
-        }
-      }
-    }
-  });
+  const server = await getServerJoinByServerId();
 
   if (!server) {
     return redirect("/");
