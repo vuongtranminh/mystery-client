@@ -8,6 +8,7 @@ import { ChatInput } from "@/components/chat/chat-input";
 import { ChatMessages } from "@/components/chat/chat-messages";
 import { MediaRoom } from "@/components/media-room";
 import { db } from "@/lib/db";
+import client from "@/app/api/client";
 
 interface ChannelIdPageProps {
   params: {
@@ -19,24 +20,53 @@ interface ChannelIdPageProps {
 const ChannelIdPage = async ({
   params
 }: ChannelIdPageProps) => {
-  const profile = await currentProfile();
+  // const profile = await currentProfile();
 
-  if (!profile) {
-    // return redirectToSignIn();
+  // if (!profile) {
+  //   // return redirectToSignIn();
+  // }
+
+  // const channel = await db.channel.findUnique({
+  //   where: {
+  //     id: params.channelId,
+  //   },
+  // });
+
+  // const member = await db.member.findFirst({
+  //   where: {
+  //     serverId: params.serverId,
+  //     profileId: profile.id,
+  //   }
+  // });
+  const getChannelByChannelId = async () => {
+    try {
+      const data = await client.post("/servers/getChannelByChannelId", {
+        channelId: params.channelId,
+        serverId: params.serverId
+      });
+      return data.data;
+    } catch (error) {
+      // console.log(error);
+    }
+
+    return null;
   }
 
-  const channel = await db.channel.findUnique({
-    where: {
-      id: params.channelId,
-    },
-  });
-
-  const member = await db.member.findFirst({
-    where: {
-      serverId: params.serverId,
-      profileId: profile.id,
+  const getMemberProfileByServerId = async () => {
+    try {
+      const data = await client.post("/servers/getMemberProfileByServerId", {
+        serverId: params.serverId
+      });
+      return data.data;
+    } catch (error) {
+      // console.log(error);
     }
-  });
+
+    return null;
+  }
+
+  const channel = await getChannelByChannelId();
+  const member = await getMemberProfileByServerId();
 
   if (!channel || !member) {
     redirect("/");
@@ -54,38 +84,37 @@ const ChannelIdPage = async ({
           <ChatMessages
             member={member}
             name={channel.name}
-            chatId={channel.id}
+            chatId={channel.channelId}
             type="channel"
             apiUrl="/api/messages"
             socketUrl="/api/socket/messages"
             socketQuery={{
-              channelId: channel.id,
+              channelId: channel.channelId,
               serverId: channel.serverId,
             }}
             paramKey="channelId"
-            paramValue={channel.id}
+            paramValue={channel.channelId}
           />
           <ChatInput
             name={channel.name}
             type="channel"
-            apiUrl="/api/socket/messages"
+            apiUrl="/servers/createMessage"
             query={{
-              channelId: channel.id,
-              serverId: channel.serverId,
+              channelId: channel.channelId,
             }}
           />
         </>
       )}
       {channel.type === ChannelType.AUDIO && (
         <MediaRoom
-          chatId={channel.id}
+          chatId={channel.channelId}
           video={false}
           audio={true}
         />
       )}
       {channel.type === ChannelType.VIDEO && (
         <MediaRoom
-          chatId={channel.id}
+          chatId={channel.channelId}
           video={true}
           audio={true}
         />

@@ -49,12 +49,17 @@ export const ChatInput = ({
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const url = qs.stringifyUrl({
-        url: apiUrl,
-        query,
-      });
+      // const url = qs.stringifyUrl({
+      //   url: apiUrl,
+      //   query,
+      // });
+      const url = apiUrl;
+      const data = {
+        ...values,
+        ...query
+      }
 
-      await axios.post(url, values);
+      await axios.post(url, data);
 
       form.reset();
       router.refresh();
