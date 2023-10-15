@@ -121,7 +121,7 @@ export const ChatItem = ({
 
   const isAdmin = currentMember.role === MemberRole.ADMIN;
   const isModerator = currentMember.role === MemberRole.MODERATOR;
-  const isOwner = currentMember.id === member.id;
+  const isOwner = currentMember.memberId === member.memberId;
   const canDeleteMessage = !deleted && (isAdmin || isModerator || isOwner);
   const canEditMessage = !deleted && isOwner && !fileUrl;
   const isPDF = fileType === "pdf" && fileUrl;
@@ -131,15 +131,15 @@ export const ChatItem = ({
     <div className="relative group flex items-center hover:bg-black/5 p-4 transition w-full">
       <div className="group flex gap-x-2 items-start w-full">
         <div onClick={onMemberClick} className="cursor-pointer hover:drop-shadow-md transition">
-          <UserAvatar src={member.profile.imageUrl} />
+          <UserAvatar src={member.avtUrl} />
         </div>
         <div className="flex flex-col w-full">
           <div className="flex items-center gap-x-2">
             <div className="flex items-center">
               <p onClick={onMemberClick} className="font-semibold text-sm hover:underline cursor-pointer">
-                {member.profile.name}
+                {member.name}
               </p>
-              <ActionTooltip label={member.role}>
+              <ActionTooltip label={MemberRole[member.role]}>
                 {roleIconMap[member.role]}
               </ActionTooltip>
             </div>

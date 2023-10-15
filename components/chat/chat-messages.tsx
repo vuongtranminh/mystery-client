@@ -14,11 +14,11 @@ import { ChatItem } from "./chat-item";
 
 const DATE_FORMAT = "d MMM yyyy, HH:mm";
 
-type MessageWithMemberWithProfile = Message & {
-  member: Member & {
-    profile: Profile
-  }
-}
+// type MessageWithMemberWithProfile = Message & {
+//   member: Member & {
+//     profile: Profile
+//   }
+// }
 
 interface ChatMessagesProps {
   name: string;
@@ -93,6 +93,9 @@ export const ChatMessages = ({
     )
   }
 
+  console.log("++++++++")
+  console.log(data?.pages)
+
   return (
     <div ref={chatRef} className="flex-1 flex flex-col py-4 overflow-y-auto">
       {!hasNextPage && <div className="flex-1" />}
@@ -119,10 +122,10 @@ export const ChatMessages = ({
       <div className="flex flex-col-reverse mt-auto">
         {data?.pages?.map((group, i) => (
           <Fragment key={i}>
-            {group.items.map((message: MessageWithMemberWithProfile) => (
+            {group.items.map((message) => (
               <ChatItem
-                key={message.id}
-                id={message.id}
+                key={message.messageId}
+                id={message.messageId}
                 currentMember={member}
                 member={message.member}
                 content={message.content}

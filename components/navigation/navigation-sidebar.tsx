@@ -23,7 +23,6 @@ export const NavigationSidebar = async () => {
         page: 0,
         size: 30
       });
-      console.log(data.data)
       return data.data?.content;
     } catch (error) {
       // console.log(error);

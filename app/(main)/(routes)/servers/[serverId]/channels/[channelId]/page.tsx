@@ -40,7 +40,7 @@ const ChannelIdPage = async ({
   // });
   const getChannelByChannelId = async () => {
     try {
-      const data = await client.post("/servers/getChannelByChannelId", {
+      const data = await client.post("/channels/getChannelByChannelId", {
         channelId: params.channelId,
         serverId: params.serverId
       });
@@ -54,7 +54,7 @@ const ChannelIdPage = async ({
 
   const getMemberProfileByServerId = async () => {
     try {
-      const data = await client.post("/servers/getMemberProfileByServerId", {
+      const data = await client.post("/members/getMemberProfileByServerId", {
         serverId: params.serverId
       });
       return data.data;
@@ -86,7 +86,7 @@ const ChannelIdPage = async ({
             name={channel.name}
             chatId={channel.channelId}
             type="channel"
-            apiUrl="/api/messages"
+            apiUrl="/messages/getMessagesByChannelId"
             socketUrl="/api/socket/messages"
             socketQuery={{
               channelId: channel.channelId,
@@ -98,9 +98,10 @@ const ChannelIdPage = async ({
           <ChatInput
             name={channel.name}
             type="channel"
-            apiUrl="/servers/createMessage"
+            apiUrl="/messages/createMessage"
             query={{
-              channelId: channel.channelId,
+              channelId: "2b21c09a-7bca-494f-895f-a2f77aebc2a4",
+              serverId: "b8ae3f8e-3931-49f8-8982-df057c68eeab"
             }}
           />
         </>

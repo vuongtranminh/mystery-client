@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseURL = "http://localhost:3000/app";
+const baseURL = "http://localhost:3000/app/api/v1/discord-service";
 
 const client = axios.create({
   baseURL,
@@ -12,9 +12,6 @@ const client = axios.create({
 // Add a request interceptor
 client.interceptors.request.use(function (config) {
   // Do something before request is sent
-  console.log("--------")
-  console.log(config)
-  console.log("--------")
   return config;
 }, function (error) {
   // Do something with request error

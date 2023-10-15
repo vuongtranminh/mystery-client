@@ -43,7 +43,7 @@ const ServerIdPage = async ({
 
   const getChannelGeneralByServerId = async () => {
     try {
-      const data = await client.post("/servers/getChannelGeneralByServerId", {
+      const data = await client.post("/channels/getChannelGeneralByServerId", {
         serverId: params.serverId
       });
       return data.data;

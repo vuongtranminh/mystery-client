@@ -78,7 +78,7 @@ export const ServerSidebar = async ({
 
   const getChannelsByServerId = async () => {
     try {
-      const data = await client.post("/servers/getChannelsByServerId", {
+      const data = await client.post("/channels/getChannelsByServerId", {
         serverId: serverId,
         page: 0,
         size: 30
@@ -96,7 +96,7 @@ export const ServerSidebar = async ({
 
   const getMemberProfilesByServerId = async () => {
     try {
-      const data = await client.post("/servers/getMemberProfilesByServerId", {
+      const data = await client.post("/members/getMemberProfilesByServerId", {
         serverId: serverId,
         page: 0,
         size: 30
@@ -110,18 +110,31 @@ export const ServerSidebar = async ({
     return [];
   }
 
-  const membersServer = await getMemberProfilesByServerId();
+  const getMemberProfileByServerId = async () => {
+    try {
+      const data = await client.post("/members/getMemberProfileByServerId", {
+        serverId: serverId
+      });
+      return data.data;
+    } catch (error) {
+      // console.log(error);
+    }
 
-  const textChannels = channels.filter((channel) => channel.type === 1) // ChannelType.TEXT
-  const audioChannels = channels.filter((channel) => channel.type === 2) // ChannelType.AUDIO
-  const videoChannels = channels.filter((channel) => channel.type === 3) // ChannelType.VIDEO
-  const members = membersServer.filter((member) => member.profileId !== "60bb8f79-8331-48d6-84b0-c22bc7def056")
+    return null;
+  }
+
+  const currentMember = await getMemberProfileByServerId();
+
+  const textChannels = channels.filter((channel) => channel.type === ChannelType.TEXT) 
+  const audioChannels = channels.filter((channel) => channel.type === ChannelType.AUDIO) 
+  const videoChannels = channels.filter((channel) => channel.type === ChannelType.VIDEO) 
+  const members = await getMemberProfilesByServerId();
 
   // if (!server) {
   //   return redirect("/");
   // }
 
-  const role = membersServer.find((member) => member.profileId === "60bb8f79-8331-48d6-84b0-c22bc7def056")?.role; // get api /aaaa
+  const role = currentMember?.role;
 
   return (
     <div className="flex flex-col h-full text-primary w-full dark:bg-[#2B2D31] bg-[#F2F3F5]">
@@ -137,7 +150,7 @@ export const ServerSidebar = async ({
                 label: "Text Channels",
                 type: "channel",
                 data: textChannels?.map((channel) => ({
-                  id: channel.id,
+                  id: channel.channelId,
                   name: channel.name,
                   icon: iconMap[channel.type],
                 }))
@@ -146,7 +159,7 @@ export const ServerSidebar = async ({
                 label: "Voice Channels",
                 type: "channel",
                 data: audioChannels?.map((channel) => ({
-                  id: channel.id,
+                  id: channel.channelId,
                   name: channel.name,
                   icon: iconMap[channel.type],
                 }))
@@ -155,7 +168,7 @@ export const ServerSidebar = async ({
                 label: "Video Channels",
                 type: "channel",
                 data: videoChannels?.map((channel) => ({
-                  id: channel.id,
+                  id: channel.channelId,
                   name: channel.name,
                   icon: iconMap[channel.type],
                 }))
@@ -164,8 +177,8 @@ export const ServerSidebar = async ({
                 label: "Members",
                 type: "member",
                 data: members?.map((member) => ({
-                  id: member.id,
-                  name: member.profile.name,
+                  id: member.memberId,
+                  name: member.name,
                   icon: roleIconMap[member.role],
                 }))
               },
@@ -184,7 +197,7 @@ export const ServerSidebar = async ({
             <div className="space-y-[2px]">
               {textChannels.map((channel) => (
                 <ServerChannel
-                  key={channel.id}
+                  key={channel.channelId}
                   channel={channel}
                   role={role}
                   server={server}
@@ -204,7 +217,7 @@ export const ServerSidebar = async ({
             <div className="space-y-[2px]">
               {audioChannels.map((channel) => (
                 <ServerChannel
-                  key={channel.id}
+                  key={channel.channelId}
                   channel={channel}
                   role={role}
                   server={server}
@@ -224,7 +237,7 @@ export const ServerSidebar = async ({
             <div className="space-y-[2px]">
               {videoChannels.map((channel) => (
                 <ServerChannel
-                  key={channel.id}
+                  key={channel.channelId}
                   channel={channel}
                   role={role}
                   server={server}
@@ -244,7 +257,7 @@ export const ServerSidebar = async ({
             <div className="space-y-[2px]">
               {members.map((member) => (
                 <ServerMember
-                  key={member.id}
+                  key={member.memberId}
                   member={member}
                   server={server}
                 />

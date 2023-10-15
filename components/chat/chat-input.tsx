@@ -17,6 +17,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useModal } from "@/hooks/use-modal-store";
 import { EmojiPicker } from "@/components/emoji-picker";
+import client from "@/app/api/client";
 
 interface ChatInputProps {
   apiUrl: string;
@@ -59,7 +60,7 @@ export const ChatInput = ({
         ...query
       }
 
-      await axios.post(url, data);
+      await client.post(url, data);
 
       form.reset();
       router.refresh();

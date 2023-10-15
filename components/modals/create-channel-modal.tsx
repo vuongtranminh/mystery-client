@@ -34,6 +34,7 @@ import {
   SelectValue
 } from "@/components/ui/select";
 import { useEffect } from "react";
+import client from "@/app/api/client";
 
 const formSchema = z.object({
   name: z.string().min(1, {
@@ -75,13 +76,19 @@ export const CreateChannelModal = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const url = qs.stringifyUrl({
-        url: "/api/channels",
-        query: {
-          serverId: params?.serverId
-        }
-      });
-      await axios.post(url, values);
+      // const url = qs.stringifyUrl({
+      //   url: "/api/channels",
+      //   query: {
+      //     serverId: params?.serverId
+      //   }
+      // });
+      // await axios.post(url, values);
+      const url = "/channels/createChannel"
+      client.post(url, {
+        ...values,
+        type: Number(values.type),
+        serverId: params?.serverId
+      })
 
       form.reset();
       router.refresh();
@@ -138,7 +145,7 @@ export const CreateChannelModal = () => {
                     <Select
                       disabled={isLoading}
                       onValueChange={field.onChange}
-                      defaultValue={field.value}
+                      defaultValue={field.value.toString()}
                     >
                       <FormControl>
                         <SelectTrigger
@@ -148,15 +155,15 @@ export const CreateChannelModal = () => {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {Object.values(ChannelType).map((type) => (
-                          <SelectItem
-                            key={type}
-                            value={type}
+                        {Object.keys(ChannelType).filter((v) => isNaN(Number(v))).map((key) => {
+                          return (<SelectItem
+                            key={key}
+                            value={ChannelType[key as keyof typeof ChannelType].toString()}
                             className="capitalize"
                           >
-                            {type.toLowerCase()}
-                          </SelectItem>
-                        ))}
+                            {key.toLowerCase()}
+                          </SelectItem>)
+                        })}
                       </SelectContent>
                     </Select>
                     <FormMessage />

@@ -34,6 +34,7 @@ import {
   SelectValue
 } from "@/components/ui/select";
 import { useEffect } from "react";
+import client from "@/app/api/client";
 
 const formSchema = z.object({
   name: z.string().min(1, {
@@ -44,7 +45,7 @@ const formSchema = z.object({
       message: "Channel name cannot be 'general'"
     }
   ),
-  type: z.nativeEnum(ChannelType)
+  // type: z.nativeEnum(ChannelType)
 });
 
 export const EditChannelModal = () => {
@@ -58,14 +59,14 @@ export const EditChannelModal = () => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
-      type: channel?.type || ChannelType.TEXT,
+      // type: channel?.type || ChannelType.TEXT,
     }
   });
 
   useEffect(() => {
    if (channel) {
     form.setValue("name", channel.name);
-    form.setValue("type", channel.type);
+    // form.setValue("type", channel.type);
    }
   }, [form, channel]);
 
@@ -73,13 +74,19 @@ export const EditChannelModal = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const url = qs.stringifyUrl({
-        url: `/api/channels/${channel?.id}`,
-        query: {
-          serverId: server?.id
-        }
-      });
-      await axios.patch(url, values);
+      // const url = qs.stringifyUrl({
+      //   url: `/api/channels/${channel?.id}`,
+      //   query: {
+      //     serverId: server?.id
+      //   }
+      // });
+      // await axios.patch(url, values);
+      const url = "/channels/updateChannel"
+      client.post(url, {
+        ...values,
+        channelId: channel?.id,
+        serverId: server?.id
+      })
 
       form.reset();
       router.refresh();
@@ -127,7 +134,7 @@ export const EditChannelModal = () => {
                   </FormItem>
                 )}
               />
-              <FormField
+              {/* <FormField
                 control={form.control}
                 name="type"
                 render={({ field }) => (
@@ -160,7 +167,7 @@ export const EditChannelModal = () => {
                     <FormMessage />
                   </FormItem>
                 )}
-              />
+              /> */}
             </div>
             <DialogFooter className="bg-gray-100 px-6 py-4">
               <Button variant="primary" disabled={isLoading}>

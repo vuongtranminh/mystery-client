@@ -30,9 +30,9 @@ export interface Server {
 }
 
 export enum MemberRole {
-  ADMIN,
-  MODERATOR,
-  GUEST
+  ADMIN = 1,
+  MODERATOR = 2,
+  GUEST = 3
 }
 
 export interface Member {
@@ -56,9 +56,9 @@ export interface Member {
 }
 
 export enum ChannelType {
-  TEXT,
-  AUDIO,
-  VIDEO
+  TEXT = 1,
+  AUDIO = 2,
+  VIDEO = 3
 }
 
 export interface Channel {
