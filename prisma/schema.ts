@@ -29,10 +29,14 @@ export interface Server {
   updatedAt: string;
 }
 
-export enum MemberRole {
-  ADMIN = 1,
-  MODERATOR = 2,
-  GUEST = 3
+export const MemberRole = {
+  ADMIN: 1,
+  MODERATOR: 2,
+  GUEST: 3
+}
+
+export const getKeyByValue = (object, value) => {
+  return Object.keys(object).find(key => object[key] === value);
 }
 
 export interface Member {

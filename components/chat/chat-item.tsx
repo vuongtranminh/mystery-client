@@ -5,7 +5,7 @@ import axios from "axios";
 import qs from "query-string";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Member, MemberRole, Profile } from "@/prisma/schema";
+import { ChannelType, Member, MemberRole, Profile, getKeyByValue } from "@/prisma/schema";
 import { Edit, FileIcon, ShieldAlert, ShieldCheck, Trash } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -67,11 +67,11 @@ export const ChatItem = ({
   const router = useRouter();
 
   const onMemberClick = () => {
-    if (member.id === currentMember.id) {
+    if (member.memberId === currentMember.memberId) {
       return;
     }
   
-    router.push(`/servers/${params?.serverId}/conversations/${member.id}`);
+    router.push(`/servers/${params?.serverId}/conversations/${member.memberId}`);
   }
 
   useEffect(() => {
@@ -139,8 +139,8 @@ export const ChatItem = ({
               <p onClick={onMemberClick} className="font-semibold text-sm hover:underline cursor-pointer">
                 {member.name}
               </p>
-              <ActionTooltip label={MemberRole[member.role]}>
-                {roleIconMap[member.role]}
+              <ActionTooltip label={getKeyByValue(MemberRole, member.role)}>
+                {roleIconMap[getKeyByValue(MemberRole, member.role)]}
               </ActionTooltip>
             </div>
             <span className="text-xs text-zinc-500 dark:text-zinc-400">
