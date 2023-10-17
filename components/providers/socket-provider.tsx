@@ -4,9 +4,9 @@ import {
   createContext,
   useContext,
   useEffect,
+  useRef,
   useState
 } from "react";
-import { io as ClientIO } from "socket.io-client";
 
 type SocketContextType = {
   socket: any | null;
@@ -22,6 +22,9 @@ export const useSocket = () => {
   return useContext(SocketContext);
 };
 
+const PING_TIMEOUT_DELAY = 3000;
+const RECONNECTION_DELAY = 3000;
+
 export const SocketProvider = ({ 
   children 
 }: { 
@@ -29,25 +32,73 @@ export const SocketProvider = ({
 }) => {
   const [socket, setSocket] = useState(null);
   const [isConnected, setIsConnected] = useState(false);
+  const [shouldReconnect, setShouldReconnect] = useState(true);
+  const pingTimeoutTimer = useRef(null);
+  const reconnectTimer = useRef(null);
 
   useEffect(() => {
-    const socketInstance = new (ClientIO as any)(process.env.NEXT_PUBLIC_SITE_URL!, {
-      path: "/api/socket/io",
-      addTrailingSlash: false,
-    });
 
-    socketInstance.on("connect", () => {
-      setIsConnected(true);
-    });
+    const onOpen = () => {
+      const socketInstance = new WebSocket("ws://localhost:8080/handle/9fad9a7d-1a1b-47f2-9cea-66abb7719968");
 
-    socketInstance.on("disconnect", () => {
+      setSocket(socketInstance);
+
+      socketInstance.addEventListener("open", (event) => {
+        setIsConnected(true);
+        
+        resetPingTimeout();
+      });
+  
+      socketInstance.addEventListener("message", (event) => {
+        const { data } = event;
+        if (data === "pong") {
+          resetPingTimeout();
+          send("ping")
+        }
+      });
+  
+      socketInstance.addEventListener("close", (event) => {
+        setIsConnected(false);
+      });
+    }
+
+    const onClose = (reason) => {
+      if (socketInstance) {
+        socket.close();
+      }
+
+      clearTimeout(pingTimeoutTimer.current);
+      clearTimeout(reconnectTimer.current);
+
       setIsConnected(false);
-    });
 
-    setSocket(socketInstance);
+      if (shouldReconnect) {
+        reconnectTimer.current = setTimeout(() => {
+          onOpen();
+        }, RECONNECTION_DELAY);
+      }
+    }
+
+    const send = (data) => {
+      if (socket.readyState === WebSocket.OPEN) {
+        socket.send(data);
+      }
+    }
+
+    const resetPingTimeout = () => {
+      clearTimeout(pingTimeoutTimer.current);
+      pingTimeoutTimer.current = setTimeout(() => {
+        onClose("ping timeout");
+      }, PING_TIMEOUT_DELAY);
+    }
+
+    const disconnect = () => {
+      setShouldReconnect(false);
+      socket.close();
+    }
 
     return () => {
-      socketInstance.disconnect();
+      disconnect();
     }
   }, []);
 
