@@ -7,6 +7,9 @@ import {
   useRef,
   useState
 } from "react";
+import Socket from "@/lib/socket";
+
+// import  from "@/lib/socket";
 
 type SocketContextType = {
   socket: any | null;
@@ -22,9 +25,6 @@ export const useSocket = () => {
   return useContext(SocketContext);
 };
 
-const PING_TIMEOUT_DELAY = 3000;
-const RECONNECTION_DELAY = 3000;
-
 export const SocketProvider = ({ 
   children 
 }: { 
@@ -37,68 +37,15 @@ export const SocketProvider = ({
   const reconnectTimer = useRef(null);
 
   useEffect(() => {
+    const socketInstance = new Socket("ws://localhost:8080/myHandler/9fad9a7d-1a1b-47f2-9cea-66abb7719968", {
+      pingTimeoutDelay: 3000,
+      reconnectionDelay: 3000
+    })
 
-    const onOpen = () => {
-      const socketInstance = new WebSocket("ws://localhost:8080/handle/9fad9a7d-1a1b-47f2-9cea-66abb7719968");
-
-      setSocket(socketInstance);
-
-      socketInstance.addEventListener("open", (event) => {
-        setIsConnected(true);
-        
-        resetPingTimeout();
-      });
-  
-      socketInstance.addEventListener("message", (event) => {
-        const { data } = event;
-        if (data === "pong") {
-          resetPingTimeout();
-          send("ping")
-        }
-      });
-  
-      socketInstance.addEventListener("close", (event) => {
-        setIsConnected(false);
-      });
-    }
-
-    const onClose = (reason) => {
-      if (socketInstance) {
-        socket.close();
-      }
-
-      clearTimeout(pingTimeoutTimer.current);
-      clearTimeout(reconnectTimer.current);
-
-      setIsConnected(false);
-
-      if (shouldReconnect) {
-        reconnectTimer.current = setTimeout(() => {
-          onOpen();
-        }, RECONNECTION_DELAY);
-      }
-    }
-
-    const send = (data) => {
-      if (socket.readyState === WebSocket.OPEN) {
-        socket.send(data);
-      }
-    }
-
-    const resetPingTimeout = () => {
-      clearTimeout(pingTimeoutTimer.current);
-      pingTimeoutTimer.current = setTimeout(() => {
-        onClose("ping timeout");
-      }, PING_TIMEOUT_DELAY);
-    }
-
-    const disconnect = () => {
-      setShouldReconnect(false);
-      socket.close();
-    }
+    setSocket(socketInstance);
 
     return () => {
-      disconnect();
+      socketInstance.disconnect();
     }
   }, []);
 
