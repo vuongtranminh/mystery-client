@@ -9,8 +9,6 @@ import {
 } from "react";
 import Socket from "@/lib/socket";
 
-// import  from "@/lib/socket";
-
 type SocketContextType = {
   socket: any | null;
   isConnected: boolean;
@@ -32,14 +30,12 @@ export const SocketProvider = ({
 }) => {
   const [socket, setSocket] = useState(null);
   const [isConnected, setIsConnected] = useState(false);
-  const [shouldReconnect, setShouldReconnect] = useState(true);
-  const pingTimeoutTimer = useRef(null);
-  const reconnectTimer = useRef(null);
 
   useEffect(() => {
     const socketInstance = new Socket("ws://localhost:8080/myHandler/9fad9a7d-1a1b-47f2-9cea-66abb7719968", {
-      pingTimeoutDelay: 3000,
-      reconnectionDelay: 3000
+      pingTimeoutDelay: 1000,
+      pingDisconnectTimeoutDelay: 3000,
+      reconnectionDelay: 1000
     })
 
     setSocket(socketInstance);
