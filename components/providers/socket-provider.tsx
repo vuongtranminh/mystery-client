@@ -40,8 +40,8 @@ export const SocketProvider = ({
 
     setSocket(socketInstance);
 
-    socketInstance.on("channel", (event) => {
-      console.log(event)
+    socketInstance.on("channel", (data) => {
+      console.log(data)
     });
 
     return () => {
