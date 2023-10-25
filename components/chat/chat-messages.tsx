@@ -52,23 +52,26 @@ export const ChatMessages = ({
 
   const {
     data,
-    fetchNextPage,
     hasNextPage,
-    isFetchingNextPage,
+    hasPreviousPage,
+    isFirst,
+    isLast,
     status,
+    fetchNextPageStatus,
+    fetchNextPage
   } = useChatQuery({
     queryKey,
     apiUrl,
     paramKey,
     paramValue,
   });
-  useChatSocket({ queryKey, addKey, updateKey });
+  // useChatSocket({ queryKey, addKey, updateKey });
   useChatScroll({
     chatRef,
     bottomRef,
     loadMore: fetchNextPage,
-    shouldLoadMore: !isFetchingNextPage && !!hasNextPage,
-    count: data?.pages?.[0]?.items?.length ?? 0,
+    shouldLoadMore: fetchNextPageStatus === "fetched" && !!hasNextPage,
+    count: data.content.length,
   })
 
   if (status === "loading") {
@@ -104,7 +107,7 @@ export const ChatMessages = ({
       )}
       {hasNextPage && (
         <div className="flex justify-center">
-          {isFetchingNextPage ? (
+          {fetchNextPageStatus === "loading" ? (
             <Loader2 className="h-6 w-6 text-zinc-500 animate-spin my-4" />
           ) : (
             <button
@@ -117,24 +120,20 @@ export const ChatMessages = ({
         </div>
       )}
       <div className="flex flex-col-reverse mt-auto">
-        {data?.pages?.map((group, i) => (
-          <Fragment key={i}>
-            {group.items.map((message) => (
-              <ChatItem
-                key={message.messageId}
-                id={message.messageId}
-                currentMember={member}
-                member={message.member}
-                content={message.content}
-                fileUrl={message.fileUrl}
-                deleted={message.deleted}
-                timestamp={format(new Date(message.createdAt), DATE_FORMAT)}
-                isUpdated={message.updatedAt !== message.createdAt}
-                socketUrl={socketUrl}
-                socketQuery={socketQuery}
-              />
-            ))}
-          </Fragment>
+        {data.content.map((message) => (
+          <ChatItem
+            key={message.messageId}
+            id={message.messageId}
+            currentMember={member}
+            member={message.member}
+            content={message.content}
+            fileUrl={message.fileUrl}
+            deleted={message.deleted}
+            timestamp={format(new Date(message.createdAt), DATE_FORMAT)}
+            isUpdated={message.updatedAt !== message.createdAt}
+            socketUrl={socketUrl}
+            socketQuery={socketQuery}
+          />
         ))}
       </div>
       <div ref={bottomRef} />
