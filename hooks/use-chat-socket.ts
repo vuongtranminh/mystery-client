@@ -17,9 +17,7 @@ type MessageWithMemberWithProfile = Message & {
 }
 
 export const useChatSocket = ({
-  addKey,
-  updateKey,
-  queryKey
+  setData
 }: ChatSocketProps) => {
   const { socket } = useSocket();
   const queryClient = useQueryClient();
@@ -28,6 +26,10 @@ export const useChatSocket = ({
     if (!socket) {
       return;
     }
+
+    setData((oldData) => {
+      console.log(oldData)
+    });
 
     // socket.on(updateKey, (message: MessageWithMemberWithProfile) => {
     //   queryClient.setQueryData([queryKey], (oldData: any) => {
@@ -85,5 +87,5 @@ export const useChatSocket = ({
       // socket.off(addKey);
       // socket.off(updateKey);
     }
-  }, [queryClient, addKey, queryKey, socket, updateKey]);
+  }, [socket]);
 }

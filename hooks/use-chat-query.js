@@ -39,6 +39,7 @@ export const useChatQuery = ({
     isLast,
     status,
     fetchNextPageStatus,
+    setData,
     fetchNextPage
   } = useInfiniteQuery({
     queryFn: fetchMessages,
@@ -57,6 +58,7 @@ export const useChatQuery = ({
     isLast,
     status,
     fetchNextPageStatus,
+    setData,
     fetchNextPage
   };
 }
@@ -144,6 +146,17 @@ export const useInfiniteQuery = ({ queryFn = undefined, getNextPageParam = undef
     setStatus("fetched");
   }
 
+  const setData = (callback) => {
+    const newContent = callback(info.data.content);
+    setInfo({
+      ...info,
+      data: {
+        ...info.data,
+        content: newContent,
+      }
+    })
+  }
+
   useEffect(() => {
     fetchData();
   }, [])
@@ -153,6 +166,7 @@ export const useInfiniteQuery = ({ queryFn = undefined, getNextPageParam = undef
     status: status,
     fetchNextPage,
     getNextPageParam,
+    setData,
     fetchNextPageStatus: fetchNextPageStatus,
   };
 }

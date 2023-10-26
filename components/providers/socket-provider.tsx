@@ -40,10 +40,6 @@ export const SocketProvider = ({
 
     setSocket(socketInstance);
 
-    socketInstance.on("channel", (data) => {
-      console.log(data)
-    });
-
     return () => {
       socketInstance.disconnect();
     }

@@ -58,6 +58,7 @@ export const ChatMessages = ({
     isLast,
     status,
     fetchNextPageStatus,
+    setData,
     fetchNextPage
   } = useChatQuery({
     queryKey,
@@ -65,13 +66,14 @@ export const ChatMessages = ({
     paramKey,
     paramValue,
   });
-  // useChatSocket({ queryKey, addKey, updateKey });
+  useChatSocket({setData: setData});
+
   useChatScroll({
     chatRef,
     bottomRef,
     loadMore: fetchNextPage,
     shouldLoadMore: fetchNextPageStatus === "fetched" && !!hasNextPage,
-    count: data.content.length,
+    count: data?.content?.length,
   })
 
   if (status === "loading") {
@@ -120,7 +122,7 @@ export const ChatMessages = ({
         </div>
       )}
       <div className="flex flex-col-reverse mt-auto">
-        {data.content.map((message) => (
+        {data?.content?.map((message) => (
           <ChatItem
             key={message.messageId}
             id={message.messageId}
