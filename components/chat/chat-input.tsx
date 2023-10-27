@@ -18,6 +18,7 @@ import { Input } from "@/components/ui/input";
 import { useModal } from "@/hooks/use-modal-store";
 import { EmojiPicker } from "@/components/emoji-picker";
 import client from "@/app/api/client";
+import { useEffect } from "react";
 
 interface ChatInputProps {
   apiUrl: string;
@@ -46,6 +47,10 @@ export const ChatInput = ({
     }
   });
 
+  useEffect(() => {
+    form.setFocus("content");
+  }, [])
+
   const isLoading = form.formState.isSubmitting;
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
@@ -64,6 +69,7 @@ export const ChatInput = ({
 
       form.reset();
       router.refresh();
+      form.setFocus("content");
     } catch (error) {
       console.log(error);
     }

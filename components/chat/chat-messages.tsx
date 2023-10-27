@@ -58,7 +58,7 @@ export const ChatMessages = ({
     isLast,
     status,
     fetchNextPageStatus,
-    setData,
+    setInfo,
     fetchNextPage
   } = useChatQuery({
     queryKey,
@@ -66,7 +66,7 @@ export const ChatMessages = ({
     paramKey,
     paramValue,
   });
-  useChatSocket({setData: setData});
+  useChatSocket({setInfo: setInfo});
 
   useChatScroll({
     chatRef,
@@ -75,6 +75,8 @@ export const ChatMessages = ({
     shouldLoadMore: fetchNextPageStatus === "fetched" && !!hasNextPage,
     count: data?.content?.length,
   })
+
+  console.log(data.content)
 
   if (status === "loading") {
     return (
