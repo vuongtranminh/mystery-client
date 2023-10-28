@@ -69,11 +69,16 @@ export const ChatInput = ({
 
       form.reset();
       router.refresh();
-      form.setFocus("content");
     } catch (error) {
       console.log(error);
     }
   }
+
+  useEffect(() => {
+    if (!isLoading) {
+      form.setFocus("content");
+    }
+  }, [isLoading])
 
   return (
     <Form {...form}>

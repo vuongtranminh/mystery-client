@@ -23,6 +23,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useModal } from "@/hooks/use-modal-store";
+import client from "@/app/api/client";
 
 interface ChatItemProps {
   id: string;
@@ -97,12 +98,20 @@ export const ChatItem = ({
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const url = qs.stringifyUrl({
-        url: `${socketUrl}/${id}`,
-        query: socketQuery,
-      });
+      // const url = qs.stringifyUrl({
+      //   url: `${socketUrl}/${id}`,
+      //   query: socketQuery,
+      // });
 
-      await axios.patch(url, values);
+      // await axios.patch(url, values);
+      const url = "/messages/updateMessage"
+      const data = {
+        messageId: id,
+        ...values,
+        ...socketQuery
+      }
+
+      await client.post(url, data);
 
       form.reset();
       setIsEditing(false);
@@ -110,6 +119,16 @@ export const ChatItem = ({
       console.log(error);
     }
   }
+
+  const handleEdit = () => {
+    setIsEditing(true);
+  }
+
+  useEffect(() => {
+    if (isEditing) {
+      form.setFocus("content");
+    }
+  }, [isEditing])
 
   useEffect(() => {
     form.reset({
@@ -202,6 +221,7 @@ export const ChatItem = ({
                           <div className="relative w-full">
                             <Input
                               disabled={isLoading}
+                              autoComplete="off"
                               className="p-2 bg-zinc-200/90 dark:bg-zinc-700/75 border-none border-0 focus-visible:ring-0 focus-visible:ring-offset-0 text-zinc-600 dark:text-zinc-200"
                               placeholder="Edited message"
                               {...field}
@@ -227,7 +247,7 @@ export const ChatItem = ({
           {canEditMessage && (
             <ActionTooltip label="Edit">
               <Edit
-                onClick={() => setIsEditing(true)}
+                onClick={handleEdit}
                 className="cursor-pointer ml-auto w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300 transition"
               />
             </ActionTooltip>

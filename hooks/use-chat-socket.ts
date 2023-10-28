@@ -27,8 +27,7 @@ export const useChatSocket = ({
       return;
     }
 
-    socket.on("channel", ({ type, message }) => {
-      console.log(type, message)
+    socket.on("channel:add", ({ message }) => {
       setInfo((oldData) => ({
         ...oldData,
         data: {
@@ -36,6 +35,25 @@ export const useChatSocket = ({
           meta: oldData.data.meta
         }
       }));
+    })
+
+    socket.on("channel:edit", ({ message }) => {
+      setInfo((oldData) => {
+        const messageUpdateIndex = oldData.data.content.findIndex(item => item.messageId === message.messageId);
+        if (messageUpdateIndex === -1) {
+          return oldData;
+        }
+
+        const newContent = [...oldData.data.content];
+        newContent.splice(messageUpdateIndex, 1, message);
+        return {
+          ...oldData,
+          data: {
+            content: newContent,
+            meta: oldData.data.meta
+          }
+        };
+      });
     })
 
     // socket.on(updateKey, (message: MessageWithMemberWithProfile) => {
@@ -91,6 +109,8 @@ export const useChatSocket = ({
     // });
 
     return () => {
+      socket.off("channel:add");
+      socket.off("channel:edit");
       // socket.off(addKey);
       // socket.off(updateKey);
     }

@@ -100,8 +100,8 @@ const ChannelIdPage = async ({
             type="channel"
             apiUrl="/messages/createMessage"
             query={{
-              channelId: "2b21c09a-7bca-494f-895f-a2f77aebc2a4",
-              serverId: "b8ae3f8e-3931-49f8-8982-df057c68eeab"
+              channelId: channel.channelId,
+              serverId: channel.serverId
             }}
           />
         </>
