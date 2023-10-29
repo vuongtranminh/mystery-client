@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/dialog";
 import { useModal } from "@/hooks/use-modal-store";
 import { Button } from "@/components/ui/button";
+import client from "@/app/api/client";
 
 export const DeleteMessageModal = () => {
   const { isOpen, onClose, type, data } = useModal();
@@ -26,12 +27,9 @@ export const DeleteMessageModal = () => {
   const onClick = async () => {
     try {
       setIsLoading(true);
-      const url = qs.stringifyUrl({
-        url: apiUrl || "",
-        query,
-      });
+      const url = apiUrl;
 
-      await axios.delete(url);
+      await client.post(url, query);
 
       onClose();
     } catch (error) {

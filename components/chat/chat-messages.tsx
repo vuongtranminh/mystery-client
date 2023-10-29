@@ -76,8 +76,6 @@ export const ChatMessages = ({
     count: data?.content?.length,
   })
 
-  console.log(data.content)
-
   if (status === "loading") {
     return (
       <div className="flex flex-col flex-1 justify-center items-center">
@@ -129,10 +127,10 @@ export const ChatMessages = ({
             key={message.messageId}
             id={message.messageId}
             currentMember={member}
-            member={message.member}
+            member={message.author}
             content={message.content}
             fileUrl={message.fileUrl}
-            deleted={message.deleted}
+            deleted={!!message.deletedAt}
             timestamp={format(new Date(message.createdAt), DATE_FORMAT)}
             isUpdated={message.updatedAt !== message.createdAt}
             socketUrl={socketUrl}

@@ -255,8 +255,11 @@ export const ChatItem = ({
           <ActionTooltip label="Delete">
             <Trash
               onClick={() => onOpen("deleteMessage", { 
-                apiUrl: `${socketUrl}/${id}`,
-                query: socketQuery,
+                apiUrl: '/messages/deleteMessage',
+                query: {
+                  messageId: id,
+                  ...socketQuery
+                },
                })}
               className="cursor-pointer ml-auto w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300 transition"
             />
