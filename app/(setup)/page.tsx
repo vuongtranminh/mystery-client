@@ -7,11 +7,11 @@ import client from "@/app/api/client";
 import { useSocket } from "@/components/providers/socket-provider";
 
 const SetupPage = async () => {
-  // const profile = await initialProfile();
+  const profile = await initialProfile();
 
   const getFirstServerJoin = async () => {
     try {
-      const data = await client.post("/servers/getFirstServerJoin");
+      const data = await client.post("/discord/servers/getFirstServerJoin");
       return data.data;
     } catch (error) {
       console.log(error);

@@ -40,7 +40,7 @@ const ChannelIdPage = async ({
   // });
   const getChannelByChannelId = async () => {
     try {
-      const data = await client.post("/channels/getChannelByChannelId", {
+      const data = await client.post("/discord/channels/getChannelByChannelId", {
         channelId: params.channelId,
         serverId: params.serverId
       });
@@ -54,7 +54,7 @@ const ChannelIdPage = async ({
 
   const getMemberProfileByServerId = async () => {
     try {
-      const data = await client.post("/members/getMemberProfileByServerId", {
+      const data = await client.post("/discord/members/getMemberProfileByServerId", {
         serverId: params.serverId
       });
       return data.data;

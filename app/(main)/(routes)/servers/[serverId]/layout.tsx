@@ -21,7 +21,7 @@ const ServerIdLayout = async ({
 
   const getServerJoinByServerId = async () => {
     try {
-      const data = await client.post("/servers/getServerJoinByServerId", {
+      const data = await client.post("/discord/servers/getServerJoinByServerId", {
         serverId: params.serverId
       });
       

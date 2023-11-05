@@ -62,7 +62,7 @@ export const ServerSidebar = async ({
 
   const getServerJoinByServerId = async () => {
     try {
-      const data = await client.post("/servers/getServerJoinByServerId", {
+      const data = await client.post("/discord/servers/getServerJoinByServerId", {
         serverId: serverId
       });
       
@@ -78,7 +78,7 @@ export const ServerSidebar = async ({
 
   const getChannelsByServerId = async () => {
     try {
-      const data = await client.post("/channels/getChannelsByServerId", {
+      const data = await client.post("/discord/channels/getChannelsByServerId", {
         serverId: serverId,
         page: 0,
         size: 30
@@ -96,7 +96,7 @@ export const ServerSidebar = async ({
 
   const getMemberProfilesByServerId = async () => {
     try {
-      const data = await client.post("/members/getMemberProfilesByServerId", {
+      const data = await client.post("/discord/members/getMemberProfilesByServerId", {
         serverId: serverId,
         page: 0,
         size: 30
@@ -112,7 +112,7 @@ export const ServerSidebar = async ({
 
   const getMemberProfileByServerId = async () => {
     try {
-      const data = await client.post("/members/getMemberProfileByServerId", {
+      const data = await client.post("/discord/members/getMemberProfileByServerId", {
         serverId: serverId
       });
       return data.data;

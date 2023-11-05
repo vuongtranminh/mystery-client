@@ -3,8 +3,8 @@ const nextConfig = {
   async rewrites() {
     return [
       {
-        source: '/app/api/v1/discord-service/:path*',
-        destination: 'http://localhost:8900/app/api/v1/discord-service/:path*',
+        source: '/app/api/v1/:path*',
+        destination: 'http://localhost:8900/app/api/v1/:path*',
       },
     ]
   },
