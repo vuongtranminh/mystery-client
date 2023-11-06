@@ -24,7 +24,7 @@ export const SocketProvider = ({ children }) => {
   const { user } = useAuth();
 
   useEffect(() => {
-    if (user.userId) {
+    if (user?.userId) {
       const socketInstance = new Socket(`ws://localhost:8080/myHandler/${user.userId}`, {
         pingTimeoutDelay: 1000,
         pingDisconnectTimeoutDelay: 3000,
@@ -37,7 +37,7 @@ export const SocketProvider = ({ children }) => {
     return () => {
       socketInstance.disconnect();
     }
-  }, [user.userId]);
+  }, [user?.userId]);
 
   return (
     <SocketContext.Provider value={{ socket, isConnected }}>
