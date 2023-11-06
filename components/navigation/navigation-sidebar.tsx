@@ -9,7 +9,7 @@ import { db } from "@/lib/db";
 
 import { NavigationAction } from "./navigation-action";
 import { NavigationItem } from "./navigation-item";
-import client from "@/app/api/client";
+import client from "@/app/api/mystery";
 
 export const NavigationSidebar = async () => {
   // const profile = await currentProfile();

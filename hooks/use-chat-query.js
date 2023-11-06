@@ -2,7 +2,7 @@ import qs from "query-string";
 // import { useInfiniteQuery } from "@tanstack/react-query";
 
 import { useSocket } from "@/components/providers/socket-provider";
-import client from "@/app/api/client";
+import client from "@/app/api/mystery";
 import { useEffect, useReducer, useRef, useState } from "react";
 
 export const useChatQuery = ({

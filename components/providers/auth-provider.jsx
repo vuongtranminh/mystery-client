@@ -1,6 +1,6 @@
 "use client";
 
-import client from "@/app/api/client";
+import userApi from "@/app/api/user.api";
 import { redirect, usePathname } from 'next/navigation'
 import { useEffect, useState } from "react";
 
@@ -13,11 +13,7 @@ const AuthContext = createContext({
 
 export const useAuth = () => useContext(AuthContext)
 
-export const AuthProvider = ({ 
-  children 
-}: { 
-  children: React.ReactNode 
-}) => {
+export const AuthProvider = ({ children }) => {
   const pathname = usePathname()
 
   const [user, setUser] = useState(null);
@@ -33,16 +29,12 @@ export const AuthProvider = ({
   }
 
   const getCurrentUser = async () => {
-    try {
-      const data = await client.get("/user/me");
-      
-      if (data.success) {
-        setUser(data.data)
-      } else {
-        redirectToSignIn()
-      }
-    } catch (error) {
-      console.log(error);
+    const { response, err } = await userApi.me();
+
+    if (response.success) {
+      setUser(response.data)
+    } else {
+      redirectToSignIn()
     }
   }
 

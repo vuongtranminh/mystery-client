@@ -8,7 +8,7 @@ import { ChatInput } from "@/components/chat/chat-input";
 import { ChatMessages } from "@/components/chat/chat-messages";
 import { MediaRoom } from "@/components/media-room";
 import { db } from "@/lib/db";
-import client from "@/app/api/client";
+import client from "@/app/api/mystery";
 
 interface ChannelIdPageProps {
   params: {

@@ -26,7 +26,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { FileUpload } from "@/components/file-upload";
 import { useRouter } from "next/navigation";
-import client from "@/app/api/client";
+import client from "@/app/api/mystery";
 
 const formSchema = z.object({
   name: z.string().min(1, {

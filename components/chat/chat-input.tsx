@@ -17,7 +17,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useModal } from "@/hooks/use-modal-store";
 import { EmojiPicker } from "@/components/emoji-picker";
-import client from "@/app/api/client";
+import client from "@/app/api/mystery";
 import { useEffect } from "react";
 
 interface ChatInputProps {

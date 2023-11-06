@@ -12,7 +12,7 @@ import { ServerSearch } from "./server-search";
 import { ServerSection } from "./server-section";
 import { ServerChannel } from "./server-channel";
 import { ServerMember } from "./server-member";
-import client from "@/app/api/client";
+import client from "@/app/api/mystery";
 
 interface ServerSidebarProps {
   serverId: string;

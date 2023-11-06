@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
 import { currentProfile } from "@/lib/current-profile";
 import { ServerSidebar } from "@/components/server/server-sidebar";
-import client from "@/app/api/client";
+import client from "@/app/api/mystery";
 
 const ServerIdLayout = async ({
   children,

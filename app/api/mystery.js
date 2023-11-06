@@ -1,18 +1,23 @@
 import axios from "axios";
+import queryString from "query-string";
 
 const baseURL = "http://localhost:3000/app/api/v1";
 
-const client = axios.create({
+const mystery = axios.create({
   baseURL,
-  headers: {
-    "Content-Type": "application/json"
-  },
+  paramsSerializer: {
+    encode: params => queryString.stringify(params)
+  }
 });
 
 const onRequest = (config) => {
   console.info(`[request] [${JSON.stringify(config)}]`);
-  config.headers["Content-Type"] = "application/json";
-  return config;
+  return {
+    ...config,
+    headers: {
+      "Content-Type": "application/json",
+    }
+  };
 };
 
 const onRequestError = (error) => {
@@ -34,7 +39,7 @@ const onResponseError = async (error) => {
 
     try {
       // Gửi yêu cầu mới để lấy refresh token
-      const response = await client.post("/auth/refeshToken");
+      const response = await mystery.post("/auth/refeshToken");
       console.info(`[response refreshToken] [${JSON.stringify(response)}]`)
 
       // Lưu trữ access token mới vào local storage
@@ -45,7 +50,7 @@ const onResponseError = async (error) => {
       // privateClient.defaults.headers.common["Authorization"] = `Bearer ${response.data.accessToken}`;
 
       // Thực hiện lại yêu cầu ban đầu với access token mới
-      return client(originalRequest);
+      return mystery(originalRequest);
     } catch (error) {
       // Lỗi khi lấy refresh token
       console.error(error);
@@ -54,7 +59,7 @@ const onResponseError = async (error) => {
       // Logging out the user by removing all the tokens from local
       // localStorage.removeItem(ACCESS_TOKEN);
       // localStorage.removeItem(REFRESH_TOKEN);
-      const response = client.post("/auth/logout");
+      const response = mystery.post("/auth/logout");
       console.info(`[response logout] [${JSON.stringify(response)}]`)
 
       // show modal "Session time out. Please login again." to login
@@ -65,7 +70,7 @@ const onResponseError = async (error) => {
   return Promise.reject(error);
 };
 
-client.interceptors.request.use(onRequest, onRequestError);
-client.interceptors.response.use(onResponse, onResponseError);
+mystery.interceptors.request.use(onRequest, onRequestError);
+mystery.interceptors.response.use(onResponse, onResponseError);
 
-export default client;
+export default mystery;

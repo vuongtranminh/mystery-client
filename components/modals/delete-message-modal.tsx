@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/dialog";
 import { useModal } from "@/hooks/use-modal-store";
 import { Button } from "@/components/ui/button";
-import client from "@/app/api/client";
+import client from "@/app/api/mystery";
 
 export const DeleteMessageModal = () => {
   const { isOpen, onClose, type, data } = useModal();

@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/db";
-import client from "@/app/api/client";
+import client from "@/app/api/mystery";
 
 interface ServerIdPageProps {
   params: {

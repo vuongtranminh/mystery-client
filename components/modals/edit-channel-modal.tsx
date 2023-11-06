@@ -34,7 +34,7 @@ import {
   SelectValue
 } from "@/components/ui/select";
 import { useEffect } from "react";
-import client from "@/app/api/client";
+import client from "@/app/api/mystery";
 
 const formSchema = z.object({
   name: z.string().min(1, {
