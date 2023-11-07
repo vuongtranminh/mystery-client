@@ -5,32 +5,16 @@ import { db } from "@/lib/db";
 import { currentProfile } from "@/lib/current-profile";
 import { ServerSidebar } from "@/components/server/server-sidebar";
 import client from "@/app/api/mystery";
+import serverApi from "@/app/api/server.api";
 
-const ServerIdLayout = async ({
-  children,
-  params,
-}: {
-  children: React.ReactNode;
-  params: { serverId: string };
-}) => {
-  // const profile = await currentProfile();
-
-  // if (!profile) {
-  //   // return redirectToSignIn();
-  // }
+const ServerIdLayout = async ({ children, params, }) => {
 
   const getServerJoinByServerId = async () => {
-    try {
-      const data = await client.post("/discord/servers/getServerJoinByServerId", {
-        serverId: params.serverId
-      });
-      
-      return data.data;
-    } catch (error) {
-      // console.log(error);
-    }
+    const { response, err } = await serverApi.getServerJoinByServerId({
+      serverId: params.serverId
+    });
 
-    return null;
+    return response.data
   }
 
   const server = await getServerJoinByServerId();

@@ -13,10 +13,8 @@ import { ServerSection } from "./server-section";
 import { ServerChannel } from "./server-channel";
 import { ServerMember } from "./server-member";
 import client from "@/app/api/mystery";
-
-interface ServerSidebarProps {
-  serverId: string;
-}
+import channelApi from "@/app/api/channel.api";
+import memberApi from "@/app/api/member.api";
 
 const iconMap = {
   [ChannelType.TEXT]: <Hash className="mr-2 h-4 w-4" />,
@@ -30,97 +28,44 @@ const roleIconMap = {
   [MemberRole.ADMIN]: <ShieldAlert className="h-4 w-4 mr-2 text-rose-500" />
 }
 
-export const ServerSidebar = async ({
-  serverId
-}: ServerSidebarProps) => {
-  // const profile = await currentProfile();
-
-  // if (!profile) {
-  //   return redirect("/");
-  // }
-
-  // const server = await db.server.findUnique({
-  //   where: {
-  //     id: serverId,
-  //   },
-  //   include: {
-  //     channels: {
-  //       orderBy: {
-  //         createdAt: "asc",
-  //       },
-  //     },
-  //     members: {
-  //       include: {
-  //         profile: true,
-  //       },
-  //       orderBy: {
-  //         role: "asc",
-  //       }
-  //     }
-  //   }
-  // });
+export const ServerSidebar = async ({ serverId }) => {
 
   const getServerJoinByServerId = async () => {
-    try {
-      const data = await client.post("/discord/servers/getServerJoinByServerId", {
-        serverId: serverId
-      });
-      
-      return data.data;
-    } catch (error) {
-      // console.log(error);
-    }
+    const { response, err } = await serverApi.getServerJoinByServerId({
+      serverId: serverId
+    });
 
-    return null;
+    return response.data
   }
 
   const server = await getServerJoinByServerId();
 
   const getChannelsByServerId = async () => {
-    try {
-      const data = await client.post("/discord/channels/getChannelsByServerId", {
-        serverId: serverId,
-        page: 0,
-        size: 30
-      });
-
-      return data.data?.content;
-    } catch (error) {
-      console.log(error);
-    }
-
-    return [];
+    const { response, err } = await channelApi.getChannelsByServerId({
+      serverId: serverId,
+      page: 0,
+      size: 30
+    })
+    return response.data?.content;
   }
 
   const channels = await getChannelsByServerId();
 
   const getMemberProfilesByServerId = async () => {
-    try {
-      const data = await client.post("/discord/members/getMemberProfilesByServerId", {
-        serverId: serverId,
-        page: 0,
-        size: 30
-      });
-
-      return data.data?.content;
-    } catch (error) {
-      console.log(error);
-    }
-
-    return [];
+    const { response, err } = await memberApi.getMemberProfilesByServerId({
+      serverId: serverId,
+      page: 0,
+      size: 30
+    })
+    return response.data?.content;
   }
 
   const getMemberProfileByServerId = async () => {
-    try {
-      const data = await client.post("/discord/members/getMemberProfileByServerId", {
-        serverId: serverId
-      });
-      return data.data;
-    } catch (error) {
-      // console.log(error);
-    }
+    const { response, err } = await memberApi.getMemberProfileByServerId({
+      serverId: serverId
+    });
 
-    return null;
+    return response.data
   }
 
   const currentMember = await getMemberProfileByServerId();

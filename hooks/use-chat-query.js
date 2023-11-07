@@ -2,8 +2,8 @@ import qs from "query-string";
 // import { useInfiniteQuery } from "@tanstack/react-query";
 
 import { useSocket } from "@/components/providers/socket-provider";
-import client from "@/app/api/mystery";
 import { useEffect, useReducer, useRef, useState } from "react";
+import mystery from "@/app/api/mystery";
 
 export const useChatQuery = ({
   queryKey,
@@ -13,11 +13,11 @@ export const useChatQuery = ({
 }) => {
   // const { isConnected } = useSocket();
 
-  const fetchMessages = async ({ pageParam = 0 }) => {
+  const fetchMessages = async ({ pageParam = 0 }) => { // check mystery not need client parse serverId to server
 
     const url = apiUrl;
 
-    const data = await client.post(url, {
+    const data = await mystery.post(url, {
       [paramKey]: paramValue,
       page: pageParam,
       size: 10,

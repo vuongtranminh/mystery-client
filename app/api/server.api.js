@@ -1,46 +1,31 @@
+import mystery from "./mystery";
+
 const serverEndpoints = {
-  list: "reviews",
-  add: "reviews",
-  remove: ({ reviewId }) => `reviews/${reviewId}`
+  getServerJoinByServerId: "/discord/server/getServerJoinByServerId",
+  getFirstServerJoin: "/discord/server/getFirstServerJoin"
 };
 
 const serverApi = {
-  add: async ({
-    mediaId,
-    mediaType,
-    mediaTitle,
-    mediaPoster,
-    content
-  }) => {
+  getServerJoinByServerId: async (data = {}, config = {}) => {
+    const { serverId } = data;
     try {
-      const response = await privateClient.post(
-        reviewEndpoints.add,
+      const response = await mystery.post(serverEndpoints.getServerJoinByServerId,
         {
-          mediaId,
-          mediaType,
-          mediaTitle,
-          mediaPoster,
-          content
-        }
+          serverId: serverId
+        },
+        config
       );
 
       return { response };
     } catch (err) { return { err }; }
   },
-  remove: async ({ reviewId }) => {
+  getFirstServerJoin: async (data = {}, config = {}) => {
     try {
-      const response = await privateClient.delete(reviewEndpoints.remove({ reviewId }));
+      const response = await mystery.post(serverEndpoints.getFirstServerJoin, data, config);
 
       return { response };
     } catch (err) { return { err }; }
   },
-  getList: async () => {
-    try {
-      const response = await privateClient.get(reviewEndpoints.list);
-
-      return { response };
-    } catch (err) { return { err }; }
-  }
 };
 
 export default serverApi;

@@ -2,67 +2,29 @@
 import { redirect } from "next/navigation";
 import { ChannelType } from "@/prisma/schema";
 
-import { currentProfile } from "@/lib/current-profile";
 import { ChatHeader } from "@/components/chat/chat-header";
 import { ChatInput } from "@/components/chat/chat-input";
 import { ChatMessages } from "@/components/chat/chat-messages";
 import { MediaRoom } from "@/components/media-room";
-import { db } from "@/lib/db";
-import client from "@/app/api/mystery";
+import channelApi from "@/app/api/channel.api";
+import memberApi from "@/app/api/member.api";
 
-interface ChannelIdPageProps {
-  params: {
-    serverId: string;
-    channelId: string;
-  }
-}
-
-const ChannelIdPage = async ({
-  params
-}: ChannelIdPageProps) => {
-  // const profile = await currentProfile();
-
-  // if (!profile) {
-  //   // return redirectToSignIn();
-  // }
-
-  // const channel = await db.channel.findUnique({
-  //   where: {
-  //     id: params.channelId,
-  //   },
-  // });
-
-  // const member = await db.member.findFirst({
-  //   where: {
-  //     serverId: params.serverId,
-  //     profileId: profile.id,
-  //   }
-  // });
+const ChannelIdPage = async ({ params }) => {
+  
   const getChannelByChannelId = async () => {
-    try {
-      const data = await client.post("/discord/channels/getChannelByChannelId", {
-        channelId: params.channelId,
-        serverId: params.serverId
-      });
-      return data.data;
-    } catch (error) {
-      // console.log(error);
-    }
+    const { response, err } = await channelApi.getChannelByChannelId({
+      channelId: params.channelId
+    });
 
-    return null;
+    return response.data
   }
 
   const getMemberProfileByServerId = async () => {
-    try {
-      const data = await client.post("/discord/members/getMemberProfileByServerId", {
-        serverId: params.serverId
-      });
-      return data.data;
-    } catch (error) {
-      // console.log(error);
-    }
+    const { response, err } = await memberApi.getMemberProfileByServerId({
+      serverId: params.serverId
+    });
 
-    return null;
+    return response.data
   }
 
   const channel = await getChannelByChannelId();

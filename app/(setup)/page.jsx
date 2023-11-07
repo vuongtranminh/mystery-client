@@ -5,19 +5,15 @@ import { initialProfile } from "@/lib/initial-profile";
 import { InitialModal } from "@/components/modals/initial-modal";
 import client from "@/app/api/mystery";
 import { useSocket } from "@/components/providers/socket-provider";
+import serverApi from "../api/server.api";
 
 const SetupPage = async () => {
-  const profile = await initialProfile();
+  // const profile = await initialProfile();
 
   const getFirstServerJoin = async () => {
-    try {
-      const data = await client.post("/discord/servers/getFirstServerJoin");
-      return data.data;
-    } catch (error) {
-      console.log(error);
-    }
+    const { response, err } = await serverApi.getFirstServerJoin();
 
-    return null;
+    return response.data
   }
 
   const server = await getFirstServerJoin();
