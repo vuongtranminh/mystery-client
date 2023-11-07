@@ -23,22 +23,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useModal } from "@/hooks/use-modal-store";
-import client from "@/app/api/mystery";
-
-interface ChatItemProps {
-  id: string;
-  content: string;
-  member: Member & {
-    profile: Profile;
-  };
-  timestamp: string;
-  fileUrl: string | null;
-  deleted: boolean;
-  currentMember: Member;
-  isUpdated: boolean;
-  socketUrl: string;
-  socketQuery: Record<string, string>;
-};
+import mystery from "@/app/api/mystery";
 
 const roleIconMap = {
   "GUEST": null,
@@ -60,8 +45,10 @@ export const ChatItem = ({
   currentMember,
   isUpdated,
   socketUrl,
-  socketQuery
-}: ChatItemProps) => {
+  socketQuery,
+  apiUpdateUrl,
+  apiDeleteUrl
+}) => {
   const [isEditing, setIsEditing] = useState(false);
   const { onOpen } = useModal();
   const params = useParams();
@@ -76,7 +63,7 @@ export const ChatItem = ({
   }
 
   useEffect(() => {
-    const handleKeyDown = (event: any) => {
+    const handleKeyDown = (event) => {
       if (event.key === "Escape" || event.keyCode === 27) {
         setIsEditing(false);
       }
@@ -104,14 +91,12 @@ export const ChatItem = ({
       // });
 
       // await axios.patch(url, values);
-      const url = "/messages/updateMessage"
-      const data = {
+
+      await mystery.post(apiUpdateUrl, {
         messageId: id,
         ...values,
         ...socketQuery
-      }
-
-      await client.post(url, data);
+      });
 
       form.reset();
       setIsEditing(false);
@@ -255,7 +240,7 @@ export const ChatItem = ({
           <ActionTooltip label="Delete">
             <Trash
               onClick={() => onOpen("deleteMessage", { 
-                apiUrl: '/messages/deleteMessage',
+                apiUrl: apiDeleteUrl,
                 query: {
                   messageId: id,
                   ...socketQuery

@@ -2,7 +2,6 @@
 
 import { Fragment, useRef, ElementRef } from "react";
 import { format } from "date-fns";
-import { Member, Message, Profile } from "@/prisma/schema";
 import { Loader2, ServerCrash } from "lucide-react";
 
 import { useChatQuery } from "@/hooks/use-chat-query";
@@ -14,41 +13,26 @@ import { ChatItem } from "./chat-item";
 
 const DATE_FORMAT = "d MMM yyyy, HH:mm";
 
-// type MessageWithMemberWithProfile = Message & {
-//   member: Member & {
-//     profile: Profile
-//   }
-// }
-
-interface ChatMessagesProps {
-  name: string;
-  member: Member;
-  chatId: string;
-  apiUrl: string;
-  socketUrl: string;
-  socketQuery: Record<string, string>;
-  paramKey: "channelId" | "conversationId";
-  paramValue: string;
-  type: "channel" | "conversation";
-}
-
 export const ChatMessages = ({
   name,
   member,
   chatId,
   apiUrl,
+  apiUpdateUrl,
+  apiDeleteUrl,
   socketUrl,
   socketQuery,
   paramKey,
   paramValue,
+  params,
   type,
-}: ChatMessagesProps) => {
+}) => {
   const queryKey = `chat:${chatId}`;
   const addKey = `chat:${chatId}:messages`;
   const updateKey = `chat:${chatId}:messages:update` 
 
-  const chatRef = useRef<ElementRef<"div">>(null);
-  const bottomRef = useRef<ElementRef<"div">>(null);
+  const chatRef = useRef(null);
+  const bottomRef = useRef(null);
 
   const {
     data,
@@ -65,6 +49,7 @@ export const ChatMessages = ({
     apiUrl,
     paramKey,
     paramValue,
+    params
   });
   useChatSocket({setInfo: setInfo});
 
@@ -135,6 +120,8 @@ export const ChatMessages = ({
             isUpdated={message.updatedAt !== message.createdAt}
             socketUrl={socketUrl}
             socketQuery={socketQuery}
+            apiUpdateUrl={apiUpdateUrl}
+            apiDeleteUrl={apiDeleteUrl}
           />
         ))}
       </div>

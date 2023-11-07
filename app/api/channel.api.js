@@ -1,19 +1,19 @@
 import mystery from "./mystery";
 
-const channelEndpoints = {
+export const channelEndpoints = {
   getChannelsByServerId: "/discord/channel/getChannelsByServerId",
   getChannelByChannelId: "/discord/channel/getChannelByChannelId",
 };
 
 const channelApi = {
   getChannelsByServerId: async (data = {}, config = {}) => {
-    const { serverId, page = 0, size = 30 } = data;
+    const { serverId, pageNumber = 0, pageSize = 30 } = data;
     try {
       const response = await mystery.post(channelEndpoints.getChannelsByServerId,
         {
           serverId: serverId,
-          page: page,
-          size: size
+          pageNumber: pageNumber,
+          pageSize: pageSize
         },
         config
       );

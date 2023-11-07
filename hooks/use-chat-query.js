@@ -9,19 +9,16 @@ export const useChatQuery = ({
   queryKey,
   apiUrl,
   paramKey,
-  paramValue
+  paramValue,
+  params
 }) => {
   // const { isConnected } = useSocket();
 
-  const fetchMessages = async ({ pageParam = 0 }) => { // check mystery not need client parse serverId to server
+  const fetchMessages = async ({ pageParam = 0 }) => { 
 
-    const url = apiUrl;
-
-    const data = await mystery.post(url, {
-      [paramKey]: paramValue,
-      page: pageParam,
-      size: 10,
-      serverId: "b8ae3f8e-3931-49f8-8982-df057c68eeab"
+    const data = await mystery.post(apiUrl, {
+      ...params,
+      pageNumber: pageParam,
     });
 
     return {

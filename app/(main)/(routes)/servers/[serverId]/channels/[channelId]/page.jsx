@@ -8,6 +8,7 @@ import { ChatMessages } from "@/components/chat/chat-messages";
 import { MediaRoom } from "@/components/media-room";
 import channelApi from "@/app/api/channel.api";
 import memberApi from "@/app/api/member.api";
+import { messageEndpoints } from "@/app/api/message.api";
 
 const ChannelIdPage = async ({ params }) => {
   
@@ -16,7 +17,7 @@ const ChannelIdPage = async ({ params }) => {
       channelId: params.channelId
     });
 
-    return response.data
+    return response.data;
   }
 
   const getMemberProfileByServerId = async () => {
@@ -24,7 +25,7 @@ const ChannelIdPage = async ({ params }) => {
       serverId: params.serverId
     });
 
-    return response.data
+    return response.data;
   }
 
   const channel = await getChannelByChannelId();
@@ -48,23 +49,21 @@ const ChannelIdPage = async ({ params }) => {
             name={channel.name}
             chatId={channel.channelId}
             type="channel"
-            apiUrl="/messages/getMessagesByChannelId"
+            apiUrl={messageEndpoints.getMessagesByChannelId}
+            apiEditUrl={messageEndpoints.updateMessage}
+            apiDeleteUrl={messageEndpoints.deleteMessage}
             socketUrl="/api/socket/messages"
             socketQuery={{
               channelId: channel.channelId,
               serverId: channel.serverId,
             }}
-            paramKey="channelId"
-            paramValue={channel.channelId}
+            params={{ channelId: channel.channelId, pageSize: 30 }}
           />
           <ChatInput
             name={channel.name}
             type="channel"
-            apiUrl="/messages/createMessage"
-            query={{
-              channelId: channel.channelId,
-              serverId: channel.serverId
-            }}
+            apiUrl={messageEndpoints.createMessage}
+            params={{ channelId: channel.channelId }}
           />
         </>
       )}

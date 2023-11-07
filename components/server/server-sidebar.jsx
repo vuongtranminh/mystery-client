@@ -43,8 +43,8 @@ export const ServerSidebar = async ({ serverId }) => {
   const getChannelsByServerId = async () => {
     const { response, err } = await channelApi.getChannelsByServerId({
       serverId: serverId,
-      page: 0,
-      size: 30
+      pageNumber: 0,
+      pageSize: 30
     })
     return response.data?.content;
   }
@@ -54,8 +54,8 @@ export const ServerSidebar = async ({ serverId }) => {
   const getMemberProfilesByServerId = async () => {
     const { response, err } = await memberApi.getMemberProfilesByServerId({
       serverId: serverId,
-      page: 0,
-      size: 30
+      pageNumber: 0,
+      pageSize: 30
     })
     return response.data?.content;
   }

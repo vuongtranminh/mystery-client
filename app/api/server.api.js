@@ -1,6 +1,6 @@
 import mystery from "./mystery";
 
-const serverEndpoints = {
+export const serverEndpoints = {
   getServerJoinByServerId: "/discord/server/getServerJoinByServerId",
   getFirstServerJoin: "/discord/server/getFirstServerJoin"
 };

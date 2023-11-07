@@ -1,6 +1,6 @@
 import mystery from "./mystery";
 
-const userEndpoints = {
+export const userEndpoints = {
   me: "/user/me",
 };
 

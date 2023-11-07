@@ -1,6 +1,6 @@
 import mystery from "./mystery";
 
-const memberEndpoints = {
+export const memberEndpoints = {
   getMemberProfileByServerId: "/discord/member/getMemberProfileByServerId", 
   getMemberProfilesByServerId: "/discord/members/getMemberProfilesByServerId"
 };
@@ -20,13 +20,13 @@ const memberApi = {
     } catch (err) { return { err }; }
   },
   getMemberProfilesByServerId: async (data = {}, config = {}) => {
-    const { serverId, page = 0, size = 30 } = data;
+    const { serverId, pageNumber = 0, pageSize = 30 } = data;
     try {
       const response = await mystery.post(memberEndpoints.getMemberProfilesByServerId,
         {
           serverId: serverId,
-          page: page,
-          size: size
+          pageNumber: pageNumber,
+          pageSize: pageSize
         },
         config
       );
