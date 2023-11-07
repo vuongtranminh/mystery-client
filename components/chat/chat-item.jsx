@@ -74,7 +74,7 @@ export const ChatItem = ({
     return () => window.removeEventListener("keyDown", handleKeyDown);
   }, []);
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       content: content
@@ -83,7 +83,7 @@ export const ChatItem = ({
 
   const isLoading = form.formState.isSubmitting;
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+  const onSubmit = async (values) => {
     try {
       // const url = qs.stringifyUrl({
       //   url: `${socketUrl}/${id}`,

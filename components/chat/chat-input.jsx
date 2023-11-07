@@ -17,7 +17,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { useModal } from "@/hooks/use-modal-store";
 import { EmojiPicker } from "@/components/emoji-picker";
-import client from "@/app/api/mystery";
 import { useEffect } from "react";
 import mystery from "@/app/api/mystery";
 
@@ -34,7 +33,7 @@ export const ChatInput = ({
   const { onOpen } = useModal();
   const router = useRouter();
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       content: "",
@@ -47,7 +46,7 @@ export const ChatInput = ({
 
   const isLoading = form.formState.isSubmitting;
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+  const onSubmit = async (values) => {
     try {
       await mystery.post(apiUrl, {
         ...params, 
@@ -93,7 +92,7 @@ export const ChatInput = ({
                   />
                   <div className="absolute top-7 right-8">
                     <EmojiPicker
-                      onChange={(emoji: string) => field.onChange(`${field.value} ${emoji}`)}
+                      onChange={(emoji) => field.onChange(`${field.value} ${emoji}`)}
                     />
                   </div>
                 </div>
