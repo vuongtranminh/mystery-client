@@ -31,8 +31,8 @@ export const AuthProvider = ({ children }) => {
   const getCurrentUser = async () => {
     const { response, err } = await userApi.me();
 
-    if (response.success) {
-      setUser(response.data)
+    if (response?.success) {
+      setUser(response?.data)
     } else {
       redirectToSignIn()
     }

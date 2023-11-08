@@ -14,7 +14,7 @@ const ServerIdLayout = async ({ children, params, }) => {
       serverId: params.serverId
     });
 
-    return response.data
+    return response?.data
   }
 
   const server = await getServerJoinByServerId();

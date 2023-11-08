@@ -17,7 +17,7 @@ const ChannelIdPage = async ({ params }) => {
       channelId: params.channelId
     });
 
-    return response.data;
+    return response?.data;
   }
 
   const getMemberProfileByServerId = async () => {
@@ -25,7 +25,7 @@ const ChannelIdPage = async ({ params }) => {
       serverId: params.serverId
     });
 
-    return response.data;
+    return response?.data;
   }
 
   const channel = await getChannelByChannelId();

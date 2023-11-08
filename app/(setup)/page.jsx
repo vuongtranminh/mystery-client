@@ -13,7 +13,7 @@ const SetupPage = async () => {
   const getFirstServerJoin = async () => {
     const { response, err } = await serverApi.getFirstServerJoin();
 
-    return response.data
+    return response?.data
   }
 
   const server = await getFirstServerJoin();
