@@ -8,7 +8,7 @@ import { useSocket } from "@/components/providers/socket-provider";
 import serverApi from "../api/server.api";
 
 const SetupPage = async () => {
-  // const profile = await initialProfile();
+  const profile = await initialProfile();
 
   const getFirstServerJoin = async () => {
     const { response, err } = await serverApi.getFirstServerJoin();

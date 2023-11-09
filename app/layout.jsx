@@ -8,6 +8,7 @@ import { ModalProvider } from '@/components/providers/modal-provider'
 import { SocketProvider } from '@/components/providers/socket-provider'
 import { QueryProvider } from '@/components/providers/query-provider'
 import { AuthProvider } from '@/components/providers/auth-provider'
+import { initialProfile } from '@/lib/initial-profile'
 
 const font = Open_Sans({ subsets: ['latin'] })
 
@@ -23,7 +24,7 @@ export default function RootLayout({ children }) {
           font.className,
           "bg-white dark:bg-[#313338]"
         )}>
-          <AuthProvider>
+          {/* <AuthProvider> */}
             <ThemeProvider
               attribute="class"
               defaultTheme="dark"
@@ -37,7 +38,7 @@ export default function RootLayout({ children }) {
                 </QueryProvider>
               </SocketProvider>
             </ThemeProvider>
-          </AuthProvider>
+          {/* </AuthProvider> */}
         </body>
       </html>
   )
