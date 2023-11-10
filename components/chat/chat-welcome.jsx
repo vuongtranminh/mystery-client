@@ -1,14 +1,9 @@
 import { Hash } from "lucide-react";
 
-interface ChatWelcomeProps {
-  name: string;
-  type: "channel" | "conversation";
-};
-
 export const ChatWelcome = ({
   name,
   type
-}: ChatWelcomeProps) => {
+}) => {
   return (
     <div className="space-y-2 px-4 mb-4">
       {type === "channel" && (

@@ -1,7 +1,28 @@
 import axios from "axios";
+import { redirect } from "next/navigation";
 import queryString from "query-string";
 
+const isServer = () => {
+  return typeof window === "undefined";
+}
+
 const baseURL = "http://localhost:3000/app/api/v1";
+
+const getCookie = (cname, cookie) => {
+  let name = cname + "=";
+  let decodedCookie = decodeURIComponent(cookie);
+  let ca = decodedCookie.split(';');
+  for(let i = 0; i <ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
 
 const mystery = axios.create({
   baseURL,
@@ -12,12 +33,19 @@ const mystery = axios.create({
 
 const onRequest = (config) => {
   console.info(`[request] [${JSON.stringify(config)}]`);
-  return {
+
+  config = {
     ...config,
     headers: {
       "Content-Type": "application/json",
     }
-  };
+  }
+
+  if (!getCookie("accessToken", config.headers.cookie)) {
+    redirect("/sign-in");
+  }
+
+  return config;
 };
 
 const onRequestError = (error) => {
@@ -36,6 +64,11 @@ const onResponseError = async (error) => {
   // Kiểm tra xem lỗi có phải do token hết hạn không
   if (error.response?.status === 401 && !originalRequest?._retry) {
     originalRequest._retry = true;
+
+    if (!getCookie("refreshToken", error.config.headers.cookie)) {
+      console.log("Not has refreshToken. Please login again.")
+      redirect("/sign-in")
+    }
 
     try {
       // Gửi yêu cầu mới để lấy refresh token
