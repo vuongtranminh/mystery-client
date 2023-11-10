@@ -1,4 +1,5 @@
 import axios from "axios";
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import queryString from "query-string";
 
@@ -28,20 +29,16 @@ const mystery = axios.create({
   baseURL,
   paramsSerializer: {
     encode: params => queryString.stringify(params)
-  }
+  },
+  headers: {"Content-Type": "application/json"}
 });
 
 const onRequest = (config) => {
   console.info(`[request] [${JSON.stringify(config)}]`);
+  // console.log(config.headers["Cookie"])
+  // console.log(getCookie("accessToken", config.headers["Cookie"]))
 
-  config = {
-    ...config,
-    headers: {
-      "Content-Type": "application/json",
-    }
-  }
-
-  if (!getCookie("accessToken", config.headers.cookie)) {
+  if (!getCookie("accessToken", config.headers["Cookie"])) {
     redirect("/sign-in");
   }
 
@@ -61,19 +58,34 @@ const onResponse = (response) => {
 const onResponseError = async (error) => {
   console.error(`[response error] [${JSON.stringify(error)}]`);
   const originalRequest = error.config;
+  // console.log("originalRequest++++++++")
+  // console.log(originalRequest)
   // Kiểm tra xem lỗi có phải do token hết hạn không
   if (error.response?.status === 401 && !originalRequest?._retry) {
     originalRequest._retry = true;
 
-    if (!getCookie("refreshToken", error.config.headers.cookie)) {
+    if (!getCookie("refreshToken", originalRequest.headers["Cookie"])) {
       console.log("Not has refreshToken. Please login again.")
       redirect("/sign-in")
     }
 
+    let success = false;
+
     try {
       // Gửi yêu cầu mới để lấy refresh token
-      const response = await mystery.post("/auth/refeshToken");
+      const response = await mystery.post("/auth/refeshToken", null, {
+        headers: {
+          "Cookie": originalRequest.headers["Cookie"]
+        }
+      });
       console.info(`[response refreshToken] [${JSON.stringify(response)}]`)
+
+      success = response?.success;
+
+      // if (!response?.success) {
+      //   console.log("response refreshToken not success!!!")
+      //   redirect("/sign-in");
+      // }
 
       // Lưu trữ access token mới vào local storage
       // localStorage.setItem(ACCESS_TOKEN, JSON.stringify(response.data.accessToken));
@@ -81,13 +93,11 @@ const onResponseError = async (error) => {
 
       // Cập nhật Authorization header với access token mới
       // privateClient.defaults.headers.common["Authorization"] = `Bearer ${response.data.accessToken}`;
-
-      // Thực hiện lại yêu cầu ban đầu với access token mới
-      return mystery(originalRequest);
     } catch (error) {
       // Lỗi khi lấy refresh token
       console.error(error);
       console.log("Session time out. Please login again.")
+      success = false;
 
       // Logging out the user by removing all the tokens from local
       // localStorage.removeItem(ACCESS_TOKEN);
@@ -96,7 +106,19 @@ const onResponseError = async (error) => {
       console.info(`[response logout] [${JSON.stringify(response)}]`)
 
       // show modal "Session time out. Please login again." to login
+    } finally {
+      console.log(success)
+      if (!success) {
+        console.log("REDIRECT TO SIGN_IN")
+        cookies().delete('accessToken');
+        cookies().delete('refreshToken');
+        redirect("/sign-in");
+      }
+      
+      // Thực hiện lại yêu cầu ban đầu với access token mới
+      return mystery(originalRequest);
     }
+    // redirect("/sign-in");
   }
 
   // Trả về lỗi ban đầu nếu không phải do token hết hạn

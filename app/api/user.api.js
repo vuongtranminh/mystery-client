@@ -5,7 +5,7 @@ export const userEndpoints = {
 };
 
 const userApi = {
-  me: async (data = {}, config = {}) => {
+  me: async (data, config) => {
     try {
       const response = await mystery.post(userEndpoints.me, data, config);
 

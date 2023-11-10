@@ -6,12 +6,20 @@ import { InitialModal } from "@/components/modals/initial-modal";
 import client from "@/app/api/mystery";
 import { useSocket } from "@/components/providers/socket-provider";
 import serverApi from "../api/server.api";
+import { cookies } from "next/headers";
 
 const SetupPage = async () => {
-  const profile = await initialProfile();
+  const cookieStore = cookies()
+  const accessToken = cookieStore.get('accessToken')
+  const refreshToken = cookieStore.get('refreshToken')
+  // const profile = await initialProfile();
 
   const getFirstServerJoin = async () => {
-    const { response, err } = await serverApi.getFirstServerJoin();
+    const { response, err } = await serverApi.getFirstServerJoin(null, {
+      headers: {
+        Cookie: `accessToken=${accessToken?.value}; refreshToken=${refreshToken?.value};`
+      }
+    });
 
     return response?.data
   }
