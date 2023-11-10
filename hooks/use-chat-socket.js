@@ -4,21 +4,9 @@ import { Member, Message, Profile } from "@/prisma/schema";
 
 import { useSocket } from "@/components/providers/socket-provider";
 
-type ChatSocketProps = {
-  addKey: string;
-  updateKey: string;
-  queryKey: string;
-}
-
-type MessageWithMemberWithProfile = Message & {
-  member: Member & {
-    profile: Profile;
-  }
-}
-
 export const useChatSocket = ({
   setInfo
-}: ChatSocketProps) => {
+}) => {
   const { socket } = useSocket();
   const queryClient = useQueryClient();
 
