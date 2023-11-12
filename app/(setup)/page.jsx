@@ -12,7 +12,11 @@ const SetupPage = async () => {
   const cookieStore = cookies()
   const accessToken = cookieStore.get('accessToken')
   const refreshToken = cookieStore.get('refreshToken')
-  // const profile = await initialProfile();
+  const profile = await initialProfile();
+
+  if (!profile) {
+    return
+  }
 
   const getFirstServerJoin = async () => {
     const { response, err } = await serverApi.getFirstServerJoin(null, {

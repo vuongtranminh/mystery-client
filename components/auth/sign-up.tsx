@@ -22,7 +22,7 @@ export default function SignUp() {
             {/* header */}
             <div className="flex flex-col items-stretch justify-start gap-1">
               <h1 className="box-border text-black m-0 font-semibold text-xl">
-                Sign up
+                Sign in
               </h1>
               <p className="box-border text-slate-400 m-0 text-base font-normal">
                 to continue to Clerk
@@ -32,7 +32,68 @@ export default function SignUp() {
             {/* main */}
             <div className="flex flex-col items-stretch justify-start gap-8">
               {/* social button */}
-              <SocialAuth />
+              <div className="grid items-stretch justify-stretch grid-cols-1 gap-2">
+                <button className="group m-0 py-3 px-5 border-solid border border-slate-200 outline-0 select-none cursor-pointer text-black rounded inline-flex items-center font-normal text-sm min-h-[2.25rem] tracking-wider w-full gap-4 relative justify-start overflow-hidden text-ellipsis">
+                  <span className="flex flex-row items-center justify-center flex-grow-0 flex-shrink-0 basis-4">
+                    <img
+                      crossOrigin="anonymous"
+                      srcSet="https://img.clerk.com/static/github.svg?width=80 1x,https://img.clerk.com/static/github.svg?width=160 2x"
+                      src="https://img.clerk.com/static/github.svg?width=160"
+                      className="w-5"
+                      alt="Sign in with GitHub"
+                    />
+                  </span>
+                  <div className="flex flex-row items-center justify-start gap-2 w-full overflow-hidden">
+                    <span className="box-border m-0 text-sm font-normal text-ellipsis whitespace-nowrap overflow-hidden">
+                      Continue with GitHub
+                    </span>
+                  </div>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 20 20"
+                    className="flex-shrink-0 min-w-[1rem] min-h-[1rem] w-4 h-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M3.3 10h13.4m-5-5 5 5-5 5"
+                    ></path>
+                  </svg>
+                </button>
+                <button className="group m-0 py-3 px-5 border-solid border border-slate-200 outline-0 select-none cursor-pointer text-black rounded inline-flex items-center font-normal text-sm min-h-[2.25rem] tracking-wider w-full gap-4 relative justify-start overflow-hidden text-ellipsis">
+                  <span className="flex flex-row items-center justify-center flex-grow-0 flex-shrink-0 basis-4">
+                    <img
+                      crossOrigin="anonymous"
+                      srcSet="https://img.clerk.com/static/github.svg?width=80 1x,https://img.clerk.com/static/github.svg?width=160 2x"
+                      src="https://img.clerk.com/static/github.svg?width=160"
+                      className="w-5"
+                      alt="Sign in with GitHub"
+                    />
+                  </span>
+                  <div className="flex flex-row items-center justify-start gap-2 w-full overflow-hidden">
+                    <span className="box-border m-0 text-sm font-normal text-ellipsis whitespace-nowrap overflow-hidden">
+                      Continue with GitHub
+                    </span>
+                  </div>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 20 20"
+                    className="flex-shrink-0 min-w-[1rem] min-h-[1rem] w-4 h-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M3.3 10h13.4m-5-5 5 5-5 5"
+                    ></path>
+                  </svg>
+                </button>
+              </div>
 
               {/* divider */}
               <div className="flex flex-row flex-nowrap items-center justify-center">

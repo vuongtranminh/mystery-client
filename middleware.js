@@ -12,21 +12,25 @@ export function middleware(request) {
   const response = NextResponse.next();
   const { pathname } = request.nextUrl;
 
-  if (authPrefixes.some((prefix) => pathname.startsWith(prefix))) {
-    if (request.cookies.has('accessToken')) {
-      return NextResponse.redirect(new URL('/', request.url));
-    }
-    return response;
-  }
+  console.log("COOKIES MIDDLEWARE")
+  const allCookies = request.cookies.getAll()
+  console.log(allCookies) // => [{ name: 'nextjs', value: 'fast' }]
+
+  // if (authPrefixes.some((prefix) => pathname.startsWith(prefix))) {
+  //   if (request.cookies.has('accessToken')) {
+  //     // return NextResponse.redirect(new URL('/', request.url));
+  //   }
+  //   return response;
+  // } 
   // console.log("++++NEXT_URL")
   // // console.log(pathname);
   // // console.log(request.url);
   // const allCookies = request.cookies.getAll()
   // console.log(allCookies) // => [{ name: 'nextjs', value: 'fast' }]
  
-  if (!request.cookies.has('accessToken')) {
-    return NextResponse.redirect(new URL('/sign-in', request.url));
-  }
+  // if (!request.cookies.has('accessToken')) {
+  //   return NextResponse.redirect(new URL('/sign-in', request.url));
+  // }
 
   // Assume a "Cookie:nextjs=fast" header to be present on the incoming request
   // Getting cookies from the request using the `RequestCookies` API
