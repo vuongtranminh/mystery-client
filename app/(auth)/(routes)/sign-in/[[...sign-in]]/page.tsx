@@ -1,5 +1,9 @@
 import SignIn from "@/components/auth/sign-in";
+import Test from "@/components/auth/test";
 
 export default function Page() {
-  return <SignIn />
+  return <div>
+    <Test />
+    <SignIn />
+  </div>
 }

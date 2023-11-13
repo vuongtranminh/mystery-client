@@ -23,13 +23,18 @@ const getCookie = (cname, cookie) => {
   return "";
 }
 
+axios.defaults.withCredentials = true; // phải đặt giá trị này trên đầu config
+
 const mystery = axios.create({
+  // withCredentials: true,
   baseURL,
   paramsSerializer: {
     encode: params => queryString.stringify(params)
   },
-  headers: {"Content-Type": "application/json"},
-  withCredentials: true,
+  headers: { 
+    "Content-Type": "application/json" 
+  },
+  // withCredentials: true,
 });
 
 const onRequest = (config) => {
@@ -45,6 +50,7 @@ const onRequestError = (error) => {
 const onResponse = (response) => {
   console.info(`[response] [${JSON.stringify(response.headers)}]`)
   console.info(`[response] [${JSON.stringify(response.data)}]`);
+  console.info(response)
   return response.data;
 };
 

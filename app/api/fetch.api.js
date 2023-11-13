@@ -13,6 +13,9 @@ export const fetchServerSide = async (callback, data, config) => {
   const accessToken = cookieStore.get('accessToken')
   const refreshToken = cookieStore.get('refreshToken')
 
+  console.log(accessToken?.value)
+  console.log(refreshToken?.value)
+
   let cookie;
   if (accessToken?.value) {
     cookie = `accessToken=${accessToken?.value}`
