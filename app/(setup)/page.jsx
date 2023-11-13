@@ -15,7 +15,7 @@ const SetupPage = async () => {
   const profile = await initialProfile();
 
   if (!profile) {
-    return
+    redirect("/sign-in/deleteAllCookies")
   }
 
   const getFirstServerJoin = async () => {

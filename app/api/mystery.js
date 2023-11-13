@@ -63,7 +63,6 @@ const onResponseError = async (error) => {
     originalRequest._retry = true;
 
     if (getCookie("refreshToken", originalRequest.headers["Cookie"])) {
-
       try {
         // Gửi yêu cầu mới để lấy refresh token
         const response = await mystery.post("/auth/refeshToken", null, {
@@ -89,20 +88,13 @@ const onResponseError = async (error) => {
         // Lỗi khi lấy refresh token
         console.error(error);
         console.log("Session time out. Please login again.")
-  
-        // Logging out the user by removing all the tokens from local
-        // localStorage.removeItem(ACCESS_TOKEN);
-        // localStorage.removeItem(REFRESH_TOKEN);
-        const response = mystery.post("/auth/logout");
-        console.info(`[response logout] [${JSON.stringify(response)}]`)
-  
+
         // show modal "Session time out. Please login again." to login
       }
 
     } else {
       console.log("Not has refreshToken. Please login again.")
     }
-    // redirect("/sign-in");
   }
 
   // Trả về lỗi ban đầu nếu không phải do token hết hạn

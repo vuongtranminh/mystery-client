@@ -9,28 +9,36 @@ const authPrefixes = ['/sign-in', '/sign-up']
 export function middleware(request) {
   // Assume a "Cookie:nextjs=fast" header to be present on the incoming request
   // Getting cookies from the request using the `RequestCookies` API
-  const response = NextResponse.next();
   const { pathname } = request.nextUrl;
 
   console.log("COOKIES MIDDLEWARE")
   const allCookies = request.cookies.getAll()
   console.log(allCookies) // => [{ name: 'nextjs', value: 'fast' }]
 
-  // if (authPrefixes.some((prefix) => pathname.startsWith(prefix))) {
-  //   if (request.cookies.has('accessToken')) {
-  //     // return NextResponse.redirect(new URL('/', request.url));
-  //   }
-  //   return response;
-  // } 
+  if (authPrefixes.some((prefix) => pathname.startsWith(prefix))) {
+    if (pathname === '/sign-in/deleteAllCookies') {
+
+      console.log(request.cookies.getAll())
+      const response = NextResponse.redirect(new URL('/sign-in', request.url));
+      response.cookies.delete('accessToken')
+      response.cookies.delete('refreshToken')
+      return response;
+    }
+
+    if (request.cookies.has('accessToken')) {
+      return NextResponse.redirect(new URL('/', request.url));
+    }
+    return NextResponse.next();
+  } 
   // console.log("++++NEXT_URL")
   // // console.log(pathname);
   // // console.log(request.url);
   // const allCookies = request.cookies.getAll()
   // console.log(allCookies) // => [{ name: 'nextjs', value: 'fast' }]
  
-  // if (!request.cookies.has('accessToken')) {
-  //   return NextResponse.redirect(new URL('/sign-in', request.url));
-  // }
+  if (!request.cookies.has('accessToken')) {
+    return NextResponse.redirect(new URL('/sign-in', request.url));
+  }
 
   // Assume a "Cookie:nextjs=fast" header to be present on the incoming request
   // Getting cookies from the request using the `RequestCookies` API
@@ -55,5 +63,5 @@ export function middleware(request) {
   // console.log(cookie) // => { name: 'vercel', value: 'fast', Path: '/' }
   // // The outgoing response will have a `Set-Cookie:vercel=fast;path=/test` header.
 
-  return response;
+  return NextResponse.next();
 }
