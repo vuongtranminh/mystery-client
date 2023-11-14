@@ -98,9 +98,9 @@ export default function SignUp() {
                           ></path>
                           <path
                             fill="currentColor"
-                            fill-rule="evenodd"
+                            fillRule="evenodd"
                             d="M.46 10a10 10 0 0 1 19.08 0A10 10 0 0 1 .46 10ZM14 10a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z"
-                            clip-rule="evenodd"
+                            clipRule="evenodd"
                           ></path>
                         </svg>
                       </button>

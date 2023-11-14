@@ -54,9 +54,9 @@ export default function Page() {
                     className="flex-shrink-0 min-w-[1rem] min-h-[1rem] w-4 h-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all"
                   >
                     <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
                       d="M3.3 10h13.4m-5-5 5 5-5 5"
                     ></path>
                   </svg>
@@ -84,9 +84,9 @@ export default function Page() {
                     className="flex-shrink-0 min-w-[1rem] min-h-[1rem] w-4 h-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all"
                   >
                     <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
                       d="M3.3 10h13.4m-5-5 5 5-5 5"
                     ></path>
                   </svg>
@@ -157,9 +157,9 @@ export default function Page() {
                           ></path>
                           <path
                             fill="currentColor"
-                            fill-rule="evenodd"
+                            fillRule="evenodd"
                             d="M.46 10a10 10 0 0 1 19.08 0A10 10 0 0 1 .46 10ZM14 10a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z"
-                            clip-rule="evenodd"
+                            clipRule="evenodd"
                           ></path>
                         </svg>
                       </button>
