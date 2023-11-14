@@ -8,7 +8,7 @@ export const messageEndpoints = {
 };
 
 const messageApi = {
-  getMessagesByChannelId: async (data = {}, config = {}) => {
+  getMessagesByChannelId: async (data, config) => {
     const { channelId, pageNumber = 0, pageSize = 30 } = data;
     try {
       const response = await mystery.post(messageEndpoints.getMessagesByChannelId,
@@ -21,9 +21,9 @@ const messageApi = {
       );
 
       return { response };
-    } catch (err) { return { err }; }
+    } catch (error) { return { error }; }
   },
-  createMessage: async (data = {}, config = {}) => {
+  createMessage: async (data, config) => {
     const { content, fileUrl, channelId } = data;
     try {
       const response = await mystery.post(messageEndpoints.createMessage,
@@ -36,9 +36,9 @@ const messageApi = {
       );
 
       return { response };
-    } catch (err) { return { err }; }
+    } catch (error) { return { error }; }
   },
-  updateMessage: async (data = {}, config = {}) => {
+  updateMessage: async (data, config) => {
     const { messageId, content } = data;
     try {
       const response = await mystery.post(messageEndpoints.updateMessage,
@@ -50,9 +50,9 @@ const messageApi = {
       );
 
       return { response };
-    } catch (err) { return { err }; }
+    } catch (error) { return { error }; }
   },
-  deleteMessage: async (data = {}, config = {}) => {
+  deleteMessage: async (data, config) => {
     const { messageId } = data;
     try {
       const response = await mystery.post(messageEndpoints.deleteMessage,
@@ -63,7 +63,7 @@ const messageApi = {
       );
 
       return { response };
-    } catch (err) { return { err }; }
+    } catch (error) { return { error }; }
   },
 };
 

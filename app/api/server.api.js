@@ -3,7 +3,8 @@ import mystery from "./mystery";
 export const serverEndpoints = {
   createServer: "createServer",
   getServerJoinByServerId: "/discord/server/getServerJoinByServerId",
-  getFirstServerJoin: "/discord/server/getFirstServerJoin"
+  getFirstServerJoin: "/discord/server/getFirstServerJoin",
+  getServersJoin: "/discord/server/getServersJoin",
 };
 
 const serverApi = {
@@ -16,7 +17,7 @@ const serverApi = {
       }, config);
 
       return { response };
-    } catch (err) { return { err }; }
+    } catch (error) { return { error }; }
   },
   getServerJoinByServerId: async (data, config) => {
     const { serverId } = data;
@@ -29,14 +30,28 @@ const serverApi = {
       );
 
       return { response };
-    } catch (err) { return { err }; }
+    } catch (error) { return { error }; }
   },
   getFirstServerJoin: async (data, config) => {
     try {
       const response = await mystery.post(serverEndpoints.getFirstServerJoin, data, config);
 
       return { response };
-    } catch (err) { return { err }; }
+    } catch (error) { return { error }; }
+  },
+  getServersJoin: async (data, config) => {
+    const { pageNumber = 0, pageSize = 30 } = data;
+    try {
+      const response = await mystery.post(serverEndpoints.getServersJoin,
+        {
+          pageNumber: pageNumber,
+          pageSize: pageSize
+        },
+        config
+      );
+
+      return { response };
+    } catch (error) { return { error }; }
   },
 };
 

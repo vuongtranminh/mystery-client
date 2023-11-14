@@ -1,16 +1,14 @@
 // import { redirectToSignIn } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 
-import { db } from "@/lib/db";
-import { currentProfile } from "@/lib/current-profile";
 import { ServerSidebar } from "@/components/server/server-sidebar";
-import client from "@/app/api/mystery";
 import serverApi from "@/app/api/server.api";
+import { fetchServerSide } from "@/app/api/fetch.api";
 
 const ServerIdLayout = async ({ children, params, }) => {
 
   const getServerJoinByServerId = async () => {
-    const { response, err } = await serverApi.getServerJoinByServerId({
+    const { response, error } = await fetchServerSide(serverApi.getServerJoinByServerId, {
       serverId: params.serverId
     });
 

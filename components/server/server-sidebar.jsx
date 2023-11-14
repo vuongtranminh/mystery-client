@@ -1,20 +1,17 @@
 import { ChannelType, MemberRole } from "@/prisma/schema";
-import { redirect } from "next/navigation";
 import { Hash, Mic, ShieldAlert, ShieldCheck, Video } from "lucide-react";
 
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
-import { currentProfile } from "@/lib/current-profile";
-import { db } from "@/lib/db";
 
 import { ServerHeader } from "./server-header";
 import { ServerSearch } from "./server-search";
 import { ServerSection } from "./server-section";
 import { ServerChannel } from "./server-channel";
 import { ServerMember } from "./server-member";
-import client from "@/app/api/mystery";
 import channelApi from "@/app/api/channel.api";
 import memberApi from "@/app/api/member.api";
+import { fetchServerSide } from "@/app/api/fetch.api";
 
 const iconMap = {
   [ChannelType.TEXT]: <Hash className="mr-2 h-4 w-4" />,
@@ -31,41 +28,41 @@ const roleIconMap = {
 export const ServerSidebar = async ({ serverId }) => {
 
   const getServerJoinByServerId = async () => {
-    const { response, err } = await serverApi.getServerJoinByServerId({
+    const { response, err } = await fetchServerSide(serverApi.getServerJoinByServerId, {
       serverId: serverId
     });
 
-    return response.data
+    return response?.data
   }
 
   const server = await getServerJoinByServerId();
 
   const getChannelsByServerId = async () => {
-    const { response, err } = await channelApi.getChannelsByServerId({
+    const { response, err } = await fetchServerSide(channelApi.getChannelsByServerId, {
       serverId: serverId,
       pageNumber: 0,
       pageSize: 30
     })
-    return response.data?.content;
+    return response?.data?.content;
   }
 
   const channels = await getChannelsByServerId();
 
   const getMemberProfilesByServerId = async () => {
-    const { response, err } = await memberApi.getMemberProfilesByServerId({
+    const { response, err } = await fetchServerSide(memberApi.getMemberProfilesByServerId, {
       serverId: serverId,
       pageNumber: 0,
       pageSize: 30
     })
-    return response.data?.content;
+    return response?.data?.content;
   }
 
   const getMemberProfileByServerId = async () => {
-    const { response, err } = await memberApi.getMemberProfileByServerId({
+    const { response, err } = await fetchServerSide(memberApi.getMemberProfileByServerId, {
       serverId: serverId
     });
 
-    return response.data
+    return response?.data
   }
 
   const currentMember = await getMemberProfileByServerId();

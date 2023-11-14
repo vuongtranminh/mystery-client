@@ -1,31 +1,22 @@
 import { redirect } from "next/navigation";
 
-import { db } from "@/lib/db";
 import { initialProfile } from "@/lib/initial-profile";
 import { InitialModal } from "@/components/modals/initial-modal";
-import client from "@/app/api/mystery";
-import { useSocket } from "@/components/providers/socket-provider";
 import serverApi from "../api/server.api";
-import { cookies } from "next/headers";
+import { redirectToSignIn } from "@/lib/auth.utils";
+import { fetchServerSide } from "../api/fetch.api";
 
 const SetupPage = async () => {
-  const cookieStore = cookies()
-  const accessToken = cookieStore.get('accessToken')
-  const refreshToken = cookieStore.get('refreshToken')
   const profile = await initialProfile();
 
   if (!profile) {
-    redirect("/sign-in/deleteAllCookies")
+    redirectToSignIn();
   }
 
   const getFirstServerJoin = async () => {
-    const { response, err } = await serverApi.getFirstServerJoin(null, {
-      headers: {
-        Cookie: `accessToken=${accessToken?.value}; refreshToken=${refreshToken?.value};`
-      }
-    });
+    const { response, error } = await fetchServerSide(serverApi.getFirstServerJoin);
 
-    return response?.data
+    return response?.data;
   }
 
   const server = await getFirstServerJoin();

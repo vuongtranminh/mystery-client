@@ -59,10 +59,10 @@ export interface Member {
   updatedAt: string;
 }
 
-export enum ChannelType {
-  TEXT = 1,
-  AUDIO = 2,
-  VIDEO = 3
+export const ChannelType = {
+  TEXT: 1,
+  AUDIO: 2,
+  VIDEO: 3
 }
 
 export interface Channel {

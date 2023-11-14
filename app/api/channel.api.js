@@ -3,10 +3,11 @@ import mystery from "./mystery";
 export const channelEndpoints = {
   getChannelsByServerId: "/discord/channel/getChannelsByServerId",
   getChannelByChannelId: "/discord/channel/getChannelByChannelId",
+  getChannelGeneralByServerId: "/discord/channel/getChannelGeneralByServerId",
 };
 
 const channelApi = {
-  getChannelsByServerId: async (data = {}, config = {}) => {
+  getChannelsByServerId: async (data, config) => {
     const { serverId, pageNumber = 0, pageSize = 30 } = data;
     try {
       const response = await mystery.post(channelEndpoints.getChannelsByServerId,
@@ -19,9 +20,9 @@ const channelApi = {
       );
 
       return { response };
-    } catch (err) { return { err }; }
+    } catch (error) { return { error }; }
   },
-  getChannelByChannelId: async (data = {}, config = {}) => {
+  getChannelByChannelId: async (data, config) => {
     const { channelId } = data;
     try {
       const response = await mystery.post(channelEndpoints.getChannelByChannelId,
@@ -32,7 +33,20 @@ const channelApi = {
       );
 
       return { response };
-    } catch (err) { return { err }; }
+    } catch (error) { return { error }; }
+  },
+  getChannelGeneralByServerId: async (data, config) => {
+    const { channelId } = data;
+    try {
+      const response = await mystery.post(channelEndpoints.getChannelGeneralByServerId,
+        {
+          channelId: channelId
+        },
+        config
+      );
+
+      return { response };
+    } catch (error) { return { error }; }
   },
 };
 

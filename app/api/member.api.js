@@ -6,7 +6,7 @@ export const memberEndpoints = {
 };
 
 const memberApi = {
-  getMemberProfileByServerId: async (data = {}, config = {}) => {
+  getMemberProfileByServerId: async (data, config) => {
     const { serverId } = data;
     try {
       const response = await mystery.post(memberEndpoints.getMemberProfileByServerId,
@@ -17,9 +17,9 @@ const memberApi = {
       );
 
       return { response };
-    } catch (err) { return { err }; }
+    } catch (error) { return { error }; }
   },
-  getMemberProfilesByServerId: async (data = {}, config = {}) => {
+  getMemberProfilesByServerId: async (data, config) => {
     const { serverId, pageNumber = 0, pageSize = 30 } = data;
     try {
       const response = await mystery.post(memberEndpoints.getMemberProfilesByServerId,
@@ -32,7 +32,7 @@ const memberApi = {
       );
 
       return { response };
-    } catch (err) { return { err }; }
+    } catch (error) { return { error }; }
   },
 };
 
