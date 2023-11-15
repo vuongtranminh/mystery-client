@@ -7,7 +7,6 @@ import {
   useState
 } from "react";
 import Socket from "@/lib/socket";
-import { useAuth } from "./auth-provider";
 
 const SocketContext = createContext({
   socket: null,
@@ -21,23 +20,20 @@ export const useSocket = () => {
 export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
   const [isConnected, setIsConnected] = useState(false);
-  const { user } = useAuth();
 
-  useEffect(() => {
-    if (user?.userId) {
-      const socketInstance = new Socket(`ws://localhost:8080/myHandler/${user.userId}`, {
-        pingTimeoutDelay: 1000,
-        pingDisconnectTimeoutDelay: 3000,
-        reconnectionDelay: 1000
-      })
+  // useEffect(() => {
+  //   const socketInstance = new Socket(`ws://localhost:8080/myHandler/${user.userId}`, {
+  //       pingTimeoutDelay: 1000,
+  //       pingDisconnectTimeoutDelay: 3000,
+  //       reconnectionDelay: 1000
+  //     })
   
-      setSocket(socketInstance);
-    }
+  //   setSocket(socketInstance);
 
-    return () => {
-      socketInstance.disconnect();
-    }
-  }, [user?.userId]);
+  //   return () => {
+  //     socketInstance.disconnect();
+  //   }
+  // }, []);
 
   return (
     <SocketContext.Provider value={{ socket, isConnected }}>

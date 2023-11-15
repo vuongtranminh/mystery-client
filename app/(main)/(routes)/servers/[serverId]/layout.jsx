@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 
 import { ServerSidebar } from "@/components/server/server-sidebar";
 import serverApi from "@/app/api/server.api";
-import { fetchServerSide } from "@/app/api/fetch.api";
+import { fetchServerSide } from "@/app/api/fetch.server.api";
 
 const ServerIdLayout = async ({ children, params, }) => {
 

@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import mystery from "./mystery";
 
 export const userEndpoints = {
-  me: "/user/me",
+  me: "/user-service/users/me",
 };
 
 const userApi = {

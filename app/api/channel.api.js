@@ -1,9 +1,9 @@
 import mystery from "./mystery";
 
 export const channelEndpoints = {
-  getChannelsByServerId: "/discord/channel/getChannelsByServerId",
-  getChannelByChannelId: "/discord/channel/getChannelByChannelId",
-  getChannelGeneralByServerId: "/discord/channel/getChannelGeneralByServerId",
+  getChannelsByServerId: "/discord-service/channels/getChannelsByServerId",
+  getChannelByChannelId: "/discord-service/channels/getChannelByChannelId",
+  getChannelGeneralByServerId: "/discord-service/channels/getChannelGeneralByServerId",
 };
 
 const channelApi = {

@@ -26,7 +26,7 @@ import { Button } from "@/components/ui/button";
 import { FileUpload } from "@/components/file-upload";
 import { useRouter } from "next/navigation";
 import serverApi from "@/app/api/server.api";
-import { fetchClientSide } from "@/app/api/fetch.api";
+import { fetchClientSide } from "@/app/api/fetch.client.api";
 
 const formSchema = z.object({
   name: z.string().min(1, {
@@ -58,9 +58,12 @@ export const InitialModal = () => {
 
   const onSubmit = async (values) => {
     const { response, error } = await fetchClientSide(serverApi.createServer, values);
-    form.reset();
-    router.refresh();
-    window.location.reload();
+    console.log(response)
+    if (response?.success) {
+      form.reset();
+      router.refresh();
+      window.location.reload();
+    }
   }
 
   if (!isMounted) {

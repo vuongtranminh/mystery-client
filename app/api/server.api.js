@@ -1,10 +1,10 @@
 import mystery from "./mystery";
 
 export const serverEndpoints = {
-  createServer: "createServer",
-  getServerJoinByServerId: "/discord/server/getServerJoinByServerId",
-  getFirstServerJoin: "/discord/server/getFirstServerJoin",
-  getServersJoin: "/discord/server/getServersJoin",
+  createServer: "/discord-service/servers/createServer",
+  getServerJoinByServerId: "/discord-service/servers/getServerJoinByServerId",
+  getFirstServerJoin: "/discord-service/servers/getFirstServerJoin",
+  getServersJoin: "/discord-service/servers/getServersJoin",
 };
 
 const serverApi = {

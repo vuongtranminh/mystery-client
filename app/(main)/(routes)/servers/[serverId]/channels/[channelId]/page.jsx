@@ -9,7 +9,7 @@ import { MediaRoom } from "@/components/media-room";
 import channelApi from "@/app/api/channel.api";
 import memberApi from "@/app/api/member.api";
 import { messageEndpoints } from "@/app/api/message.api";
-import { fetchServerSide } from "@/app/api/fetch.api";
+import { fetchServerSide } from "@/app/api/fetch.server.api";
 
 const ChannelIdPage = async ({ params }) => {
   
@@ -21,8 +21,8 @@ const ChannelIdPage = async ({ params }) => {
     return response?.data;
   }
 
-  const getMemberProfileByServerId = async () => {
-    const { response, error } = await fetchServerSide(memberApi.getMemberProfileByServerId, {
+  const getMemberByServerId = async () => {
+    const { response, error } = await fetchServerSide(memberApi.getMemberByServerId, {
       serverId: params.serverId
     });
 
@@ -30,7 +30,7 @@ const ChannelIdPage = async ({ params }) => {
   }
 
   const channel = await getChannelByChannelId();
-  const member = await getMemberProfileByServerId();
+  const member = await getMemberByServerId();
 
   if (!channel || !member) {
     redirect("/");

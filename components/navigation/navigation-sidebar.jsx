@@ -10,7 +10,7 @@ import { db } from "@/lib/db";
 import { NavigationAction } from "./navigation-action";
 import { NavigationItem } from "./navigation-item";
 import client from "@/app/api/mystery";
-import { fetchServerSide } from "@/app/api/fetch.api";
+import { fetchServerSide } from "@/app/api/fetch.server.api";
 import serverApi from "@/app/api/server.api";
 
 export const NavigationSidebar = async () => {

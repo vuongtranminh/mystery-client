@@ -48,9 +48,9 @@ const onRequestError = (error) => {
 };
 
 const onResponse = (response) => {
-  console.info(`[response] [${JSON.stringify(response.headers)}]`)
+  // console.info(`[response] [${JSON.stringify(response.headers)}]`)
   console.info(`[response] [${JSON.stringify(response.data)}]`);
-  console.info(response)
+  // console.info(response)
   return response.data;
 };
 

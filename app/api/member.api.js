@@ -1,15 +1,15 @@
 import mystery from "./mystery";
 
 export const memberEndpoints = {
-  getMemberProfileByServerId: "/discord/member/getMemberProfileByServerId", 
-  getMemberProfilesByServerId: "/discord/members/getMemberProfilesByServerId"
+  getMemberByServerId: "/discord-service/members/getMemberByServerId", 
+  getMembersByServerId: "/discord-service/members/getMembersByServerId"
 };
 
 const memberApi = {
-  getMemberProfileByServerId: async (data, config) => {
+  getMemberByServerId: async (data, config) => {
     const { serverId } = data;
     try {
-      const response = await mystery.post(memberEndpoints.getMemberProfileByServerId,
+      const response = await mystery.post(memberEndpoints.getMemberByServerId,
         {
           serverId: serverId
         },
@@ -19,10 +19,10 @@ const memberApi = {
       return { response };
     } catch (error) { return { error }; }
   },
-  getMemberProfilesByServerId: async (data, config) => {
+  getMembersByServerId: async (data, config) => {
     const { serverId, pageNumber = 0, pageSize = 30 } = data;
     try {
-      const response = await mystery.post(memberEndpoints.getMemberProfilesByServerId,
+      const response = await mystery.post(memberEndpoints.getMembersByServerId,
         {
           serverId: serverId,
           pageNumber: pageNumber,

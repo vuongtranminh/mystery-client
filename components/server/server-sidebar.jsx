@@ -11,7 +11,8 @@ import { ServerChannel } from "./server-channel";
 import { ServerMember } from "./server-member";
 import channelApi from "@/app/api/channel.api";
 import memberApi from "@/app/api/member.api";
-import { fetchServerSide } from "@/app/api/fetch.api";
+import { fetchServerSide } from "@/app/api/fetch.server.api";
+import serverApi from "@/app/api/server.api";
 
 const iconMap = {
   [ChannelType.TEXT]: <Hash className="mr-2 h-4 w-4" />,
@@ -48,8 +49,8 @@ export const ServerSidebar = async ({ serverId }) => {
 
   const channels = await getChannelsByServerId();
 
-  const getMemberProfilesByServerId = async () => {
-    const { response, err } = await fetchServerSide(memberApi.getMemberProfilesByServerId, {
+  const getMembersByServerId = async () => {
+    const { response, err } = await fetchServerSide(memberApi.getMembersByServerId, {
       serverId: serverId,
       pageNumber: 0,
       pageSize: 30
@@ -57,20 +58,24 @@ export const ServerSidebar = async ({ serverId }) => {
     return response?.data?.content;
   }
 
-  const getMemberProfileByServerId = async () => {
-    const { response, err } = await fetchServerSide(memberApi.getMemberProfileByServerId, {
+  const getMemberByServerId = async () => {
+    const { response, err } = await fetchServerSide(memberApi.getMemberByServerId, {
       serverId: serverId
     });
 
     return response?.data
   }
 
-  const currentMember = await getMemberProfileByServerId();
+  const currentMember = await getMemberByServerId();
 
   const textChannels = channels.filter((channel) => channel.type === ChannelType.TEXT) 
   const audioChannels = channels.filter((channel) => channel.type === ChannelType.AUDIO) 
   const videoChannels = channels.filter((channel) => channel.type === ChannelType.VIDEO) 
-  const members = await getMemberProfilesByServerId();
+  const members = await getMembersByServerId();
+
+  console.log("LOGGGGGGGGGGG")
+  console.log(members)
+  return null;
 
   // if (!server) {
   //   return redirect("/");

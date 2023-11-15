@@ -3,14 +3,15 @@ import { redirect } from "next/navigation";
 import { initialProfile } from "@/lib/initial-profile";
 import { InitialModal } from "@/components/modals/initial-modal";
 import serverApi from "../api/server.api";
-import { redirectToSignIn } from "@/lib/auth.utils";
-import { fetchServerSide } from "../api/fetch.api";
+import { fetchServerSide } from "../api/fetch.server.api";
 
 const SetupPage = async () => {
   const profile = await initialProfile();
 
   if (!profile) {
-    redirectToSignIn();
+    console.log(profile)
+    return;
+    redirect("/sign-in/deleteAllCookies");
   }
 
   const getFirstServerJoin = async () => {

@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/db";
 import client from "@/app/api/mystery";
-import { fetchServerSide } from "@/app/api/fetch.api";
+import { fetchServerSide } from "@/app/api/fetch.server.api";
 import channelApi from "@/app/api/channel.api";
 
 const ServerIdPage = async ({ params }) => {

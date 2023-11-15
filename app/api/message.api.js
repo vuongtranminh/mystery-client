@@ -1,10 +1,10 @@
 import mystery from "./mystery";
 
 export const messageEndpoints = {
-  getMessagesByChannelId: "/discord/message/getMessagesByChannelId", 
-  createMessage: "/discord/message/createMessage",
-  updateMessage: "/discord/message/updateMessage",
-  deleteMessage: "/discord/message/deleteMessage"
+  getMessagesByChannelId: "/discord-service/messages/getMessagesByChannelId", 
+  createMessage: "/discord-service/messages/createMessage",
+  updateMessage: "/discord-service/messages/updateMessage",
+  deleteMessage: "/discord-service/messages/deleteMessage"
 };
 
 const messageApi = {
