@@ -9,6 +9,8 @@ export const fetchServerSide = async (callback, data, config = {}) => {
       ...config?.headers
     }
   }
+  // console.log("fetchServerSide __________")
+  // console.log(data)
   const { response, error } = await callback(data, config);
   if (error?.response?.status === 401) {
     redirect("/sign-in/deleteAllCookies");

@@ -57,7 +57,10 @@ export const InitialModal = () => {
   const isLoading = form.formState.isSubmitting;
 
   const onSubmit = async (values) => {
-    const { response, error } = await fetchClientSide(serverApi.createServer, values);
+    const { response, error } = await fetchClientSide(serverApi.createServer, {
+      name: values.name,
+      imgUrl: values.imgUrl
+    });
     console.log(response)
     if (response?.success) {
       form.reset();

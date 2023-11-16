@@ -38,24 +38,24 @@ const mystery = axios.create({
 });
 
 const onRequest = (config) => {
-  console.info(`[request] [${JSON.stringify(config)}]`);
+  // console.info(`[request] [${JSON.stringify(config)}]`);
   return config;
 };
 
 const onRequestError = (error) => {
-  console.error(`[request error] [${JSON.stringify(error)}]`);
+  // console.error(`[request error] [${JSON.stringify(error)}]`);
   return Promise.reject(error);
 };
 
 const onResponse = (response) => {
   // console.info(`[response] [${JSON.stringify(response.headers)}]`)
-  console.info(`[response] [${JSON.stringify(response.data)}]`);
+  // console.info(`[response] [${JSON.stringify(response.data)}]`);
   // console.info(response)
   return response.data;
 };
 
 const onResponseError = async (error) => {
-  console.error(`[response error] [${JSON.stringify(error)}]`);
+  // console.error(`[response error] [${JSON.stringify(error)}]`);
   const originalRequest = error.config;
 
   // Kiểm tra xem lỗi có phải do token hết hạn không
@@ -70,7 +70,7 @@ const onResponseError = async (error) => {
             "Cookie": originalRequest.headers["Cookie"]
           }
         });
-        console.info(`[response refreshToken] [${JSON.stringify(response)}]`)
+        console.info(`[response refreshToken] [${JSON.stringify(response.headers)}]`)
 
         if (response?.success) {
           // Thực hiện lại yêu cầu ban đầu với access token mới

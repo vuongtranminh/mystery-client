@@ -1,7 +1,6 @@
 "use client";
 
 import qs from "query-string";
-import axios from "axios";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -35,6 +34,8 @@ import {
 } from "@/components/ui/select";
 import { useEffect } from "react";
 import client from "@/app/api/mystery";
+import { fetchClientSide } from "@/app/api/fetch.client.api";
+import channelApi from "@/app/api/channel.api";
 
 const formSchema = z.object({
   name: z.string().min(1, {
@@ -74,27 +75,17 @@ export const CreateChannelModal = () => {
 
   const isLoading = form.formState.isSubmitting;
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    try {
-      // const url = qs.stringifyUrl({
-      //   url: "/api/channels",
-      //   query: {
-      //     serverId: params?.serverId
-      //   }
-      // });
-      // await axios.post(url, values);
-      const url = "/channels/createChannel"
-      client.post(url, {
-        ...values,
-        type: Number(values.type),
-        serverId: params?.serverId
-      })
+  const onSubmit = async (values) => {
+    const { response, err } = await fetchClientSide(channelApi.createChannel, {
+      serverId: params?.serverId,
+      name: values.name,
+      type: Number(values.type),
+    })
 
+    if (response?.success) {
       form.reset();
       router.refresh();
       onClose();
-    } catch (error) {
-      console.log(error);
     }
   }
 
@@ -155,10 +146,10 @@ export const CreateChannelModal = () => {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {Object.keys(ChannelType).filter((v) => isNaN(Number(v))).map((key) => {
+                        {Object.keys(ChannelType).map((key) => {
                           return (<SelectItem
                             key={key}
-                            value={ChannelType[key as keyof typeof ChannelType].toString()}
+                            value={ChannelType[key].toString()}
                             className="capitalize"
                           >
                             {key.toLowerCase()}

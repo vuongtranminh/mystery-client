@@ -12,6 +12,7 @@ import { NavigationItem } from "./navigation-item";
 import client from "@/app/api/mystery";
 import { fetchServerSide } from "@/app/api/fetch.server.api";
 import serverApi from "@/app/api/server.api";
+import UserButton from "../auth/user-button";
 
 export const NavigationSidebar = async () => {
   // const profile = await currentProfile();
@@ -52,6 +53,7 @@ export const NavigationSidebar = async () => {
       </ScrollArea>
       <div className="pb-3 mt-auto flex items-center flex-col gap-y-4">
         <ModeToggle />
+        <UserButton />
         {/* <UserButton
           afterSignOutUrl="/"
           appearance={{

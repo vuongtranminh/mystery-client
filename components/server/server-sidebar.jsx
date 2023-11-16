@@ -73,13 +73,9 @@ export const ServerSidebar = async ({ serverId }) => {
   const videoChannels = channels.filter((channel) => channel.type === ChannelType.VIDEO) 
   const members = await getMembersByServerId();
 
-  console.log("LOGGGGGGGGGGG")
-  console.log(members)
-  return null;
-
-  // if (!server) {
-  //   return redirect("/");
-  // }
+  if (!server) {
+    return redirect("/");
+  }
 
   const role = currentMember?.role;
 

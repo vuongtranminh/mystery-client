@@ -9,6 +9,10 @@ import channelApi from "@/app/api/channel.api";
 
 const ServerIdPage = async ({ params }) => {
 
+  console.log("SERVERID+++++++++++")
+  console.log(params.serverId)
+  // return;
+
   const getChannelGeneralByServerId = async () => {
     const { response, error } = await fetchServerSide(channelApi.getChannelGeneralByServerId, {
       serverId: params.serverId

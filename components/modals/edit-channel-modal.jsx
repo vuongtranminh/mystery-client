@@ -35,6 +35,8 @@ import {
 } from "@/components/ui/select";
 import { useEffect } from "react";
 import client from "@/app/api/mystery";
+import channelApi from "@/app/api/channel.api";
+import { fetchClientSide } from "@/app/api/fetch.client.api";
 
 const formSchema = z.object({
   name: z.string().min(1, {
@@ -72,27 +74,15 @@ export const EditChannelModal = () => {
 
   const isLoading = form.formState.isSubmitting;
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    try {
-      // const url = qs.stringifyUrl({
-      //   url: `/api/channels/${channel?.id}`,
-      //   query: {
-      //     serverId: server?.id
-      //   }
-      // });
-      // await axios.patch(url, values);
-      const url = "/channels/updateChannel"
-      client.post(url, {
-        ...values,
-        channelId: channel?.id,
-        serverId: server?.id
-      })
-
+  const onSubmit = async (values) => {
+    const { response, error } = await fetchClientSide(channelApi.updateChannel, {
+      channelId: channel?.id,
+      name: values.name,
+    });
+    if (response?.success) { 
       form.reset();
       router.refresh();
       onClose();
-    } catch (error) {
-      console.log(error);
     }
   }
 

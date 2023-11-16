@@ -26,12 +26,14 @@ import { Button } from "@/components/ui/button";
 import { FileUpload } from "@/components/file-upload";
 import { useRouter } from "next/navigation";
 import { useModal } from "@/hooks/use-modal-store";
+import serverApi from "@/app/api/server.api";
+import { fetchClientSide } from "@/app/api/fetch.client.api";
 
 const formSchema = z.object({
   name: z.string().min(1, {
     message: "Server name is required."
   }),
-  imageUrl: z.string().min(1, {
+  imgUrl: z.string().min(1, {
     message: "Server image is required."
   })
 });
@@ -46,21 +48,21 @@ export const CreateServerModal = () => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
-      imageUrl: "",
+      imgUrl: "",
     }
   });
 
   const isLoading = form.formState.isSubmitting;
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    try {
-      await axios.post("/api/servers", values);
-
+  const onSubmit = async (values) => {
+    const { response, error } = await fetchClientSide(serverApi.createServer, {
+      name: values.name,
+      imgUrl: values.imgUrl
+    });
+    if (response?.success) {
       form.reset();
       router.refresh();
       onClose();
-    } catch (error) {
-      console.log(error);
     }
   }
 
@@ -86,7 +88,7 @@ export const CreateServerModal = () => {
               <div className="flex items-center justify-center text-center">
                 <FormField
                   control={form.control}
-                  name="imageUrl"
+                  name="imgUrl"
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>

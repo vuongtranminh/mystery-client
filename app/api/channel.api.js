@@ -1,12 +1,43 @@
 import mystery from "./mystery";
 
 export const channelEndpoints = {
+  createChannel: "/discord-service/channels/createChannel",
+  updateChannel: "/discord-service/channels/updateChannel",
   getChannelsByServerId: "/discord-service/channels/getChannelsByServerId",
   getChannelByChannelId: "/discord-service/channels/getChannelByChannelId",
   getChannelGeneralByServerId: "/discord-service/channels/getChannelGeneralByServerId",
 };
 
 const channelApi = {
+  createChannel: async (data, config) => {
+    const { serverId, name, type } = data;
+    try {
+      const response = await mystery.post(channelEndpoints.createChannel,
+        {
+          serverId: serverId,
+          name: name,
+          type: type
+        },
+        config
+      );
+
+      return { response };
+    } catch (error) { return { error }; }
+  },
+  updateChannel: async (data, config) => {
+    const { channelId, name } = data;
+    try {
+      const response = await mystery.post(channelEndpoints.updateChannel,
+        {
+          channelId: channelId,
+          name: name,
+        },
+        config
+      );
+
+      return { response };
+    } catch (error) { return { error }; }
+  },
   getChannelsByServerId: async (data, config) => {
     const { serverId, pageNumber = 0, pageSize = 30 } = data;
     try {
@@ -36,11 +67,11 @@ const channelApi = {
     } catch (error) { return { error }; }
   },
   getChannelGeneralByServerId: async (data, config) => {
-    const { channelId } = data;
+    const { serverId } = data;
     try {
       const response = await mystery.post(channelEndpoints.getChannelGeneralByServerId,
         {
-          channelId: channelId
+          serverId: serverId
         },
         config
       );

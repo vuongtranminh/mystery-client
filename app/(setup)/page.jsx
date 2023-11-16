@@ -9,8 +9,6 @@ const SetupPage = async () => {
   const profile = await initialProfile();
 
   if (!profile) {
-    console.log(profile)
-    return;
     redirect("/sign-in/deleteAllCookies");
   }
 
