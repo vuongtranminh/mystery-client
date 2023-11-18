@@ -76,7 +76,7 @@ export const EditChannelModal = () => {
 
   const onSubmit = async (values) => {
     const { response, error } = await fetchClientSide(channelApi.updateChannel, {
-      channelId: channel?.id,
+      channelId: channel?.channelId,
       name: values.name,
     });
     if (response?.success) { 

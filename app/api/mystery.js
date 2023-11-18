@@ -62,6 +62,8 @@ const onResponseError = async (error) => {
   if (error.response?.status === 401 && !originalRequest?._retry) {
     originalRequest._retry = true;
 
+    console.log("HAS COOKIE: " + getCookie("refreshToken", originalRequest.headers["Cookie"]))
+
     if (getCookie("refreshToken", originalRequest.headers["Cookie"])) {
       try {
         // Gửi yêu cầu mới để lấy refresh token

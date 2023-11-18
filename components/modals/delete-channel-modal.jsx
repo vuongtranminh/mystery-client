@@ -15,6 +15,8 @@ import {
 } from "@/components/ui/dialog";
 import { useModal } from "@/hooks/use-modal-store";
 import { Button } from "@/components/ui/button";
+import { fetchClientSide } from "@/app/api/fetch.client.api";
+import channelApi from "@/app/api/channel.api";
 
 export const DeleteChannelModal = () => {
   const { isOpen, onClose, type, data } = useModal();
@@ -26,25 +28,36 @@ export const DeleteChannelModal = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const onClick = async () => {
-    try {
-      setIsLoading(true);
-      const url = qs.stringifyUrl({
-        url: `/api/channels/${channel?.id}`,
-        query: {
-          serverId: server?.id,
-        }
-      })
+    setIsLoading(true);
+    const { response, error } = await fetchClientSide(channelApi.deleteChannel, {
+      channelId: channel?.channelId,
+    });
 
-      await axios.delete(url);
-
+    if (response?.success) {
       onClose();
       router.refresh();
-      router.push(`/servers/${server?.id}`);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoading(false);
+      router.push(`/servers/${server?.serverId}`);
     }
+    setIsLoading(false);
+    // try {
+    //   setIsLoading(true);
+    //   const url = qs.stringifyUrl({
+    //     url: `/api/channels/${channel?.id}`,
+    //     query: {
+    //       serverId: server?.id,
+    //     }
+    //   })
+
+    //   await axios.delete(url);
+
+    //   onClose();
+    //   router.refresh();
+    //   router.push(`/servers/${server?.id}`);
+    // } catch (error) {
+    //   console.log(error);
+    // } finally {
+    //   setIsLoading(false);
+    // }
   }
 
   return (

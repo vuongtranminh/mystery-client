@@ -3,6 +3,7 @@ import mystery from "./mystery";
 export const channelEndpoints = {
   createChannel: "/discord-service/channels/createChannel",
   updateChannel: "/discord-service/channels/updateChannel",
+  deleteChannel: "/discord-service/channels/deleteChannel",
   getChannelsByServerId: "/discord-service/channels/getChannelsByServerId",
   getChannelByChannelId: "/discord-service/channels/getChannelByChannelId",
   getChannelGeneralByServerId: "/discord-service/channels/getChannelGeneralByServerId",
@@ -31,6 +32,19 @@ const channelApi = {
         {
           channelId: channelId,
           name: name,
+        },
+        config
+      );
+
+      return { response };
+    } catch (error) { return { error }; }
+  },
+  deleteChannel: async (data, config) => {
+    const { channelId } = data;
+    try {
+      const response = await mystery.post(channelEndpoints.deleteChannel,
+        {
+          channelId: channelId
         },
         config
       );

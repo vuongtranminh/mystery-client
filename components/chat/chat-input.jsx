@@ -49,8 +49,9 @@ export const ChatInput = ({
   const onSubmit = async (values) => {
     try {
       await mystery.post(apiUrl, {
-        ...params, 
-        ...values, 
+        content: values.content,
+        fileUrl: values.fileUrl,
+        channelId: params.channelId,
       });
 
       form.reset();

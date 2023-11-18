@@ -21,19 +21,19 @@ export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
   const [isConnected, setIsConnected] = useState(false);
 
-  // useEffect(() => {
-  //   const socketInstance = new Socket(`ws://localhost:8080/myHandler/${user.userId}`, {
-  //       pingTimeoutDelay: 1000,
-  //       pingDisconnectTimeoutDelay: 3000,
-  //       reconnectionDelay: 1000
-  //     })
+  useEffect(() => {
+    const socketInstance = new Socket("ws://localhost:8080/mystery", {
+        pingTimeoutDelay: 1000,
+        pingDisconnectTimeoutDelay: 3000,
+        reconnectionDelay: 1000
+      })
   
-  //   setSocket(socketInstance);
+    setSocket(socketInstance);
 
-  //   return () => {
-  //     socketInstance.disconnect();
-  //   }
-  // }, []);
+    return () => {
+      socketInstance.disconnect();
+    }
+  }, []);
 
   return (
     <SocketContext.Provider value={{ socket, isConnected }}>

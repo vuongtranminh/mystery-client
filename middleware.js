@@ -11,9 +11,9 @@ export function middleware(request) {
   // Getting cookies from the request using the `RequestCookies` API
   const { pathname } = request.nextUrl;
 
-  console.log("COOKIES MIDDLEWARE")
-  const allCookies = request.cookies.getAll()
-  console.log(allCookies) // => [{ name: 'nextjs', value: 'fast' }]
+  // console.log("COOKIES MIDDLEWARE")
+  // const allCookies = request.cookies.getAll()
+  // console.log(allCookies) // => [{ name: 'nextjs', value: 'fast' }]
 
   if (authPrefixes.some((prefix) => pathname.startsWith(prefix))) {
     if (pathname === '/sign-in/deleteAllCookies') {

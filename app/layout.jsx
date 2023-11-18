@@ -9,6 +9,7 @@ import { SocketProvider } from '@/components/providers/socket-provider'
 import { QueryProvider } from '@/components/providers/query-provider'
 import { AuthProvider } from '@/components/providers/auth-provider'
 import { initialProfile } from '@/lib/initial-profile'
+import RouterProvider from '@/components/providers/router-provider'
 
 const font = Open_Sans({ subsets: ['latin'] })
 
@@ -22,9 +23,10 @@ export default function RootLayout({ children }) {
       <html lang="en" suppressHydrationWarning>
         <body className={cn(
           font.className,
-          "bg-white dark:bg-[#313338]"
+          "bg-white dark:bg-[#d0d8ec]"
         )}>
           {/* <AuthProvider> */}
+          <RouterProvider>
             <ThemeProvider
               attribute="class"
               defaultTheme="dark"
@@ -38,6 +40,7 @@ export default function RootLayout({ children }) {
                 </QueryProvider>
               </SocketProvider>
             </ThemeProvider>
+          </RouterProvider>
           {/* </AuthProvider> */}
         </body>
       </html>
