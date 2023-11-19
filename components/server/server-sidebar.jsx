@@ -78,6 +78,9 @@ export const ServerSidebar = async ({ serverId }) => {
   }
 
   const role = currentMember?.role;
+  // console.log("CURRENT MEMBER")
+  // // console.log(currentMember)
+  // console.log(server)
 
   return (
     <div className="flex flex-col h-full text-primary w-full dark:bg-[#2B2D31] bg-[#F2F3F5]">

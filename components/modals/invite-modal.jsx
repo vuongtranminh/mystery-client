@@ -37,18 +37,18 @@ export const InviteModal = () => {
     }, 1000);
   };
 
-  const onNew = async () => {
-    try {
-      setIsLoading(true);
-      const response = await axios.patch(`/api/servers/${server?.id}/invite-code`);
+  // const onNew = async () => {
+  //   try {
+  //     setIsLoading(true);
+  //     const response = await axios.patch(`/api/servers/${server?.id}/invite-code`);
 
-      onOpen("invite", { server: response.data });
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoading(false);
-    }
-  }
+  //     onOpen("invite", { server: response.data });
+  //   } catch (error) {
+  //     console.log(error);
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // }
 
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
@@ -77,7 +77,7 @@ export const InviteModal = () => {
               }
             </Button>
           </div>
-          <Button
+          {/* <Button
             onClick={onNew}
             disabled={isLoading}
             variant="link"
@@ -86,7 +86,7 @@ export const InviteModal = () => {
           >
             Generate a new link
             <RefreshCw className="w-4 h-4 ml-2" />
-          </Button>
+          </Button> */}
         </div>
       </DialogContent>
     </Dialog>

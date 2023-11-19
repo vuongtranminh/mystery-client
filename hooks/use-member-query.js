@@ -15,7 +15,7 @@ export const useChatQuery = ({
 }) => {
   // const { isConnected } = useSocket();
 
-  const fetchMessages = async ({ pageParam = 0 }) => { 
+  const fetchMembers = async ({ pageParam = 0 }) => { 
 
     const data = await mystery.post(apiUrl, {
       ...params,

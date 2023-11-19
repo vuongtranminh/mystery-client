@@ -51,7 +51,7 @@ export const MembersModal = () => {
   const [loadingId, setLoadingId] = useState("");
 
   const isModalOpen = isOpen && type === "members";
-  const { server } = data as { server: ServerWithMembersWithProfiles };
+  const { server } = data;
 
   const onKick = async (memberId: string) => {
     try {
@@ -74,7 +74,7 @@ export const MembersModal = () => {
     }
   }
 
-  const onRoleChange = async (memberId: string, role: MemberRole) => {
+  const onRoleChange = async (memberId, role) => {
     try {
       setLoadingId(memberId);
       const url = qs.stringifyUrl({
