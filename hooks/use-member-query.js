@@ -6,14 +6,13 @@ import { useEffect, useReducer, useRef, useState } from "react";
 import mystery from "@/app/api/mystery";
 import { useInfiniteQuery } from "./use-infinite-query";
 
-export const useChatQuery = ({
+export const useMemberQuery = ({
   queryKey,
   apiUrl,
   paramKey,
   paramValue,
   params
 }) => {
-  // const { isConnected } = useSocket();
 
   const fetchMembers = async ({ pageParam = 0 }) => { 
 

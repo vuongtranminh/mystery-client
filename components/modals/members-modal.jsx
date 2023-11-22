@@ -38,6 +38,7 @@ import {
   DropdownMenuTrigger,
   DropdownMenuSubTrigger,
 } from "@/components/ui/dropdown-menu";
+import memberApi, { memberEndpoints } from "@/app/api/member.api";
 
 const roleIconMap = {
   "GUEST": null,
@@ -53,7 +54,24 @@ export const MembersModal = () => {
   const isModalOpen = isOpen && type === "members";
   const { server } = data;
 
-  const onKick = async (memberId: string) => {
+  const {
+    data: dataMembers,
+    hasNextPage,
+    hasPreviousPage,
+    isFirst,
+    isLast,
+    status,
+    fetchNextPageStatus,
+    setInfo,
+    fetchNextPage
+  } = useChatQuery({
+    apiUrl: memberEndpoints.getMembersByServerId,
+    params: {
+      serverId: server.id
+    }
+  });
+
+  const onKick = async (memberId) => {
     try {
       setLoadingId(memberId);
       const url = qs.stringifyUrl({
@@ -105,23 +123,23 @@ export const MembersModal = () => {
           <DialogDescription 
             className="text-center text-zinc-500"
           >
-            {server?.members?.length} Members
+            {dataMembers?.meta?.totalElements} Members
           </DialogDescription>
         </DialogHeader>
         <ScrollArea className="mt-8 max-h-[420px] pr-6">
-          {server?.members?.map((member) => (
-            <div key={member.id} className="flex items-center gap-x-2 mb-6">
-              <UserAvatar src={member.profile.imageUrl} />
+          {dataMembers?.content?.map((member) => (
+            <div key={member.memberId} className="flex items-center gap-x-2 mb-6">
+              <UserAvatar src={member.avtUrl} />
               <div className="flex flex-col gap-y-1">
                 <div className="text-xs font-semibold flex items-center gap-x-1">
-                  {member.profile.name}
+                  {member.name}
                   {roleIconMap[member.role]}
                 </div>
-                <p className="text-xs text-zinc-500">
+                {/* <p className="text-xs text-zinc-500">
                   {member.profile.email}
-                </p>
+                </p> */}
               </div>
-              {server.profileId !== member.profileId && loadingId !== member.id && (
+              {server.profileId !== member.profileId && loadingId !== member.memberId && (
                 <div className="ml-auto">
                   <DropdownMenu>
                     <DropdownMenuTrigger>
@@ -140,7 +158,7 @@ export const MembersModal = () => {
                         <DropdownMenuPortal>
                           <DropdownMenuSubContent>
                             <DropdownMenuItem
-                              onClick={() => onRoleChange(member.id, "GUEST")}
+                              onClick={() => onRoleChange(member.memberId, "GUEST")}
                             >
                               <Shield className="h-4 w-4 mr-2" />
                               Guest
@@ -151,7 +169,7 @@ export const MembersModal = () => {
                               )}
                             </DropdownMenuItem>
                             <DropdownMenuItem
-                              onClick={() => onRoleChange(member.id, "MODERATOR")}
+                              onClick={() => onRoleChange(member.memberId, "MODERATOR")}
                             >
                               <ShieldCheck className="h-4 w-4 mr-2" />
                               Moderator
@@ -166,7 +184,7 @@ export const MembersModal = () => {
                       </DropdownMenuSub>
                       <DropdownMenuSeparator />
                       <DropdownMenuItem
-                        onClick={() => onKick(member.id)}
+                        onClick={() => onKick(member.memberId)}
                       >
                         <Gavel className="h-4 w-4 mr-2" />
                         Kick
@@ -175,7 +193,7 @@ export const MembersModal = () => {
                   </DropdownMenu>
                 </div>
               )}
-              {loadingId === member.id && (
+              {loadingId === member.memberId && (
                 <Loader2
                   className="animate-spin text-zinc-500 ml-auto w-4 h-4"
                 />
