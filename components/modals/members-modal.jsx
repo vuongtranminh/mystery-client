@@ -39,6 +39,7 @@ import {
   DropdownMenuSubTrigger,
 } from "@/components/ui/dropdown-menu";
 import memberApi, { memberEndpoints } from "@/app/api/member.api";
+import { useChatQuery } from "@/hooks/use-chat-query";
 
 const roleIconMap = {
   "GUEST": null,
@@ -67,7 +68,7 @@ export const MembersModal = () => {
   } = useChatQuery({
     apiUrl: memberEndpoints.getMembersByServerId,
     params: {
-      serverId: server.id
+      serverId: server?.serverId
     }
   });
 

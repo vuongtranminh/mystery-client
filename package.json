@@ -81,11 +81,11 @@
     "zustand": "^4.4.1"
   },
   "devDependencies": {
-    "@types/uuid": "^9.0.2",
+    "@types/editorjs__header": "^2.6.0",
+    "@types/lodash.debounce": "^4.0.7",
     "@types/node": "20.2.5",
     "@types/react": "18.2.7",
     "@types/react-dom": "18.2.4",
-    "@types/editorjs__header": "^2.6.0",
-    "@types/lodash.debounce": "^4.0.7"
+    "@types/uuid": "^9.0.2"
   }
 }

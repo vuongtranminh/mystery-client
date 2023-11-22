@@ -192,7 +192,7 @@ export const ServerSidebar = async ({ serverId }) => {
             </div>
           </div>
         )}
-        {!!members?.length && (
+        {/* {!!members?.length && (
           <div className="mb-2">
             <ServerSection
               sectionType="members"
@@ -210,7 +210,7 @@ export const ServerSidebar = async ({ serverId }) => {
               ))}
             </div>
           </div>
-        )}
+        )} */}
       </ScrollArea>
     </div>
   )
