@@ -12,7 +12,7 @@ import {
   ShieldCheck,
   ShieldQuestion
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { MemberRole } from "@/prisma/schema";
 import { useRouter } from "next/navigation";
 
@@ -40,6 +40,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import memberApi, { memberEndpoints } from "@/app/api/member.api";
 import { useChatQuery } from "@/hooks/use-chat-query";
+import { useMemberQuery } from "@/hooks/use-member-query";
+import { Input } from "../ui/input";
 
 const roleIconMap = {
   "GUEST": null,
@@ -51,6 +53,9 @@ export const MembersModal = () => {
   const router = useRouter();
   const { onOpen, isOpen, onClose, type, data } = useModal();
   const [loadingId, setLoadingId] = useState("");
+
+  const [searchKey, setSearchKey] = useState("");
+  const [isPending, startTransition] = useTransition();
 
   const isModalOpen = isOpen && type === "members";
   const { server } = data;
@@ -65,11 +70,12 @@ export const MembersModal = () => {
     fetchNextPageStatus,
     setInfo,
     fetchNextPage
-  } = useChatQuery({
+  } = useMemberQuery({
     apiUrl: memberEndpoints.getMembersByServerId,
     params: {
       serverId: server?.serverId
-    }
+    },
+    condition: isOpen
   });
 
   const onKick = async (memberId) => {
@@ -114,6 +120,14 @@ export const MembersModal = () => {
     }
   }
 
+  const handleSearchMember = (event) => {
+    setSearchKey(searchKey);
+
+    startTransition(() => {
+      setTab(nextTab);
+    });
+  }
+
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
       <DialogContent className="bg-white text-black overflow-hidden">
@@ -126,6 +140,7 @@ export const MembersModal = () => {
           >
             {dataMembers?.meta?.totalElements} Members
           </DialogDescription>
+          <Input type="text" placeholder="Search member..." onChange={handleSearchMember} value={searchKey} />
         </DialogHeader>
         <ScrollArea className="mt-8 max-h-[420px] pr-6">
           {dataMembers?.content?.map((member) => (

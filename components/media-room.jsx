@@ -6,20 +6,21 @@ import "@livekit/components-styles";
 import { Channel } from "@/prisma/schema";
 // import { useUser } from "@clerk/nextjs";
 import { Loader2 } from "lucide-react";
+import { useAuth } from "./providers/auth-provider";
 
 export const MediaRoom = ({
   chatId,
   video,
   audio
 }) => {
-  // const { user } = useUser();
-  const { user } = { user: {} };
+  const { user } = useAuth();
+  // const { user } = { user: {} };
   const [token, setToken] = useState("");
 
   useEffect(() => {
-    if (!user?.firstName || !user?.lastName) return;
+    if (!user?.name) return;
 
-    const name = `${user.firstName} ${user.lastName}`;
+    const name = user?.name;
 
     (async () => {
       try {
@@ -30,7 +31,7 @@ export const MediaRoom = ({
         console.log(e);
       }
     })()
-  }, [user?.firstName, user?.lastName, chatId]);
+  }, [user?.name, chatId]);
 
   if (token === "") {
     return (

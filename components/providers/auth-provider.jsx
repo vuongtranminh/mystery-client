@@ -1,5 +1,6 @@
 "use client";
 
+import { fetchClientSide } from "@/app/api/fetch.client.api";
 import userApi from "@/app/api/user.api";
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useState } from "react";
@@ -26,11 +27,11 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const redirectToSignIn = () => {
-    router.push("/sign-in")
+    router.push("/sign-in/deleteAllCookies");
   }
 
   const getCurrentUser = async () => {
-    const { response, err } = await userApi.me();
+    const { response, err } = await fetchClientSide(userApi.me);
 
     if (response?.success) {
       setUser(response?.data)

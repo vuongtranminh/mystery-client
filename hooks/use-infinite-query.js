@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export const useInfiniteQuery = ({ queryFn = undefined, getNextPageParam = undefined }) => {
+export const useInfiniteQuery = ({ queryFn = undefined, getNextPageParam = undefined, condition = true }) => {
   const [status, setStatus] = useState("fetched");
   const [fetchNextPageStatus, setFetchNextPageStatus] = useState("fetched");
   const [info, setInfo] = useState({
@@ -84,8 +84,10 @@ export const useInfiniteQuery = ({ queryFn = undefined, getNextPageParam = undef
   }
 
   useEffect(() => {
-    fetchData();
-  }, [])
+    if (condition) {
+      fetchData();
+    }
+  }, [condition])
 
   return {
     ...info,

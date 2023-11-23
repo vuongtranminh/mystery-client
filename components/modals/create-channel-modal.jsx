@@ -46,7 +46,7 @@ const formSchema = z.object({
       message: "Channel name cannot be 'general'"
     }
   ),
-  type: z.nativeEnum(ChannelType)
+  type: z.enum(Object.values(ChannelType).map(value => value.toString()))
 });
 
 export const CreateChannelModal = () => {
@@ -61,7 +61,7 @@ export const CreateChannelModal = () => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
-      type: channelType || ChannelType.TEXT,
+      type: channelType || ChannelType.TEXT.toString(),
     }
   });
 
@@ -69,7 +69,7 @@ export const CreateChannelModal = () => {
     if (channelType) {
       form.setValue("type", channelType);
     } else {
-      form.setValue("type", ChannelType.TEXT);
+      form.setValue("type", ChannelType.TEXT.toString());
     }
   }, [channelType, form]);
 

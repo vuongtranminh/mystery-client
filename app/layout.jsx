@@ -27,19 +27,21 @@ export default function RootLayout({ children }) {
         )}>
           {/* <AuthProvider> */}
           <RouterProvider>
-            <ThemeProvider
-              attribute="class"
-              defaultTheme="dark"
-              enableSystem={false}
-              storageKey="discord-theme"
-            >
-              <SocketProvider>
-                <ModalProvider />
-                <QueryProvider>
-                  {children}
-                </QueryProvider>
-              </SocketProvider>
-            </ThemeProvider>
+            <AuthProvider>
+              <ThemeProvider
+                attribute="class"
+                defaultTheme="dark"
+                enableSystem={false}
+                storageKey="discord-theme"
+              >
+                <SocketProvider>
+                  <ModalProvider />
+                  <QueryProvider>
+                    {children}
+                  </QueryProvider>
+                </SocketProvider>
+              </ThemeProvider>
+            </AuthProvider>
           </RouterProvider>
           {/* </AuthProvider> */}
         </body>

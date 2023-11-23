@@ -66,6 +66,10 @@ export const ServerHeader = ({
         )}
         {isAdmin && (
           <DropdownMenuItem
+            // onSelect={(event) => {
+            //   event.preventDefault();
+            //   onOpen("members", { server })
+            // }}
             onClick={() => onOpen("members", { server })}
             className="px-3 py-2 text-sm cursor-pointer"
           >

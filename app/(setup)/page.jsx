@@ -6,11 +6,11 @@ import serverApi from "../api/server.api";
 import { fetchServerSide } from "../api/fetch.server.api";
 
 const SetupPage = async () => {
-  const profile = await initialProfile();
+  // const profile = await initialProfile();
 
-  if (!profile) {
-    redirect("/sign-in/deleteAllCookies");
-  }
+  // if (!profile) {
+  //   redirect("/sign-in/deleteAllCookies");
+  // }
 
   const getFirstServerJoin = async () => {
     const { response, error } = await fetchServerSide(serverApi.getFirstServerJoin);

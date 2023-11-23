@@ -11,14 +11,18 @@ export const useMemberQuery = ({
   apiUrl,
   paramKey,
   paramValue,
-  params
+  params, 
+  condition
 }) => {
 
   const fetchMembers = async ({ pageParam = 0 }) => { 
 
+    const { pageSize = 30 } = params
+
     const data = await mystery.post(apiUrl, {
       ...params,
-      pageNumber: pageParam,
+      pageNumber: pageParam, 
+      pageSize: pageSize
     });
 
     return {
@@ -39,10 +43,11 @@ export const useMemberQuery = ({
     setInfo,
     fetchNextPage
   } = useInfiniteQuery({
-    queryFn: fetchMessages,
+    queryFn: fetchMembers,
     getNextPageParam: (pageParam) => {
       return pageParam !== null ? pageParam + 1 : null
     },
+    condition
   })
 
   return {

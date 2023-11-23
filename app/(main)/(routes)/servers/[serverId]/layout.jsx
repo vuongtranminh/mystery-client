@@ -7,19 +7,19 @@ import { fetchServerSide } from "@/app/api/fetch.server.api";
 
 const ServerIdLayout = async ({ children, params, }) => {
 
-  const getServerJoinByServerId = async () => {
-    const { response, error } = await fetchServerSide(serverApi.getServerJoinByServerId, {
-      serverId: params.serverId
-    });
+  // const getServerJoinByServerId = async () => {
+  //   const { response, error } = await fetchServerSide(serverApi.getServerJoinByServerId, {
+  //     serverId: params.serverId
+  //   });
 
-    return response?.data
-  }
+  //   return response?.data
+  // }
 
-  const server = await getServerJoinByServerId();
+  // const server = await getServerJoinByServerId();
 
-  if (!server) {
-    return redirect("/");
-  }
+  // if (!server) {
+  //   return redirect("/");
+  // }
 
   return ( 
     <div className="h-full">
