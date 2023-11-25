@@ -4,10 +4,28 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import SocialAuth from "./social-auth";
 import { Input } from "../ui/input";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import Link from "next/link";
+import authApi from "@/app/api/auth.api";
+import { fetchClientSide } from "@/app/api/fetch.client.api";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
+import { TextField, TextFieldInput, TextFieldSlot } from "../ui/text-field";
+import { Eye, EyeOff } from "lucide-react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+
+const formSchema = z.object({
+  email: z.string().min(1, {
+    message: "Channel name is required."
+  }),
+  password: z.string().min(1, {
+    message: "Channel name is required."
+  }),
+});
 
 export default function SignIn() {
 
+  const router = useRouter();
   const searchParams = useSearchParams();
 
   useEffect(() => {
@@ -19,12 +37,28 @@ export default function SignIn() {
   }, [searchParams])
 
   const [showPassword, setShowPassword] = useState(false);
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-  const onSubmit = (data) => console.log(data);
+
+  const form = useForm({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      password: "",
+      confirmPassword: "",
+    }
+  });
+
+  const onSubmit = async (values) => {
+    const { response, err } = await fetchClientSide(authApi.signin, {
+      email: values.email,
+      password: values.password,
+    })
+
+    if (response?.success) {
+      form.reset();
+      router.push("/");
+    }
+  }
 
   return (
     <div className="flex flex-col h-full justify-start items-center py-20">
@@ -69,116 +103,64 @@ export default function SignIn() {
               </div>
 
               {/* form */}
-              <form
-                onSubmit={handleSubmit(onSubmit)}
-                className="flex flex-col flex-nowrap items-stretch justify-start gap-4"
-              >
-                <div className="flex flex-row flex-nowrap items-stretch justify-between gap-4">
-                  <div className="flex flex-col flex-nowrap items-stretch justify-start relative flex-1">
-                    <div className="flex flex-row flex-nowrap items-center justify-between mb-1 ml-0">
-                      <label className="text-black font-medium text-sm flex items-center">
-                        Email address
-                      </label>
-                    </div>
-                    <input
-                      {...register("email", {
-                        required: true,
-                        pattern: /^\S+@\S+$/i,
-                      })}
-                      className="m-0 py-3 px-4 bg-white text-black outline outline-2 outline-transparent outline-offset-2 w-full accent-indigo-400 font-normal text-sm rounded border border-solid border-slate-300 focus:transition focus:shadow focus:shadow-indigo-400"
-                    />
-                    {errors.email && (
-                      <div className="transition-all relative h-7">
-                        <p
-                          aria-live="polite"
-                          className="box-border text-slate-500 mt-2 mx-0 mb-0 text-sm font-normal flex gap-1 absolute top-0 transition-all"
+              <Form {...form}>
+                <form
+                  onSubmit={form.handleSubmit(onSubmit)}
+                  className="flex flex-col flex-nowrap items-stretch justify-start gap-4"
+                >
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel
+                          className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70"
                         >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 14 14"
-                            className="flex-shrink-0 w-[1rem] h-[1rem]"
-                          >
-                            <path
-                              fill="currentColor"
-                              fillRule="evenodd"
-                              d="M13.4 7A6.4 6.4 0 1 1 .6 7a6.4 6.4 0 0 1 12.8 0Zm-5.6 3.2a.8.8 0 1 1-1.6 0 .8.8 0 0 1 1.6 0ZM7 3a.8.8 0 0 0-.8.8V7a.8.8 0 0 0 1.6 0V3.8A.8.8 0 0 0 7 3Z"
-                              clipRule="evenodd"
-                            ></path>
-                          </svg>
-                          Your email invalid.
-                        </p>
-                      </div>
+                          Email
+                        </FormLabel>
+                        <FormControl>
+                          <TextFieldInput
+                            placeholder="Enter email address"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
                     )}
-                  </div>
-                </div>
+                  />
 
-                <div className="flex flex-row flex-nowrap items-stretch justify-between gap-4">
-                  <div className="flex flex-col flex-nowrap items-stretch justify-start relative flex-1">
-                    <div className="flex flex-row flex-nowrap items-center justify-between mb-1 ml-0">
-                      <label className="text-black font-medium text-sm flex items-center">
-                        Password
-                      </label>
-                    </div>
-                    <div className="flex flex-col flex-nowrap items-stretch justify-center relative">
-                      <input
-                        {...register("password", {
-                          required: true,
-                          minLength: 8,
-                        })}
-                        type={showPassword ? 'text' : 'password'}
-                        className="m-0 py-3 pr-10 pl-4 bg-white text-black outline-transparent outline outline-2 outline-offset-2 w-full accent-indigo-400 font-normal text-sm rounded border border-solid border-slate-300 focus:transition focus:shadow focus:shadow-indigo-400"
-                      />
-                      <button onClick={() => setShowPassword(!showPassword)} type="button" className="my-0 ml-0 mr-3 p-1 border-0 outline-0 select-none cursor-pointer rounded inline-flex justify-center items-center transition font-normal text-sm min-h[1.5rem] tracking-wider w-6 absolute right-0 text-slate-400 hover:text-slate-500 focus:transition focus:shadow focus:shadow-indigo-400">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 20 20"
-                          className="flex-shrink-0 w-4 h-4"
+                  <FormField
+                    control={form.control}
+                    name="password"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel
+                          className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70"
                         >
-                          <path
-                            fill="currentColor"
-                            d="M10 12a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"
-                          ></path>
-                          <path
-                            fill="currentColor"
-                            fillRule="evenodd"
-                            d="M.46 10a10 10 0 0 1 19.08 0A10 10 0 0 1 .46 10ZM14 10a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z"
-                            clipRule="evenodd"
-                          ></path>
-                        </svg>
-                      </button>
-                    </div>
-                    {errors.password && (
-                      <div className="transition-all relative h-7">
-                        <p
-                          aria-live="polite"
-                          className="box-border text-slate-500 mt-2 mx-0 mb-0 text-sm font-normal flex gap-1 absolute top-0 transition-all"
-                        >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 14 14"
-                            className="flex-shrink-0 w-[1rem] h-[1rem]"
-                          >
-                            <path
-                              fill="currentColor"
-                              fillRule="evenodd"
-                              d="M13.4 7A6.4 6.4 0 1 1 .6 7a6.4 6.4 0 0 1 12.8 0Zm-5.6 3.2a.8.8 0 1 1-1.6 0 .8.8 0 0 1 1.6 0ZM7 3a.8.8 0 0 0-.8.8V7a.8.8 0 0 0 1.6 0V3.8A.8.8 0 0 0 7 3Z"
-                              clipRule="evenodd"
-                            ></path>
-                          </svg>
-                          Your password must contain 8 or more characters.
-                        </p>
-                      </div>
+                          Password
+                        </FormLabel>
+                        <FormControl>
+                          <TextField>
+                            <TextFieldInput
+                              placeholder="Enter password"
+                              type={showPassword ? 'text' : 'password'}
+                              {...field}
+                            />
+                            <TextFieldSlot onClick={() => setShowPassword(!showPassword)}>
+                              {showPassword ? <Eye /> : <EyeOff />}
+                            </TextFieldSlot>
+                          </TextField>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
                     )}
-                  </div>
-                </div>
+                  />
 
-                <button type="submit" className="m-0 py-3 px-5 border-0 outline-0 select-none cursor-pointer bg-indigo-700 text-white rounded inline-flex justify-center items-center transition font-semibold text-xs tracking-wider uppercase min-h-[2.25rem] w-full hover:bg-indigo-800">
-                  Continue
-                </button>
-              </form>
+                  <button className="m-0 py-3 px-5 border-0 outline-0 select-none cursor-pointer bg-indigo-700 text-white rounded inline-flex justify-center items-center transition font-semibold text-xs tracking-wider uppercase min-h-[2.25rem] w-full hover:bg-indigo-800">
+                    Continue
+                  </button>
+                </form>
+              </Form>
             </div>
 
             {/* footer */}
@@ -186,9 +168,9 @@ export default function SignIn() {
               <span className="box-border text-slate-400 text-sm font-normal">
                 No account?
               </span>
-              <a className="box-border inline-flex items-center m-0 cursor-pointer no-underline font-normal text-sm text-indigo-600">
+              <Link href="/sign-up" className="box-border inline-flex items-center m-0 cursor-pointer no-underline font-normal text-sm text-indigo-600">
                 Sign up
-              </a>
+              </Link>
             </div>
           </div>
         </div>

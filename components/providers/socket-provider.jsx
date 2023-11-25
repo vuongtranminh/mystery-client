@@ -7,6 +7,7 @@ import {
   useState
 } from "react";
 import Socket from "@/lib/socket";
+import { usePathname } from "next/navigation";
 
 const SocketContext = createContext({
   socket: null,
@@ -21,19 +22,27 @@ export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
   const [isConnected, setIsConnected] = useState(false);
 
-  // useEffect(() => {
-  //   const socketInstance = new Socket("ws://localhost:8080/mystery", {
-  //       pingTimeoutDelay: 1000,
-  //       pingDisconnectTimeoutDelay: 3000,
-  //       reconnectionDelay: 1000
-  //     })
-  
-  //   setSocket(socketInstance);
+  useEffect(() => {
+    const socketInstance = new Socket("ws://localhost:8080/mystery", {
+      pingTimeoutDelay: 1000,
+      pingDisconnectTimeoutDelay: 3000,
+      reconnectionDelay: 1000
+    })
 
-  //   return () => {
-  //     socketInstance.disconnect();
-  //   }
-  // }, []);
+    socketInstance.on("connect", () => {
+      setIsConnected(true);
+    });
+
+    socketInstance.on("disconnect", () => {
+      setIsConnected(false);
+    });
+  
+    setSocket(socketInstance);
+
+    return () => {
+      socketInstance.disconnect();
+    }
+  }, []);
 
   return (
     <SocketContext.Provider value={{ socket, isConnected }}>

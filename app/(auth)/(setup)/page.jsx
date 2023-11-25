@@ -2,8 +2,8 @@ import { redirect } from "next/navigation";
 
 import { initialProfile } from "@/lib/initial-profile";
 import { InitialModal } from "@/components/modals/initial-modal";
-import serverApi from "../api/server.api";
-import { fetchServerSide } from "../api/fetch.server.api";
+import { fetchServerSide } from "@/app/api/fetch.server.api";
+import serverApi from "@/app/api/server.api";
 
 const SetupPage = async () => {
   // const profile = await initialProfile();

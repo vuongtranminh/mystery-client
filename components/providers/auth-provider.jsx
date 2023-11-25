@@ -15,15 +15,12 @@ const AuthContext = createContext({
 export const useAuth = () => useContext(AuthContext)
 
 export const AuthProvider = ({ children }) => {
-  const pathname = usePathname()
   const router = useRouter();
 
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    if (pathname !== "/sign-in" || pathname !== "/sign-up") {
-      getCurrentUser();
-    }
+    getCurrentUser();
   }, []);
 
   const redirectToSignIn = () => {
