@@ -6,6 +6,7 @@ export const serverEndpoints = {
   getFirstServerJoin: "/discord-service/servers/getFirstServerJoin",
   getServersJoin: "/discord-service/servers/getServersJoin",
   joinServerByInviteCode: "/discord-service/servers/joinServerByInviteCode",
+  leaveServer: "/discord-service/servers/leaveServer",
 };
 
 const serverApi = {
@@ -60,6 +61,19 @@ const serverApi = {
       const response = await mystery.post(serverEndpoints.joinServerByInviteCode,
         {
           inviteCode: inviteCode
+        },
+        config
+      );
+
+      return { response };
+    } catch (error) { return { error }; }
+  },
+  leaveServer: async (data, config) => {
+    const { serverId } = data;
+    try {
+      const response = await mystery.post(serverEndpoints.leaveServer,
+        {
+          serverId: serverId
         },
         config
       );

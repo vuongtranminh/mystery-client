@@ -14,6 +14,8 @@ import {
 } from "@/components/ui/dialog";
 import { useModal } from "@/hooks/use-modal-store";
 import { Button } from "@/components/ui/button";
+import { fetchClientSide } from "@/app/api/fetch.client.api";
+import serverApi from "@/app/api/server.api";
 
 export const LeaveServerModal = () => {
   const { isOpen, onClose, type, data } = useModal();
@@ -25,19 +27,32 @@ export const LeaveServerModal = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const onClick = async () => {
-    try {
-      setIsLoading(true);
+    // try {
+    //   setIsLoading(true);
 
-      await axios.patch(`/api/servers/${server?.id}/leave`);
+    //   await axios.patch(`/api/servers/${server?.id}/leave`);
 
+    //   onClose();
+    //   router.refresh();
+    //   router.push("/");
+    // } catch (error) {
+    //   console.log(error);
+    // } finally {
+    //   setIsLoading(false);
+    // }
+    setIsLoading(true);
+
+    const { response, error } = await fetchClientSide(serverApi.leaveServer, {
+      serverId: server?.serverId
+    })
+
+    if (response?.success) {
       onClose();
       router.refresh();
       router.push("/");
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoading(false);
     }
+
+    setIsLoading(false);
   }
 
   return (

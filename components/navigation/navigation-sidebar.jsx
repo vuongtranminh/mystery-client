@@ -1,36 +1,50 @@
-import { redirect } from "next/navigation";
-// import { UserButton } from "@clerk/nextjs";
+"use client"
 
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ModeToggle } from "@/components/mode-toggle";
 import { Separator } from "@/components/ui/separator";
-import { currentProfile } from "@/lib/current-profile"
-import { db } from "@/lib/db";
 
 import { NavigationAction } from "./navigation-action";
 import { NavigationItem } from "./navigation-item";
-import client from "@/app/api/mystery";
-import { fetchServerSide } from "@/app/api/fetch.server.api";
 import serverApi from "@/app/api/server.api";
 import UserButton from "../auth/user-button";
+import { fetchClientSide } from "@/app/api/fetch.client.api";
+import { useInfiniteQuery } from "@/hooks/use-infinite-query";
 
-export const NavigationSidebar = async () => {
-  // const profile = await currentProfile();
+export const NavigationSidebar = () => {
 
-  // if (!profile) {
-  //   return redirect("/");
-  // }
+  const getServersJoin = async ({ pageParam = 0 }) => { 
 
-  const getServersJoin = async () => {
-    const { response, error } = await fetchServerSide(serverApi.getServersJoin, {
-      pageNumber: 0,
-      pageSize: 30
+    const { response, error } = await fetchClientSide(serverApi.getServersJoin, {
+      pageNumber: pageParam,
+      pageSize: 10
     })
 
-    return response?.data?.content;
-  }
+    return {
+      content: response?.data?.content,
+      meta: response?.data?.meta
+    };
 
-  const servers = await getServersJoin();
+  };
+
+  const {
+    data,
+    hasNextPage,
+    hasPreviousPage,
+    isFirst,
+    isLast,
+    status,
+    fetchNextPageStatus,
+    setInfo,
+    fetchNextPage
+  } = useInfiniteQuery({
+    queryFn: getServersJoin,
+    getNextPageParam: (pageParam) => {
+      return pageParam !== null ? pageParam + 1 : null
+    },
+  })
+
+  const { content: servers, meta } = data;
 
   return (
     <div
@@ -54,14 +68,6 @@ export const NavigationSidebar = async () => {
       <div className="pb-3 mt-auto flex items-center flex-col gap-y-4">
         <ModeToggle />
         <UserButton />
-        {/* <UserButton
-          afterSignOutUrl="/"
-          appearance={{
-            elements: {
-              avatarBox: "h-[48px] w-[48px]"
-            }
-          }}
-        /> */}
       </div>
     </div>
   )

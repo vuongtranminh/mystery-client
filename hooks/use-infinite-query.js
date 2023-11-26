@@ -63,7 +63,9 @@ export const useInfiniteQuery = ({ queryFn = undefined, getNextPageParam = undef
       setStatus("error");
     }
 
-    const { content, meta } = data;
+    const { content = [], meta = {
+      page: 0
+    } } = data;
 
     const hasNextPage = meta.page + 1 < meta.totalPages;
     
@@ -74,7 +76,10 @@ export const useInfiniteQuery = ({ queryFn = undefined, getNextPageParam = undef
     const isLast = !hasNextPage;
 
     setInfo({
-      data: data,
+      data: {
+        content: content,
+        meta: meta,
+      },
       hasNextPage: hasNextPage,
       hasPreviousPage: hasPreviousPage,
       isFirst: isFirst,
