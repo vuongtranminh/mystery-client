@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "protobuf-compile-script-1": "pbjs -t json-module -w commonjs -o bundle.js file1.proto file2.proto",
+    "protobuf-compile-script-2": "pbjs -t static-module file1.proto file2.proto | pbts -o bundle.d.ts -",
+    "protobuf-compile": "npm run protobuf-compile-script-1 && npm run protobuf-compile-script-2"
   },
   "dependencies": {
     "@emoji-mart/data": "^1.1.2",
@@ -63,6 +66,7 @@
     "next": "13.4.12",
     "next-themes": "^0.2.1",
     "postcss": "8.4.28",
+    "protobufjs": "^7.2.5",
     "query-string": "^8.1.0",
     "react": "18.2.0",
     "react-day-picker": "^8.7.1",
@@ -86,6 +90,7 @@
     "@types/node": "20.2.5",
     "@types/react": "18.2.7",
     "@types/react-dom": "18.2.4",
-    "@types/uuid": "^9.0.2"
+    "@types/uuid": "^9.0.2",
+    "protobufjs-cli": "^1.1.2"
   }
 }
