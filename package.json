@@ -6,10 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "protobuf-compile-script-1": "pbjs -t json-module -w commonjs -o bundle.js file1.proto file2.proto",
-    "protobuf-compile-script-2": "pbjs -t static-module file1.proto file2.proto | pbts -o bundle.d.ts -",
-    "protobuf-compile": "npm run protobuf-compile-script-1 && npm run protobuf-compile-script-2"
+    "lint": "next lint"
   },
   "dependencies": {
     "@emoji-mart/data": "^1.1.2",

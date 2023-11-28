@@ -1,0 +1,19 @@
+package discordpackage;
+syntax = "proto3";
+
+enum GrpcMemberRole {
+  MEMBER_ROLE_UNSPECIFIED = 0;
+  MEMBER_ROLE_ADMIN = 1;
+  MEMBER_ROLE_MODERATOR = 2;
+  MEMBER_ROLE_GUEST = 3;
+}
+
+message GrpcMemberProfile {
+  optional string member_id = 1;
+  optional GrpcMemberRole role = 2;
+  optional string server_id = 3;
+  optional string join_at = 4;
+  string profile_id = 5;
+  string name = 6;
+  optional string avt_url = 7;
+}

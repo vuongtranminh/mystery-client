@@ -1,0 +1,3 @@
+node_modules/.bin/pbjs.cmd -t json-module -w commonjs -o bundle.js proto/member.proto proto/message.proto
+
+node_modules/.bin/pbjs.cmd -t static-module proto/member.proto proto/message.proto | node_modules/.bin/pbts.cmd -o bundle.d.ts -
