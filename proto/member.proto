@@ -1,5 +1,6 @@
-package discordpackage;
 syntax = "proto3";
+
+package discordpackage;
 
 enum GrpcMemberRole {
   MEMBER_ROLE_UNSPECIFIED = 0;

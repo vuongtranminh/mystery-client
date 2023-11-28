@@ -1,5 +1,6 @@
-package discordpackage;
 syntax = "proto3";
+
+package discordpackage;
 
 import "member.proto";
 
