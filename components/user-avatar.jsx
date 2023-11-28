@@ -6,7 +6,7 @@ export const UserAvatar = ({
   className
 }) => {
   return (
-    <Avatar className={cn(
+    <Avatar radius="medium" className={cn(
       "h-7 w-7 md:h-10 md:w-10",
       className
     )}>
