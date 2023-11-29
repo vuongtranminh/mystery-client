@@ -15,7 +15,7 @@ export const useInfiniteQuery = ({ queryFn = undefined, getNextPageParam = undef
   });
   const fetchNextPage = async () => {
     if (info.isLast) return;
-    const pageParam = getNextPageParam(info.isLast ? null : info.data.meta.page);
+    const pageParam = getNextPageParam(info.isLast ? null : info.data.meta.pageNumber);
 
     setFetchNextPageStatus("loading");
     let data = {
@@ -29,9 +29,9 @@ export const useInfiniteQuery = ({ queryFn = undefined, getNextPageParam = undef
 
     const { content, meta } = data;
 
-    const hasNextPage = meta.page + 1 < meta.totalPages;
+    const hasNextPage = meta.pageNumber + 1 < meta.totalPages;
     
-    const hasPreviousPage = meta.page > 0;
+    const hasPreviousPage = meta.pageNumber > 0;
 
     const isFirst = !hasPreviousPage;
 
@@ -67,9 +67,9 @@ export const useInfiniteQuery = ({ queryFn = undefined, getNextPageParam = undef
       page: 0
     } } = data;
 
-    const hasNextPage = meta.page + 1 < meta.totalPages;
+    const hasNextPage = meta.pageNumber + 1 < meta.totalPages;
     
-    const hasPreviousPage = meta.page > 0;
+    const hasPreviousPage = meta.pageNumber > 0;
 
     const isFirst = !hasPreviousPage;
 
