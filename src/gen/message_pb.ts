@@ -5,7 +5,7 @@
 
 import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
 import { Message, proto3 } from "@bufbuild/protobuf";
-import { GrpcMemberProfile } from "./member_pb.ts";
+import { GrpcMemberProfile } from "./member_pb.js";
 
 /**
  * @generated from enum discordpackage.GrpcMessageEventType
