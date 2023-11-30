@@ -11,8 +11,6 @@ import { useChatScroll } from "@/hooks/use-chat-scroll";
 import { ChatWelcome } from "./chat-welcome";
 import { ChatItem } from "./chat-item";
 
-const DATE_FORMAT = "d MMM yyyy, HH:mm";
-
 export const ChatMessages = ({
   name,
   member,
@@ -107,21 +105,16 @@ export const ChatMessages = ({
         </div>
       )}
       <div className="flex flex-col-reverse mt-auto">
-        {data?.content?.map((message) => (
+        {data?.content?.map((message, index, messages) => (
           <ChatItem
             key={message.messageId}
-            id={message.messageId}
             currentMember={member}
-            member={message.author}
-            content={message.content}
-            fileUrl={message.fileUrl}
-            deleted={!!message.deletedAt}
-            timestamp={format(new Date(message.createdAt), DATE_FORMAT)}
-            isUpdated={message.updatedAt !== message.createdAt}
+            message={message}
             socketUrl={socketUrl}
             socketQuery={socketQuery}
             apiUpdateUrl={apiUpdateUrl}
             apiDeleteUrl={apiDeleteUrl}
+            prevMessage={messages[index+1]}
           />
         ))}
       </div>
