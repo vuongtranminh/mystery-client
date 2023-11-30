@@ -122,7 +122,6 @@ export const ChatItem = ({
   }, [content]);
 
   const checkGroupMessage = () => {
-    console.log(prevMessage)
     if (!prevMessage) return false;
 
     const overTimeGroupMessage = getTime(new Date(message.createdAt)) - getTime(new Date(prevMessage.createdAt)) > 1000 * 60 * 5;
