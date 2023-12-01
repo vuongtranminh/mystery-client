@@ -28,7 +28,7 @@ export const AuthProvider = ({ children }) => {
   }
 
   const getCurrentUser = async () => {
-    const { response, err } = await fetchClientSide(userApi.me);
+    const [response, error] = await fetchClientSide(userApi.me);
 
     if (response?.success) {
       setUser(response?.data)

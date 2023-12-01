@@ -51,7 +51,7 @@ export default function SignUp() {
   });
 
   const onSubmit = async (values) => {
-    const { response, err } = await fetchClientSide(authApi.signup, {
+    const [response, error] = await fetchClientSide(authApi.signup, {
       name: `${values.firstName} ${values.lastName}`,
       email: values.email,
       password: values.password,

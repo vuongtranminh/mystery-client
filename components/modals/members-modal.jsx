@@ -75,7 +75,7 @@ export const MembersModal = () => {
     params: {
       serverId: server?.serverId
     },
-    condition: isOpen
+    condition: isModalOpen
   });
 
   const onKick = async (memberId) => {

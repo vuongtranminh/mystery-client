@@ -1,7 +1,6 @@
 "use client";
 
 import * as z from "zod";
-import axios from "axios";
 import qs from "query-string";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -23,8 +22,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useModal } from "@/hooks/use-modal-store";
-import mystery from "@/app/api/mystery";
 import { format, getTime } from "date-fns";
+import { fetchClientSide } from "@/app/api/fetch.client.api";
 
 const roleIconMap = {
   "GUEST": null,
@@ -84,25 +83,17 @@ export const ChatItem = ({
   const isLoading = form.formState.isSubmitting;
 
   const onSubmit = async (values) => {
-    try {
-      // const url = qs.stringifyUrl({
-      //   url: `${socketUrl}/${id}`,
-      //   query: socketQuery,
-      // });
+    const [response, error] = await fetchClientSide(apiUpdateUrl, {
+      messageId: message.messageId,
+      ...values,
+      ...socketQuery
+    });
 
-      // await axios.patch(url, values);
-
-      await mystery.post(apiUpdateUrl, {
-        messageId: id,
-        ...values,
-        ...socketQuery
-      });
-
+    if (response?.success) {
       form.reset();
-      setIsEditing(false);
-    } catch (error) {
-      console.log(error);
     }
+
+    setIsEditing(false);
   }
 
   const handleEdit = () => {
@@ -228,7 +219,7 @@ export const ChatItem = ({
           )}
         </div>
       </div>
-      {canDeleteMessage && (
+      {canDeleteMessage && !isEditing && (
         <div className="hidden group-hover:flex items-center gap-x-2 absolute p-1 -top-2 right-5 bg-white dark:bg-zinc-800 border rounded-sm">
           {canEditMessage && (
             <ActionTooltip label="Edit">
@@ -243,7 +234,7 @@ export const ChatItem = ({
               onClick={() => onOpen("deleteMessage", { 
                 apiUrl: apiDeleteUrl,
                 query: {
-                  messageId: id,
+                  messageId: message.messageId,
                   ...socketQuery
                 },
                })}
@@ -265,9 +256,11 @@ export const ChatItem = ({
               <p onClick={onMemberClick} className="font-semibold text-sm hover:underline cursor-pointer">
                 {member.name}
               </p>
-              <ActionTooltip label={getKeyByValue(MemberRole, member.role)}>
-                {roleIconMap[getKeyByValue(MemberRole, member.role)]}
-              </ActionTooltip>
+              {member.role !== 0 && (
+                <ActionTooltip label={getKeyByValue(MemberRole, member.role)}>
+                  {roleIconMap[getKeyByValue(MemberRole, member.role)]}
+                </ActionTooltip>
+              )}
             </div>
             <span className="text-xs text-zinc-500 dark:text-zinc-400">
               {timestamp}
@@ -349,7 +342,7 @@ export const ChatItem = ({
           )}
         </div>
       </div>
-      {canDeleteMessage && (
+      {canDeleteMessage && !isEditing && (
         <div className="hidden group-hover:flex items-center gap-x-2 absolute p-1 -top-2 right-5 bg-white dark:bg-zinc-800 border rounded-sm">
           {canEditMessage && (
             <ActionTooltip label="Edit">
@@ -364,7 +357,7 @@ export const ChatItem = ({
               onClick={() => onOpen("deleteMessage", { 
                 apiUrl: apiDeleteUrl,
                 query: {
-                  messageId: id,
+                  messageId: message.messageId,
                   ...socketQuery
                 },
                })}

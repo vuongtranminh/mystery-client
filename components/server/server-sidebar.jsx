@@ -29,7 +29,7 @@ const roleIconMap = {
 export const ServerSidebar = async ({ serverId }) => {
 
   const getServerJoinByServerId = async () => {
-    const { response, err } = await fetchServerSide(serverApi.getServerJoinByServerId, {
+    const [response, error] = await fetchServerSide(serverApi.getServerJoinByServerId, {
       serverId: serverId
     });
 
@@ -39,7 +39,7 @@ export const ServerSidebar = async ({ serverId }) => {
   const server = await getServerJoinByServerId();
 
   const getChannelsByServerId = async () => {
-    const { response, err } = await fetchServerSide(channelApi.getChannelsByServerId, {
+    const [response, error] = await fetchServerSide(channelApi.getChannelsByServerId, {
       serverId: serverId,
       pageNumber: 0,
       pageSize: 30
@@ -50,7 +50,7 @@ export const ServerSidebar = async ({ serverId }) => {
   const channels = await getChannelsByServerId();
 
   const getMembersByServerId = async () => {
-    const { response, err } = await fetchServerSide(memberApi.getMembersByServerId, {
+    const [response, error] = await fetchServerSide(memberApi.getMembersByServerId, {
       serverId: serverId,
       pageNumber: 0,
       pageSize: 30
@@ -59,7 +59,7 @@ export const ServerSidebar = async ({ serverId }) => {
   }
 
   const getMemberByServerId = async () => {
-    const { response, err } = await fetchServerSide(memberApi.getMemberByServerId, {
+    const [response, error] = await fetchServerSide(memberApi.getMemberByServerId, {
       serverId: serverId
     });
 

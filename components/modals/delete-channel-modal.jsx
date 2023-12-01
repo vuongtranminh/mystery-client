@@ -29,7 +29,7 @@ export const DeleteChannelModal = () => {
 
   const onClick = async () => {
     setIsLoading(true);
-    const { response, error } = await fetchClientSide(channelApi.deleteChannel, {
+    const [response, error] = await fetchClientSide(channelApi.deleteChannel, {
       channelId: channel?.channelId,
     });
 

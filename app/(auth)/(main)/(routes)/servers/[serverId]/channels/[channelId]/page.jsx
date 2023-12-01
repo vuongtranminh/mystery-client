@@ -8,13 +8,13 @@ import { ChatMessages } from "@/components/chat/chat-messages";
 import { MediaRoom } from "@/components/media-room";
 import channelApi from "@/app/api/channel.api";
 import memberApi from "@/app/api/member.api";
-import { messageEndpoints } from "@/app/api/message.api";
+import messageApi, { messageEndpoints } from "@/app/api/message.api";
 import { fetchServerSide } from "@/app/api/fetch.server.api";
 
 const ChannelIdPage = async ({ params }) => {
   
   const getChannelByChannelId = async () => {
-    const { response, error } = await fetchServerSide(channelApi.getChannelByChannelId, {
+    const [response, error] = await fetchServerSide(channelApi.getChannelByChannelId, {
       channelId: params.channelId
     });
 
@@ -22,7 +22,7 @@ const ChannelIdPage = async ({ params }) => {
   }
 
   const getMemberByServerId = async () => {
-    const { response, error } = await fetchServerSide(memberApi.getMemberByServerId, {
+    const [response, error] = await fetchServerSide(memberApi.getMemberByServerId, {
       serverId: params.serverId
     });
 
@@ -51,8 +51,8 @@ const ChannelIdPage = async ({ params }) => {
             chatId={channel.channelId}
             type="channel"
             apiUrl={messageEndpoints.getMessagesByChannelId}
-            apiEditUrl={messageEndpoints.updateMessage}
-            apiDeleteUrl={messageEndpoints.deleteMessage}
+            apiUpdateUrl="updateMessage"
+            apiDeleteUrl="deleteMessage"
             socketUrl="/api/socket/messages"
             socketQuery={{
               channelId: channel.channelId,

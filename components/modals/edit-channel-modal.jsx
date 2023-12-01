@@ -75,7 +75,7 @@ export const EditChannelModal = () => {
   const isLoading = form.formState.isSubmitting;
 
   const onSubmit = async (values) => {
-    const { response, error } = await fetchClientSide(channelApi.updateChannel, {
+    const [response, error] = await fetchClientSide(channelApi.updateChannel, {
       channelId: channel?.channelId,
       name: values.name,
     });

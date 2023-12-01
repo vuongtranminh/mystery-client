@@ -15,7 +15,7 @@ export const NavigationSidebar = () => {
 
   const getServersJoin = async ({ pageParam = 0 }) => { 
 
-    const { response, error } = await fetchClientSide(serverApi.getServersJoin, {
+    const [response, error] = await fetchClientSide(serverApi.getServersJoin, {
       pageNumber: pageParam,
       pageSize: 10
     })

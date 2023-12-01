@@ -10,6 +10,7 @@ import { useChatScroll } from "@/hooks/use-chat-scroll";
 
 import { ChatWelcome } from "./chat-welcome";
 import { ChatItem } from "./chat-item";
+import messageApi from "@/app/api/message.api";
 
 export const ChatMessages = ({
   name,
@@ -25,6 +26,28 @@ export const ChatMessages = ({
   params,
   type,
 }) => {
+
+  const processUpdate = () => {
+    switch (apiUpdateUrl) {
+      case "updateMessage":
+        return messageApi.updateMessage;
+      default:
+        return null;
+    }
+  }
+
+  const processDelete = () => {
+    switch (apiDeleteUrl) {
+      case "deleteMessage":
+        return messageApi.deleteMessage;
+      default:
+        return null;
+    }
+  }
+
+  const apiUpdate = processUpdate();
+  const apiDelete = processDelete();
+
   const queryKey = `chat:${chatId}`;
   const addKey = `chat:${chatId}:messages`;
   const updateKey = `chat:${chatId}:messages:update` 
@@ -49,7 +72,10 @@ export const ChatMessages = ({
     paramValue,
     params
   });
-  useChatSocket({setInfo: setInfo});
+  useChatSocket({
+    setInfo: setInfo, 
+    chatId: chatId
+  });
 
   useChatScroll({
     chatRef,
@@ -112,8 +138,8 @@ export const ChatMessages = ({
             message={message}
             socketUrl={socketUrl}
             socketQuery={socketQuery}
-            apiUpdateUrl={apiUpdateUrl}
-            apiDeleteUrl={apiDeleteUrl}
+            apiUpdateUrl={apiUpdate}
+            apiDeleteUrl={apiDelete}
             prevMessage={messages[index+1]}
           />
         ))}

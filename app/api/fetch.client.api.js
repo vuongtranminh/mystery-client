@@ -6,5 +6,5 @@ export const fetchClientSide = async (callback, data, config) => {
     const router = globalRouter.router;
     router.push("/sign-in/deleteAllCookies");
   }
-  return { response, error };
+  return [response, error];
 }

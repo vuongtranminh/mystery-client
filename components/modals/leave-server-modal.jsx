@@ -42,7 +42,7 @@ export const LeaveServerModal = () => {
     // }
     setIsLoading(true);
 
-    const { response, error } = await fetchClientSide(serverApi.leaveServer, {
+    const [response, error] = await fetchClientSide(serverApi.leaveServer, {
       serverId: server?.serverId
     })
 

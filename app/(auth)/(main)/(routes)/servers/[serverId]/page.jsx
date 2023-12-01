@@ -14,7 +14,7 @@ const ServerIdPage = async ({ params }) => {
   // return;
 
   const getChannelGeneralByServerId = async () => {
-    const { response, error } = await fetchServerSide(channelApi.getChannelGeneralByServerId, {
+    const [response, error] = await fetchServerSide(channelApi.getChannelGeneralByServerId, {
       serverId: params.serverId
     })
 

@@ -54,7 +54,7 @@ export const CreateServerModal = () => {
   const isLoading = form.formState.isSubmitting;
 
   const onSubmit = async (values) => {
-    const { response, error } = await fetchClientSide(serverApi.createServer, {
+    const [response, error] = await fetchClientSide(serverApi.createServer, {
       name: values.name,
       imgUrl: values.imgUrl
     });

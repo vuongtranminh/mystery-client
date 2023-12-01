@@ -5,7 +5,8 @@ import { Member, Message, Profile } from "@/prisma/schema";
 import { useSocket } from "@/components/providers/socket-provider";
 
 export const useChatSocket = ({
-  setInfo
+  setInfo, 
+  chatId,
 }) => {
   const { socket } = useSocket();
   const queryClient = useQueryClient();
@@ -15,7 +16,11 @@ export const useChatSocket = ({
       return;
     }
 
-    socket.on("channel:add", ({ message }) => {
+    socket.on("messageEvent:1", (message) => {
+      if (chatId !== message.channelId) {
+        return;
+      }
+
       setInfo((oldData) => ({
         ...oldData,
         data: {
@@ -25,7 +30,11 @@ export const useChatSocket = ({
       }));
     })
 
-    socket.on("channel:edit", ({ message }) => {
+    socket.on("messageEvent:2", (message) => {
+      if (chatId !== message.channelId) {
+        return;
+      }
+
       setInfo((oldData) => {
         const messageUpdateIndex = oldData.data.content.findIndex(item => item.messageId === message.messageId);
         if (messageUpdateIndex === -1) {
@@ -97,8 +106,8 @@ export const useChatSocket = ({
     // });
 
     return () => {
-      socket.off("channel:add");
-      socket.off("channel:edit");
+      socket.off("messageEvent:1");
+      socket.off("messageEvent:2");
       // socket.off(addKey);
       // socket.off(updateKey);
     }

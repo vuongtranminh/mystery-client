@@ -76,7 +76,7 @@ export const CreateChannelModal = () => {
   const isLoading = form.formState.isSubmitting;
 
   const onSubmit = async (values) => {
-    const { response, err } = await fetchClientSide(channelApi.createChannel, {
+    const [response, error] = await fetchClientSide(channelApi.createChannel, {
       serverId: params?.serverId,
       name: values.name,
       type: Number(values.type),

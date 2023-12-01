@@ -1,7 +1,6 @@
 "use client";
 
 import qs from "query-string";
-import axios from "axios";
 import { useState } from "react";
 
 import {
@@ -15,6 +14,7 @@ import {
 import { useModal } from "@/hooks/use-modal-store";
 import { Button } from "@/components/ui/button";
 import client from "@/app/api/mystery";
+import { fetchClientSide } from "@/app/api/fetch.client.api";
 
 export const DeleteMessageModal = () => {
   const { isOpen, onClose, type, data } = useModal();
@@ -25,18 +25,16 @@ export const DeleteMessageModal = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const onClick = async () => {
-    try {
-      setIsLoading(true);
-      const url = apiUrl;
+    setIsLoading(true);
+    const url = apiUrl;
 
-      await client.post(url, query);
+    const [response, error] = await fetchClientSide(url, query);
 
+    if (response?.success) {
       onClose();
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoading(false);
     }
+    
+    setIsLoading(false);
   }
 
   return (

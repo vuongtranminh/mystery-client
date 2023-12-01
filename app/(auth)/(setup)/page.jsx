@@ -7,7 +7,7 @@ import serverApi from "@/app/api/server.api";
 
 const SetupPage = async () => {
   const getFirstServerJoin = async () => {
-    const { response, error } = await fetchServerSide(serverApi.getFirstServerJoin);
+    const [response, error] = await fetchServerSide(serverApi.getFirstServerJoin);
 
     return response?.data;
   }

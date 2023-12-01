@@ -7,7 +7,7 @@ const InviteCodePage = async ({
   params
 }) => {
   const joinServerByInviteCode = async () => {
-    const { response, error } = await fetchServerSide(serverApi.joinServerByInviteCode, {
+    const [response, error] = await fetchServerSide(serverApi.joinServerByInviteCode, {
       inviteCode: params.inviteCode
     })
 

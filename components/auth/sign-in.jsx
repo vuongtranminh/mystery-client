@@ -49,7 +49,7 @@ export default function SignIn() {
   });
 
   const onSubmit = async (values) => {
-    const { response, err } = await fetchClientSide(authApi.signin, {
+    const [response, error] = await fetchClientSide(authApi.signin, {
       email: values.email,
       password: values.password,
     })
