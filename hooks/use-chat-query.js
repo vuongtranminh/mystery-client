@@ -5,6 +5,8 @@ import { useSocket } from "@/components/providers/socket-provider";
 import { useEffect, useReducer, useRef, useState } from "react";
 import mystery from "@/app/api/mystery";
 import { useInfiniteQuery } from "./use-infinite-query";
+import { fetchClientSide } from "@/app/api/fetch.client.api";
+import messageApi from "@/app/api/message.api";
 
 export const useChatQuery = ({
   queryKey,
@@ -17,16 +19,22 @@ export const useChatQuery = ({
 
   const fetchMessages = async ({ pageParam = 0 }) => { 
 
-    const data = await mystery.post(apiUrl, {
+    // const data = await mystery.post(apiUrl, {
+    //   ...params,
+    //   pageNumber: pageParam,
+    // });
+
+    // return {
+    //   content: data.data?.content,
+    //   meta: data.data?.meta
+    // };
+
+    const [res, err] = await fetchClientSide(messageApi.getMessagesByChannelId, {
       ...params,
       pageNumber: pageParam,
-    });
+    })
 
-    return {
-      content: data.data?.content,
-      meta: data.data?.meta
-    };
-
+    return [res, err];
   };
 
   const {

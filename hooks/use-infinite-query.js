@@ -21,9 +21,12 @@ export const useInfiniteQuery = ({ queryFn = undefined, getNextPageParam = undef
     let data = {
       ...info.data,
     };
-    try {
-      data = await queryFn({ pageParam: pageParam });
-    } catch (error) {
+
+    const [res, err] = await queryFn({ pageParam: pageParam });
+
+    if (res?.success) {
+      data = res.data;
+    } else {
       setFetchNextPageStatus("error");
     }
 
@@ -57,9 +60,12 @@ export const useInfiniteQuery = ({ queryFn = undefined, getNextPageParam = undef
     let data = {
       ...info.data
     };
-    try {
-      data = await queryFn({});
-    } catch (error) {
+
+    const [res, err] = await queryFn({});
+
+    if (res?.success) {
+      data = res.data
+    } else {
       setStatus("error");
     }
 

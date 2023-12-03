@@ -26,7 +26,6 @@ const getCookie = (cname, cookie) => {
 axios.defaults.withCredentials = true; // phải đặt giá trị này trên đầu config
 
 const mystery = axios.create({
-  // withCredentials: true,
   baseURL,
   paramsSerializer: {
     encode: params => queryString.stringify(params)
@@ -62,40 +61,47 @@ const onResponseError = async (error) => {
   if (error.response?.status === 401 && !originalRequest?._retry) {
     originalRequest._retry = true;
 
-    console.log("HAS COOKIE: " + getCookie("refreshToken", originalRequest.headers["Cookie"]))
+    console.log("CHECKKKKKKKKKKKKKK MYSTERY");
+    console.log(error)
 
-    if (getCookie("refreshToken", originalRequest.headers["Cookie"])) {
-      try {
-        // Gửi yêu cầu mới để lấy refresh token
-        const response = await mystery.post("/auth/refeshToken", null, {
-          headers: {
-            "Cookie": originalRequest.headers["Cookie"]
-          }
-        });
-        console.info(`[response refreshToken] [${JSON.stringify(response.headers)}]`)
+    // console.log("HAS COOKIE: " + getCookie("refreshToken", originalRequest.headers["Cookie"]))
 
-        if (response?.success) {
-          // Thực hiện lại yêu cầu ban đầu với access token mới
-          return mystery(originalRequest);
-        }
-  
-        // Lưu trữ access token mới vào local storage
-        // localStorage.setItem(ACCESS_TOKEN, JSON.stringify(response.data.accessToken));
-        // localStorage.setItem(REFRESH_TOKEN, JSON.stringify(response.data.refreshToken));
-  
-        // Cập nhật Authorization header với access token mới
-        // privateClient.defaults.headers.common["Authorization"] = `Bearer ${response.data.accessToken}`;
-  
-      } catch (error) {
-        // Lỗi khi lấy refresh token
-        console.error(error);
-        console.log("Session time out. Please login again.")
+    // if (getCookie("refreshToken", originalRequest.headers["Cookie"])) {
+      
 
-        // show modal "Session time out. Please login again." to login
+    // } else {
+    //   console.log("Not has refreshToken. Please login again.")
+    // }
+    try {
+      // Gửi yêu cầu mới để lấy refresh token
+      // const response = await mystery.post("/auth/refeshToken", null, {
+      //   headers: {
+      //     "Cookie": originalRequest.headers["Cookie"]
+      //   }
+      // });
+      const response = await mystery.post("/auth/refeshToken", null);
+      console.info(`[response refreshToken header] [${JSON.stringify(response.headers)}]`)
+      console.info(`[response refreshToken data] [${JSON.stringify(response.data)}]`)
+
+      if (response?.success) {
+        // Thực hiện lại yêu cầu ban đầu với access token mới
+        return mystery(originalRequest);
       }
 
-    } else {
-      console.log("Not has refreshToken. Please login again.")
+      // Lưu trữ access token mới vào local storage
+      // localStorage.setItem(ACCESS_TOKEN, JSON.stringify(response.data.accessToken));
+      // localStorage.setItem(REFRESH_TOKEN, JSON.stringify(response.data.refreshToken));
+
+      // Cập nhật Authorization header với access token mới
+      // privateClient.defaults.headers.common["Authorization"] = `Bearer ${response.data.accessToken}`;
+
+    } catch (error) {
+      // Lỗi khi lấy refresh token
+      console.log("ERRORRRRRRRRRRRRRRR")
+      console.error(error);
+      console.log("Session time out. Please login again.")
+
+      // show modal "Session time out. Please login again." to login
     }
   }
 

@@ -14,16 +14,12 @@ import { useInfiniteQuery } from "@/hooks/use-infinite-query";
 export const NavigationSidebar = () => {
 
   const getServersJoin = async ({ pageParam = 0 }) => { 
-
-    const [response, error] = await fetchClientSide(serverApi.getServersJoin, {
+    const [res, err] = await fetchClientSide(serverApi.getServersJoin, {
       pageNumber: pageParam,
       pageSize: 10
     })
 
-    return {
-      content: response?.data?.content,
-      meta: response?.data?.meta
-    };
+    return [res, err];
 
   };
 

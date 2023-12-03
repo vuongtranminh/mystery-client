@@ -18,7 +18,7 @@ export function middleware(request) {
   if (authPrefixes.some((prefix) => pathname.startsWith(prefix))) {
     if (pathname === '/sign-in/deleteAllCookies') {
 
-      console.log(request.cookies.getAll())
+      // console.log(request.cookies.getAll())
       const response = NextResponse.redirect(new URL('/sign-in', request.url));
       response.cookies.delete('accessToken')
       response.cookies.delete('refreshToken')
@@ -36,9 +36,9 @@ export function middleware(request) {
   // const allCookies = request.cookies.getAll()
   // console.log(allCookies) // => [{ name: 'nextjs', value: 'fast' }]
  
-  if (!request.cookies.has('accessToken')) {
-    return NextResponse.redirect(new URL('/sign-in', request.url));
-  }
+  // if (!request.cookies.has('accessToken')) {
+  //   return NextResponse.redirect(new URL('/sign-in', request.url));
+  // }
 
   // Assume a "Cookie:nextjs=fast" header to be present on the incoming request
   // Getting cookies from the request using the `RequestCookies` API
