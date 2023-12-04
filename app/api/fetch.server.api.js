@@ -13,7 +13,7 @@ export const fetchServerSide = async (callback, data, config = {}) => {
   // console.log(data)
   const { response, error } = await callback(data, config);
   if (error?.response?.status === 401) {
-    redirect("/sign-in/deleteAllCookies");
+    // redirect("/sign-in/deleteAllCookies");
   }
   return [response, error];
 }

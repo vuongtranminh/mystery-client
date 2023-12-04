@@ -5,22 +5,40 @@ const isServer = () => {
   return typeof window === "undefined";
 }
 
+// let isRefreshing = false;
+// let failedQueue = []; 
+
+// const processQueue = (originalRequest, response) => {
+//   failedQueue.forEach(originalRequest => {
+//     if (isServer()) {
+//       originalRequest.headers["Cookie"] = convertSetCookieToCookie(response.headers['set-cookie'])
+//     }
+//     mystery(originalRequest);
+//   });
+
+//   failedQueue = [];
+// };
+
 const baseURL = "http://localhost:3000/app/api/v1";
 
-const getCookie = (cname, cookie) => {
-  let name = cname + "=";
-  let decodedCookie = decodeURIComponent(cookie);
-  let ca = decodedCookie.split(';');
-  for(let i = 0; i <ca.length; i++) {
-    let c = ca[i];
-    while (c.charAt(0) == ' ') {
-      c = c.substring(1);
-    }
-    if (c.indexOf(name) == 0) {
-      return c.substring(name.length, c.length);
-    }
-  }
-  return "";
+// const getCookie = (cname, cookie) => {
+//   let name = cname + "=";
+//   let decodedCookie = decodeURIComponent(cookie);
+//   let ca = decodedCookie.split(';');
+//   for(let i = 0; i <ca.length; i++) {
+//     let c = ca[i];
+//     while (c.charAt(0) == ' ') {
+//       c = c.substring(1);
+//     }
+//     if (c.indexOf(name) == 0) {
+//       return c.substring(name.length, c.length);
+//     }
+//   }
+//   return "";
+// }
+
+const convertSetCookieToCookie = (setCookie = []) => {
+  return setCookie.map((cookie) => cookie.split("; ")[0]).join(";");
 }
 
 axios.defaults.withCredentials = true; // phải đặt giá trị này trên đầu config
@@ -59,10 +77,15 @@ const onResponseError = async (error) => {
 
   // Kiểm tra xem lỗi có phải do token hết hạn không
   if (error.response?.status === 401 && !originalRequest?._retry) {
+
+    // if (isRefreshing) {
+    //   failedQueue.push(originalRequest)
+    // }
+
     originalRequest._retry = true;
 
     console.log("CHECKKKKKKKKKKKKKK MYSTERY");
-    console.log(error)
+    // console.log(error)
 
     // console.log("HAS COOKIE: " + getCookie("refreshToken", originalRequest.headers["Cookie"]))
 
@@ -79,12 +102,30 @@ const onResponseError = async (error) => {
       //     "Cookie": originalRequest.headers["Cookie"]
       //   }
       // });
-      const response = await mystery.post("/auth/refeshToken", null);
-      console.info(`[response refreshToken header] [${JSON.stringify(response.headers)}]`)
+      console.log("IS SERVER: " + isServer());
+
+      if (isServer()) {
+        console.log(originalRequest.headers["Cookie"])
+      }
+      const response = await axios.post(`${baseURL}/auth/refeshToken`, null, isServer() ? {
+        headers: {
+          "Cookie": originalRequest.headers["Cookie"]
+        }
+      } : null);
+      console.info(`[response refreshToken]`)
+      console.log(response)
+      console.info(`[response refreshToken headers] [${JSON.stringify(response.headers)}]`)
       console.info(`[response refreshToken data] [${JSON.stringify(response.data)}]`)
 
-      if (response?.success) {
+      if (response?.data?.success) {
         // Thực hiện lại yêu cầu ban đầu với access token mới
+        if (isServer()) {
+          console.log("TRY REQUEST")
+          console.log(originalRequest.headers["Cookie"])
+          console.log("CONVERT")
+          console.log(convertSetCookieToCookie(response.headers['set-cookie']))
+          originalRequest.headers["Cookie"] = convertSetCookieToCookie(response.headers['set-cookie'])
+        }
         return mystery(originalRequest);
       }
 
