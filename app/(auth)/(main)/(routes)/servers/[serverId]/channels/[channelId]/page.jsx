@@ -10,6 +10,7 @@ import channelApi from "@/app/api/channel.api";
 import memberApi from "@/app/api/member.api";
 import messageApi, { messageEndpoints } from "@/app/api/message.api";
 import { fetchServerSide } from "@/app/api/fetch.server.api";
+import CinemaRoom from "@/components/cinema-room";
 
 const ChannelIdPage = async ({ params }) => {
   
@@ -43,7 +44,7 @@ const ChannelIdPage = async ({ params }) => {
         serverId={channel.serverId}
         type="channel"
       />
-      {channel.type === ChannelType.TEXT && (
+      {/* {channel.type === ChannelType.TEXT && (
         <>
           <ChatMessages
             member={member}
@@ -67,7 +68,7 @@ const ChannelIdPage = async ({ params }) => {
             params={{ channelId: channel.channelId }}
           />
         </>
-      )}
+      )} */}
       {channel.type === ChannelType.AUDIO && (
         <MediaRoom
           chatId={channel.channelId}
@@ -81,6 +82,9 @@ const ChannelIdPage = async ({ params }) => {
           video={true}
           audio={true}
         />
+      )}
+      {channel.type === ChannelType.TEXT && (
+        <CinemaRoom />
       )}
     </div>
    );

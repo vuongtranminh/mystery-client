@@ -520,12 +520,17 @@ export class GrpcMemberEvent_GrpcAddMemberEvent extends Message<GrpcMemberEvent_
  */
 export class GrpcMemberEvent_GrpcEditMemberEvent extends Message<GrpcMemberEvent_GrpcEditMemberEvent> {
   /**
-   * @generated from field: string member_id = 1;
+   * @generated from field: string server_id = 1;
+   */
+  serverId = "";
+
+  /**
+   * @generated from field: string member_id = 2;
    */
   memberId = "";
 
   /**
-   * @generated from field: eventpackage.GrpcMemberEvent.GrpcMemberRole role = 2;
+   * @generated from field: eventpackage.GrpcMemberEvent.GrpcMemberRole role = 3;
    */
   role = GrpcMemberEvent_GrpcMemberRole.MEMBER_ROLE_UNSPECIFIED;
 
@@ -537,8 +542,9 @@ export class GrpcMemberEvent_GrpcEditMemberEvent extends Message<GrpcMemberEvent
   static readonly runtime: typeof proto3 = proto3;
   static readonly typeName = "eventpackage.GrpcMemberEvent.GrpcEditMemberEvent";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "member_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "role", kind: "enum", T: proto3.getEnumType(GrpcMemberEvent_GrpcMemberRole) },
+    { no: 1, name: "server_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "member_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: "role", kind: "enum", T: proto3.getEnumType(GrpcMemberEvent_GrpcMemberRole) },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GrpcMemberEvent_GrpcEditMemberEvent {
@@ -563,7 +569,12 @@ export class GrpcMemberEvent_GrpcEditMemberEvent extends Message<GrpcMemberEvent
  */
 export class GrpcMemberEvent_GrpcDeleteMemberEvent extends Message<GrpcMemberEvent_GrpcDeleteMemberEvent> {
   /**
-   * @generated from field: string member_id = 1;
+   * @generated from field: string server_id = 1;
+   */
+  serverId = "";
+
+  /**
+   * @generated from field: string member_id = 2;
    */
   memberId = "";
 
@@ -575,7 +586,8 @@ export class GrpcMemberEvent_GrpcDeleteMemberEvent extends Message<GrpcMemberEve
   static readonly runtime: typeof proto3 = proto3;
   static readonly typeName = "eventpackage.GrpcMemberEvent.GrpcDeleteMemberEvent";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "member_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 1, name: "server_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "member_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GrpcMemberEvent_GrpcDeleteMemberEvent {

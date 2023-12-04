@@ -74,7 +74,8 @@ export const MembersModal = () => {
   } = useMemberQuery({
     apiUrl: memberEndpoints.getMembersByServerId,
     params: {
-      serverId: server?.serverId
+      serverId: server?.serverId,
+      pageSize: 30
     },
     condition: isModalOpen
   });
