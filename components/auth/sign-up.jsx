@@ -15,19 +15,19 @@ import Link from "next/link";
 
 const formSchema = z.object({
   firstName: z.string().min(1, {
-    message: "Channel name is required."
+    message: "First name is required."
   }),
   lastName: z.string().min(1, {
-    message: "Channel name is required."
+    message: "Last name is required."
   }),
-  email: z.string().min(1, {
-    message: "Channel name is required."
+  email: z.string().email().min(1, {
+    message: "Invalid email address."
   }),
-  password: z.string().min(1, {
-    message: "Channel name is required."
+  password: z.string().min(6, {
+    message: "Password more than 6 characters."
   }),
-  confirmPassword: z.string().min(1, {
-    message: "Channel name is required."
+  confirmPassword: z.string().min(6, {
+    message: "Comfirm password more than 6 characters."
   }),
 }).refine((data) => data.password === data.confirmPassword, {
   message: "Passwords don't match",
@@ -84,10 +84,10 @@ export default function SignUp() {
             {/* header */}
             <div className="flex flex-col items-stretch justify-start gap-1">
               <h1 className="box-border text-black m-0 font-semibold text-xl">
-                Sign in
+                Sign up
               </h1>
               <p className="box-border text-slate-400 m-0 text-base font-normal">
-                to continue to Clerk
+                to continue to Mystery
               </p>
             </div>
 

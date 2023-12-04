@@ -15,11 +15,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
 const formSchema = z.object({
-  email: z.string().min(1, {
-    message: "Channel name is required."
+  email: z.string().email().min(1, {
+    message: "Invalid email address."
   }),
-  password: z.string().min(1, {
-    message: "Channel name is required."
+  password: z.string().min(6, {
+    message: "Password more than 6 characters."
   }),
 });
 
@@ -84,7 +84,7 @@ export default function SignIn() {
                 Sign in
               </h1>
               <p className="box-border text-slate-400 m-0 text-base font-normal">
-                to continue to Clerk
+                to continue to Mystery
               </p>
             </div>
 

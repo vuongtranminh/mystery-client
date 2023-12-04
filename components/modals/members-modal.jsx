@@ -42,6 +42,7 @@ import memberApi, { memberEndpoints } from "@/app/api/member.api";
 import { useChatQuery } from "@/hooks/use-chat-query";
 import { useMemberQuery } from "@/hooks/use-member-query";
 import { Input } from "../ui/input";
+import { useSocket } from "@/components/providers/socket-provider";
 
 const roleIconMap = {
   "GUEST": null,
@@ -77,6 +78,84 @@ export const MembersModal = () => {
     },
     condition: isModalOpen
   });
+
+  // realtime User
+  const { socket } = useSocket();
+  useEffect(() => {
+    if (!isModalOpen) {
+      return;
+    }
+
+    if (!socket) {
+      return;
+    }
+
+    socket.on("memberEvent:1", (member) => {
+      if (server?.serverId !== member.serverId) {
+        return;
+      }
+
+      setInfo((oldData) => ({
+        ...oldData,
+        data: {
+          content: [member, ...oldData.data.content],
+          meta: oldData.data.meta
+        }
+      }));
+    })
+
+    socket.on("memberEvent:2", (member) => {
+      if (server?.serverId !== member.serverId) {
+        return;
+      }
+
+      setInfo((oldData) => {
+        const memberUpdateIndex = oldData.data.content.findIndex(item => item.memberId === member.memberId);
+        if (memberUpdateIndex === -1) {
+          return oldData;
+        }
+
+        const newContent = [...oldData.data.content];
+        newContent.splice(memberUpdateIndex, 1, member);
+        return {
+          ...oldData,
+          data: {
+            content: newContent,
+            meta: oldData.data.meta
+          }
+        };
+      });
+    })
+
+    socket.on("memberEvent:3", (member) => {
+      if (server?.serverId !== member.serverId) {
+        return;
+      }
+
+      setInfo((oldData) => {
+        const memberDeleteIndex = oldData.data.content.findIndex(item => item.memberId === member.memberId);
+        if (memberDeleteIndex === -1) {
+          return oldData;
+        }
+
+        const newContent = [...oldData.data.content];
+        newContent.splice(memberDeleteIndex, 1);
+        return {
+          ...oldData,
+          data: {
+            content: newContent,
+            meta: oldData.data.meta
+          }
+        };
+      });
+    })
+
+    return () => {
+      socket.off("memberEvent:1");
+      socket.off("memberEvent:2");
+      socket.off("memberEvent:3");
+    }
+  }, [socket, isModalOpen]);
 
   const onKick = async (memberId) => {
     try {
