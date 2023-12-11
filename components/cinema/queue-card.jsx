@@ -51,40 +51,38 @@ const QueueCard = () => {
       </CardHeader>
       <CardContent className='p-2'>
         <ScrollArea className="">
-          <div className="p-2">
-            {queue.map(track => (
-              <div 
-                key={track.id}
-                className='flex justify-between space-x-4 rounded-md p-2 transition-all hover:bg-accent hover:text-accent-foreground'
-              >
+          {queue.map(track => (
+            <div 
+              key={track.id}
+              className='flex justify-between space-x-4 rounded-md py-2 transition-all hover:bg-accent hover:text-accent-foreground'
+            >
+              <div className='flex'>
+                <img
+                  src={track.picture}
+                  alt="Music"
+                  className="h-[30px] w-[30px]"
+                />
                 <div>
-                  <img
-                    src={track.picture}
-                    alt="Music"
-                    className="hidden dark:block"
-                  />
-                  <div>
-                    <div>{track.title}</div>
-                    <div className='text-sm'>{moment.utc(track.duration * 1000).format(
-                      track.duration > 3600 ? 'HH:mm:ss' : 'mm:ss'
-                    )}</div>
-                  </div>
-                </div>
-                <div className='flex items-center gap-1'>
-                  <ActionTooltip label="Delete">
-                    <Trash className='cursor-pointer' onClick={() => handleDelete(track)} />
-                  </ActionTooltip>
-                  {currentTrack === track.id ? (
-                    <ActionTooltip label="Play">
-                      <PlayCircle className='cursor-pointer' onClick={() => handlePlay(track)} />
-                    </ActionTooltip>
-                  ) : (
-                    <AudioLines />
-                  )}
+                  <div className='text-sm'>{track.title}</div>
+                  <div className='text-xs'>{moment.utc(track.duration * 1000).format(
+                    track.duration > 3600 ? 'HH:mm:ss' : 'mm:ss'
+                  )}</div>
                 </div>
               </div>
-            ))}
-          </div>
+              <div className='flex items-center gap-1'>
+                <ActionTooltip label="Delete">
+                  <Trash className='cursor-pointer' onClick={() => handleDelete(track)} />
+                </ActionTooltip>
+                {currentTrack === track.id ? (
+                  <ActionTooltip label="Play">
+                    <PlayCircle className='cursor-pointer' onClick={() => handlePlay(track)} />
+                  </ActionTooltip>
+                ) : (
+                  <AudioLines />
+                )}
+              </div>
+            </div>
+          ))}
         </ScrollArea>
       </CardContent>
     </Card>

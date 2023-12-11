@@ -5,5 +5,5 @@ export const parseYtbLink = (url: string) => {
 }
 
 export const getDefaultPicture = (youtubeId: string) => {
-  return `https://img.youtube.com/vi/${youtubeId}/default.jpg`
+  return `https://img.youtube.com/vi/${youtubeId}/default.jpg`;
 }
