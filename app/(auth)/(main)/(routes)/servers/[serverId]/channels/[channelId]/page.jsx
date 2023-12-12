@@ -84,7 +84,9 @@ const ChannelIdPage = async ({ params }) => {
         />
       )}
       {channel.type === ChannelType.TEXT && (
-        <CinemaRoom />
+        <CinemaRoom 
+          chatId={channel.channelId}
+        />
       )}
     </div>
    );

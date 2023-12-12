@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { LiveKitRoom, VideoConference } from "@livekit/components-react";
+import { ControlBar, LiveKitRoom, VideoConference } from "@livekit/components-react";
 import "@livekit/components-styles";
 import { Channel } from "@/prisma/schema";
 // import { useUser } from "@clerk/nextjs";
@@ -55,6 +55,7 @@ export const MediaRoom = ({
       video={video}
       audio={audio}
     >
+      {/* <ControlBar /> */}
       <VideoConference />
     </LiveKitRoom>
   )

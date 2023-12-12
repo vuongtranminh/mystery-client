@@ -6,9 +6,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '../ui/card'
 import EnqueueInput from './enqueue-input'
 import { useCinema } from '../cinema-room'
 import PeerService from '@/app/api/peer.api';
-import { PlayCircle, Trash } from 'lucide-react'
+import { AudioLines, PlayCircle, Trash } from 'lucide-react'
 import { ActionTooltip } from '../action-tooltip'
 import moment from 'moment';
+import clsx from 'clsx'
 
 const QueueCard = () => {
   const cinema = useCinema()
@@ -54,16 +55,16 @@ const QueueCard = () => {
           {queue.map(track => (
             <div 
               key={track.id}
-              className='flex justify-between space-x-4 rounded-md py-2 transition-all hover:bg-accent hover:text-accent-foreground'
+              className={clsx('flex justify-between space-x-4 rounded-md p-1 transition-all hover:bg-accent hover:text-accent-foreground', currentTrack === track.id && 'bg-accent')}
             >
-              <div className='flex'>
+              <div className='flex gap-1'>
                 <img
                   src={track.picture}
                   alt="Music"
-                  className="h-[30px] w-[30px]"
+                  className="h-13 w-20"
                 />
-                <div>
-                  <div className='text-sm'>{track.title}</div>
+                <div className='flex flex-col justify-between'>
+                  <div className='text-sm line-clamp-2'>{track.title}</div>
                   <div className='text-xs'>{moment.utc(track.duration * 1000).format(
                     track.duration > 3600 ? 'HH:mm:ss' : 'mm:ss'
                   )}</div>
@@ -71,14 +72,14 @@ const QueueCard = () => {
               </div>
               <div className='flex items-center gap-1'>
                 <ActionTooltip label="Delete">
-                  <Trash className='cursor-pointer' onClick={() => handleDelete(track)} />
+                  <Trash className='cursor-pointer w-4 h-4' onClick={() => handleDelete(track)} />
                 </ActionTooltip>
                 {currentTrack === track.id ? (
-                  <ActionTooltip label="Play">
-                    <PlayCircle className='cursor-pointer' onClick={() => handlePlay(track)} />
-                  </ActionTooltip>
+                  <AudioLines className='w-4 h-4' />
                 ) : (
-                  <AudioLines />
+                  <ActionTooltip label="Play">
+                    <PlayCircle className='cursor-pointer w-4 h-4' onClick={() => handlePlay(track)} />
+                  </ActionTooltip>
                 )}
               </div>
             </div>

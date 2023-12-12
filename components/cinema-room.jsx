@@ -57,7 +57,9 @@ export const useCinema = () => {
   return useContext(CinemaContext);
 };
 
-const CinemaRoom = () => {
+const CinemaRoom = ({
+  chatId
+}) => {
   const { user } = useAuth();
 
   const [app, setApp] = useState({
@@ -291,7 +293,9 @@ const CinemaRoom = () => {
           <QueueCard />
         </div>
         <div className='col-span-1 row-span-1'>
-          <ChatBox />
+          <ChatBox 
+            chatId={chatId}
+          />
         </div>
       </div>
     </CinemaContext.Provider>

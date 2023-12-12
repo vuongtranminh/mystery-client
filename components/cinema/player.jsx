@@ -47,12 +47,15 @@ const Player = () => {
 
   return (
     <div className='rounded-lg border bg-card text-card-foreground shadow-sm h-full w-full'>
-      {queue.length === 0 ? <div></div> :
+      {queue.length === 0 ? (
+        <div className='h-full w-full flex justify-center items-center text-8xl'>Cinema</div>
+      ) :
         <YouTube
           ref={player}
           videoId={currentTrack}
+          className='h-full w-full'
           opts={{
-            height: '400',
+            height: '100%',
             width: '100%',
             playerVars: {
               autoplay: 1,
