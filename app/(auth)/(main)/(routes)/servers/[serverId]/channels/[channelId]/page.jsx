@@ -44,7 +44,7 @@ const ChannelIdPage = async ({ params }) => {
         serverId={channel.serverId}
         type="channel"
       />
-      {/* {channel.type === ChannelType.TEXT && (
+      {channel.type === ChannelType.TEXT && (
         <>
           <ChatMessages
             member={member}
@@ -68,7 +68,7 @@ const ChannelIdPage = async ({ params }) => {
             params={{ channelId: channel.channelId }}
           />
         </>
-      )} */}
+      )}
       {channel.type === ChannelType.AUDIO && (
         <MediaRoom
           chatId={channel.channelId}
@@ -83,11 +83,11 @@ const ChannelIdPage = async ({ params }) => {
           audio={true}
         />
       )}
-      {channel.type === ChannelType.TEXT && (
+      {/* {channel.type === ChannelType.TEXT && (
         <CinemaRoom 
           chatId={channel.channelId}
         />
-      )}
+      )} */}
     </div>
    );
 }

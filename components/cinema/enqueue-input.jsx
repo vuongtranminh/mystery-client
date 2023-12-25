@@ -3,7 +3,6 @@
 import { prepareTrack } from '@/app/api/youtube.api';
 import React, { useState } from 'react'
 import { useCinema } from '../cinema-room';
-import PeerService from '@/app/api/peer.api';
 import { Form, FormControl, FormField, FormItem, FormMessage } from '../ui/form';
 import { Input } from '../ui/input';
 import { z } from 'zod';
@@ -18,10 +17,6 @@ const formSchema = z.object({
 const EnqueueInput = () => {
 
   const cinema = useCinema();
-  // const [url, setUrl] = useState('');
-  // const [loading, setLoading] = useState(false);
-  const {profile} = cinema.app;
-  const {queue} = cinema.player;
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -34,19 +29,7 @@ const EnqueueInput = () => {
 
   const onSubmit = async (values) => {
     try {
-      const track = await prepareTrack(values.url);
-      if (queue.find(t => t.id === track.id)) {
-        throw new Error("Track already in queue");
-      }
-      console.log(track)
-      PeerService.sendAll(encodeURIComponent(JSON.stringify({
-        action: 'enqueue',
-        data: {
-          ...track,
-          source: profile?.userId
-        },
-      })));
-      cinema.player.enqueueTrack(track);
+      
 
       form.reset();
       router.refresh();

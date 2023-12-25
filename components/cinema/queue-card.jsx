@@ -5,35 +5,14 @@ import { ScrollArea } from '../ui/scroll-area'
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card'
 import EnqueueInput from './enqueue-input'
 import { useCinema } from '../cinema-room'
-import PeerService from '@/app/api/peer.api';
 import { AudioLines, PlayCircle, Trash } from 'lucide-react'
 import { ActionTooltip } from '../action-tooltip'
 import moment from 'moment';
 import clsx from 'clsx'
 
 const QueueCard = () => {
-  const cinema = useCinema()
-  const {queue, currentTrack} = cinema.player;
-
-  const handleDelete = (track) => {
-    cinema.player.removeTrack(track.id);
-    PeerService.sendAll(encodeURIComponent(JSON.stringify({
-      action: 'remove-track',
-      data: track.id,
-    })));
-  }
-
-  const handlePlay = (track) => {
-    const newState = {
-      currentTrack: track.id,
-      currentTrackTime: 0
-    };
-    cinema.player.syncPlayer(newState);
-    PeerService.sendAll(encodeURIComponent(JSON.stringify({
-      action: 'sync-player',
-      data: newState
-    })));
-  }
+  const queue = [{}]
+  const currentTrack = null
 
   return (
     <Card className='h-full'>
