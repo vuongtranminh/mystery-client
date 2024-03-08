@@ -5,7 +5,7 @@ const nextConfig = {
       {
         source: '/app/api/v1/:path*',
         destination: 'http://localhost:8900/app/api/v1/:path*',
-      },
+      }
     ]
   },
   webpack: (config) => {

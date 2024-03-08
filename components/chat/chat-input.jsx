@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { v4 as uuidv4 } from 'uuid';
 
 import {
   Form,
@@ -19,6 +20,8 @@ import { useModal } from "@/hooks/use-modal-store";
 import { EmojiPicker } from "@/components/emoji-picker";
 import { useEffect } from "react";
 import mystery from "@/app/api/mystery";
+import { ClientMsg, ClientSendMessage, GrpcMessage } from "@/src/gen/message_pb";
+import { useSocket } from "../providers/socket-provider";
 
 const formSchema = z.object({
   content: z.string().min(1),
@@ -46,19 +49,47 @@ export const ChatInput = ({
 
   const isLoading = form.formState.isSubmitting;
 
-  const onSubmit = async (values) => {
-    try {
-      await mystery.post(apiUrl, {
-        content: values.content,
-        fileUrl: values.fileUrl,
-        channelId: params.channelId,
-      });
+  // const onSubmit = async (values) => {
+  //   try {
+  //     await mystery.post(apiUrl, {
+  //       content: values.content,
+  //       fileUrl: values.fileUrl,
+  //       channelId: params.channelId,
+  //     });
 
-      form.reset();
-      router.refresh();
-    } catch (error) {
-      console.log(error);
-    }
+  //     form.reset();
+  //     router.refresh();
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
+
+  // change to ws
+  const { socket } = useSocket();
+
+  const onSubmit = (values) => {
+    const textEncoder = new TextEncoder();
+
+    const token = "token key";
+    const tokenEncoder = textEncoder.encode(token);
+
+    const contentEncoder = textEncoder.encode(values.content);
+
+    const send = new ClientSendMessage({
+      topicId: params.channelId,
+      clientMessageId: uuidv4(),
+      content: contentEncoder
+    })
+
+    const sendMessage = new ClientMsg({
+      head: { token: tokenEncoder },
+      Message: { case: "send", value: send }
+    })
+    // sendMessage.Message = { case: "send", value: send }
+    socket.send(sendMessage.toBinary());
+    
+    form.reset();
+    router.refresh();
   }
 
   useEffect(() => {

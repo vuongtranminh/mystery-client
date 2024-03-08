@@ -161,3 +161,391 @@ export class GrpcMessage extends Message<GrpcMessage> {
   }
 }
 
+/**
+ * @generated from message discordpackage.ClientSendMessage
+ */
+export class ClientSendMessage extends Message<ClientSendMessage> {
+  /**
+   * @generated from field: string topic_id = 1;
+   */
+  topicId = "";
+
+  /**
+   * @generated from field: string client_message_id = 2;
+   */
+  clientMessageId = "";
+
+  /**
+   * @generated from field: bytes content = 3;
+   */
+  content = new Uint8Array(0);
+
+  constructor(data?: PartialMessage<ClientSendMessage>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "discordpackage.ClientSendMessage";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "topic_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "client_message_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: "content", kind: "scalar", T: 12 /* ScalarType.BYTES */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ClientSendMessage {
+    return new ClientSendMessage().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ClientSendMessage {
+    return new ClientSendMessage().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ClientSendMessage {
+    return new ClientSendMessage().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: ClientSendMessage | PlainMessage<ClientSendMessage> | undefined, b: ClientSendMessage | PlainMessage<ClientSendMessage> | undefined): boolean {
+    return proto3.util.equals(ClientSendMessage, a, b);
+  }
+}
+
+/**
+ * @generated from message discordpackage.ClientTyping
+ */
+export class ClientTyping extends Message<ClientTyping> {
+  /**
+   * @generated from field: string topic_id = 1;
+   */
+  topicId = "";
+
+  constructor(data?: PartialMessage<ClientTyping>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "discordpackage.ClientTyping";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "topic_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ClientTyping {
+    return new ClientTyping().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ClientTyping {
+    return new ClientTyping().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ClientTyping {
+    return new ClientTyping().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: ClientTyping | PlainMessage<ClientTyping> | undefined, b: ClientTyping | PlainMessage<ClientTyping> | undefined): boolean {
+    return proto3.util.equals(ClientTyping, a, b);
+  }
+}
+
+/**
+ * @generated from message discordpackage.ClientSub
+ */
+export class ClientSub extends Message<ClientSub> {
+  /**
+   * @generated from field: string topic_id = 1;
+   */
+  topicId = "";
+
+  constructor(data?: PartialMessage<ClientSub>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "discordpackage.ClientSub";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "topic_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ClientSub {
+    return new ClientSub().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ClientSub {
+    return new ClientSub().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ClientSub {
+    return new ClientSub().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: ClientSub | PlainMessage<ClientSub> | undefined, b: ClientSub | PlainMessage<ClientSub> | undefined): boolean {
+    return proto3.util.equals(ClientSub, a, b);
+  }
+}
+
+/**
+ * @generated from message discordpackage.ClientLeave
+ */
+export class ClientLeave extends Message<ClientLeave> {
+  /**
+   * @generated from field: string topic_id = 1;
+   */
+  topicId = "";
+
+  constructor(data?: PartialMessage<ClientLeave>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "discordpackage.ClientLeave";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "topic_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ClientLeave {
+    return new ClientLeave().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ClientLeave {
+    return new ClientLeave().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ClientLeave {
+    return new ClientLeave().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: ClientLeave | PlainMessage<ClientLeave> | undefined, b: ClientLeave | PlainMessage<ClientLeave> | undefined): boolean {
+    return proto3.util.equals(ClientLeave, a, b);
+  }
+}
+
+/**
+ * @generated from message discordpackage.ClientSeen
+ */
+export class ClientSeen extends Message<ClientSeen> {
+  /**
+   * @generated from field: string topic_id = 1;
+   */
+  topicId = "";
+
+  /**
+   * @generated from field: string message_id = 3;
+   */
+  messageId = "";
+
+  constructor(data?: PartialMessage<ClientSeen>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "discordpackage.ClientSeen";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "topic_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: "message_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ClientSeen {
+    return new ClientSeen().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ClientSeen {
+    return new ClientSeen().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ClientSeen {
+    return new ClientSeen().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: ClientSeen | PlainMessage<ClientSeen> | undefined, b: ClientSeen | PlainMessage<ClientSeen> | undefined): boolean {
+    return proto3.util.equals(ClientSeen, a, b);
+  }
+}
+
+/**
+ * @generated from message discordpackage.ClientDeleteMessage
+ */
+export class ClientDeleteMessage extends Message<ClientDeleteMessage> {
+  /**
+   * @generated from field: string topic_id = 1;
+   */
+  topicId = "";
+
+  /**
+   * @generated from field: string message_id = 2;
+   */
+  messageId = "";
+
+  constructor(data?: PartialMessage<ClientDeleteMessage>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "discordpackage.ClientDeleteMessage";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "topic_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "message_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ClientDeleteMessage {
+    return new ClientDeleteMessage().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ClientDeleteMessage {
+    return new ClientDeleteMessage().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ClientDeleteMessage {
+    return new ClientDeleteMessage().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: ClientDeleteMessage | PlainMessage<ClientDeleteMessage> | undefined, b: ClientDeleteMessage | PlainMessage<ClientDeleteMessage> | undefined): boolean {
+    return proto3.util.equals(ClientDeleteMessage, a, b);
+  }
+}
+
+/**
+ * @generated from message discordpackage.ClientUpdateMessage
+ */
+export class ClientUpdateMessage extends Message<ClientUpdateMessage> {
+  /**
+   * @generated from field: string topic_id = 1;
+   */
+  topicId = "";
+
+  /**
+   * @generated from field: string message_id = 2;
+   */
+  messageId = "";
+
+  /**
+   * @generated from field: bytes content = 3;
+   */
+  content = new Uint8Array(0);
+
+  constructor(data?: PartialMessage<ClientUpdateMessage>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "discordpackage.ClientUpdateMessage";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "topic_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "message_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: "content", kind: "scalar", T: 12 /* ScalarType.BYTES */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ClientUpdateMessage {
+    return new ClientUpdateMessage().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ClientUpdateMessage {
+    return new ClientUpdateMessage().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ClientUpdateMessage {
+    return new ClientUpdateMessage().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: ClientUpdateMessage | PlainMessage<ClientUpdateMessage> | undefined, b: ClientUpdateMessage | PlainMessage<ClientUpdateMessage> | undefined): boolean {
+    return proto3.util.equals(ClientUpdateMessage, a, b);
+  }
+}
+
+/**
+ * @generated from message discordpackage.ClientMsg
+ */
+export class ClientMsg extends Message<ClientMsg> {
+  /**
+   * token
+   *
+   * @generated from field: map<string, bytes> head = 1;
+   */
+  head: { [key: string]: Uint8Array } = {};
+
+  /**
+   * @generated from oneof discordpackage.ClientMsg.Message
+   */
+  Message: {
+    /**
+     * @generated from field: discordpackage.ClientSendMessage send = 2;
+     */
+    value: ClientSendMessage;
+    case: "send";
+  } | {
+    /**
+     * @generated from field: discordpackage.ClientTyping typing = 3;
+     */
+    value: ClientTyping;
+    case: "typing";
+  } | {
+    /**
+     * @generated from field: discordpackage.ClientSub sub = 4;
+     */
+    value: ClientSub;
+    case: "sub";
+  } | {
+    /**
+     * @generated from field: discordpackage.ClientLeave leave = 5;
+     */
+    value: ClientLeave;
+    case: "leave";
+  } | {
+    /**
+     * @generated from field: discordpackage.ClientSeen seen = 6;
+     */
+    value: ClientSeen;
+    case: "seen";
+  } | {
+    /**
+     * @generated from field: discordpackage.ClientDeleteMessage delete = 7;
+     */
+    value: ClientDeleteMessage;
+    case: "delete";
+  } | {
+    /**
+     * @generated from field: discordpackage.ClientUpdateMessage update = 8;
+     */
+    value: ClientUpdateMessage;
+    case: "update";
+  } | { case: undefined; value?: undefined } = { case: undefined };
+
+  constructor(data?: PartialMessage<ClientMsg>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "discordpackage.ClientMsg";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "head", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "scalar", T: 12 /* ScalarType.BYTES */} },
+    { no: 2, name: "send", kind: "message", T: ClientSendMessage, oneof: "Message" },
+    { no: 3, name: "typing", kind: "message", T: ClientTyping, oneof: "Message" },
+    { no: 4, name: "sub", kind: "message", T: ClientSub, oneof: "Message" },
+    { no: 5, name: "leave", kind: "message", T: ClientLeave, oneof: "Message" },
+    { no: 6, name: "seen", kind: "message", T: ClientSeen, oneof: "Message" },
+    { no: 7, name: "delete", kind: "message", T: ClientDeleteMessage, oneof: "Message" },
+    { no: 8, name: "update", kind: "message", T: ClientUpdateMessage, oneof: "Message" },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ClientMsg {
+    return new ClientMsg().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ClientMsg {
+    return new ClientMsg().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ClientMsg {
+    return new ClientMsg().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: ClientMsg | PlainMessage<ClientMsg> | undefined, b: ClientMsg | PlainMessage<ClientMsg> | undefined): boolean {
+    return proto3.util.equals(ClientMsg, a, b);
+  }
+}
+

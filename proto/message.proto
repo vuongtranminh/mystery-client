@@ -26,3 +26,51 @@ message GrpcMessage {
   optional string deleted_by = 8;
   GrpcMemberProfile author = 9;
 }
+
+message ClientSendMessage {
+  string topic_id = 1;
+  string client_message_id = 2;
+  bytes content = 3;
+}
+
+message ClientTyping {
+  string topic_id = 1;
+}
+
+message ClientSub {
+  string topic_id = 1;
+}
+
+message ClientLeave {
+  string topic_id = 1;
+}
+
+message ClientSeen {
+  string topic_id = 1;
+  string message_id = 3;
+}
+
+message ClientDeleteMessage {
+  string topic_id = 1;
+  string message_id = 2;
+}
+
+message ClientUpdateMessage {
+  string topic_id = 1;
+  string message_id = 2;
+  bytes content = 3;
+}
+
+message ClientMsg {
+  map<string, bytes> head = 1; // token
+
+  oneof Message {
+    ClientSendMessage send = 2;
+    ClientTyping typing = 3;
+    ClientSub sub = 4;
+    ClientLeave leave = 5;
+    ClientSeen seen = 6;
+    ClientDeleteMessage delete = 7;
+    ClientUpdateMessage update = 8;
+  }
+}
